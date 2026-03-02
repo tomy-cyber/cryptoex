@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="markets.html">Markets</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Explore Markets</div>
+              <div class="mega-menu-grid">
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-chart-line"></i></div>
+                  <div class="mega-item-text"><h4>All Markets</h4><p>Browse 350+ crypto pairs</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-arrow-trend-up"></i></div>
+                  <div class="mega-item-text"><h4>Top Gainers <span class="mega-item-badge hot">HOT</span></h4><p>Biggest movers today</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-fire"></i></div>
+                  <div class="mega-item-text"><h4>Trending <span class="mega-item-badge new">NEW</span></h4><p>Most searched coins</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(168,85,247,0.12);color:var(--purple)"><i class="fa fa-layer-group"></i></div>
+                  <div class="mega-item-text"><h4>Categories</h4><p>DeFi, NFT, Layer-1 & more</p></div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-footer">
+              <a href="markets.html" class="mega-footer-link">View All Markets <i class="fa fa-arrow-right"></i></a>
+              <span style="font-size:11px;color:var(--text3)">350+ pairs available</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="trade.html">Trade</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Trading Products</div>
+              <div class="mega-menu-grid">
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-arrow-right-arrow-left"></i></div>
+                  <div class="mega-item-text"><h4>Spot Trading</h4><p>Buy & sell crypto instantly</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(246,70,93,0.12);color:var(--red)"><i class="fa fa-bolt"></i></div>
+                  <div class="mega-item-text"><h4>Futures <span class="mega-item-badge pro">PRO</span></h4><p>Trade with up to 125x leverage</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-chart-bar"></i></div>
+                  <div class="mega-item-text"><h4>Margin Trading</h4><p>Amplify your positions</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-robot"></i></div>
+                  <div class="mega-item-text"><h4>Trading Bots <span class="mega-item-badge new">NEW</span></h4><p>Automated grid & DCA strategies</p></div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-footer">
+              <a href="trade.html" class="mega-footer-link">Open Trading Terminal <i class="fa fa-arrow-right"></i></a>
+              <span style="font-size:11px;color:var(--text3)">0.1% trading fee</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" id="navLoginBtn" onclick="openModal('loginModal')">Log In</button>
+    <button class="btn-primary" id="navRegisterBtn" onclick="openModal('registerModal')">Register</button>
+    <div id="navUserMenu" style="display:none;align-items:center;gap:10px">
+      <div class="nav-icon"><i class="fa fa-bell"></i></div>
+      <div class="user-avatar-btn" onclick="location.href='dashboard.html'">
+        <div class="avatar-circle" id="navUserAvatar">?</div>
+        <span id="navUserName">User</span>
+      </div>
+      <button class="btn-outline" onclick="doLogout()">Logout</button>
+    </div>
+    <div class="nav-icon"><i class="fa fa-cog"></i></div>
+  </div>
+</nav>
+
+<div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<!-- ═══════════════════════════════════════════════════
+     PORTFOLIO HERO
+═══════════════════════════════════════════════════ -->
+<div class="pf-hero">
+  <div class="pf-hero-inner">
+    <div class="pf-hero-left">
+      <h1><i class="fa fa-chart-pie" style="color:var(--accent);margin-right:14px"></i>My Portfolio</h1>
+      <p>Track your crypto holdings, monitor performance, and manage your assets in one place.</p>
+    </div>
+    <div class="pf-hero-actions">
+      <button class="btn-primary" onclick="location.href='trade.html'"><i class="fa fa-arrow-right-arrow-left"></i> Trade</button>
+      <button class="btn-outline" onclick="showToast('Deposit feature coming soon','info')"><i class="fa fa-plus"></i> Deposit</button>
+      <button class="btn-outline" onclick="showToast('Withdraw feature coming soon','info')"><i class="fa fa-arrow-up-from-bracket"></i> Withdraw</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SUMMARY CARDS
+═══════════════════════════════════════════════════ -->
+<div class="pf-content">
+  <div class="pf-summary">
+    <div class="pf-summary-card pf-card-main">
+      <div class="pf-sc-icon" style="background:var(--accent-dim);color:var(--accent)"><i class="fa fa-wallet"></i></div>
+      <div>
+        <div class="pf-sc-label">Total Balance</div>
+        <div class="pf-sc-value" id="totalBalance">$84,231.40</div>
+        <div class="pf-sc-sub positive"><i class="fa fa-arrow-up" style="font-size:9px;margin-right:3px"></i>+$1,842.30 today</div>
+      </div>
+    </div>
+    <div class="pf-summary-card">
+      <div class="pf-sc-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa fa-chart-line"></i></div>
+      <div>
+        <div class="pf-sc-label">Unrealized PnL</div>
+        <div class="pf-sc-value positive" id="unrealPnl">+$6,482.10</div>
+        <div class="pf-sc-sub positive">+8.33% all time</div>
+      </div>
+    </div>
+    <div class="pf-summary-card">
+      <div class="pf-sc-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fa fa-calendar-day"></i></div>
+      <div>
+        <div class="pf-sc-label">Today's PnL</div>
+        <div class="pf-sc-value positive" id="todayPnl">+$1,842.30</div>
+        <div class="pf-sc-sub positive">+2.23% today</div>
+      </div>
+    </div>
+    <div class="pf-summary-card">
+      <div class="pf-sc-icon" style="background:var(--purple-dim);color:var(--purple)"><i class="fa fa-coins"></i></div>
+      <div>
+        <div class="pf-sc-label">Available (USDT)</div>
+        <div class="pf-sc-value" id="availUsdt">$10,000.00</div>
+        <div class="pf-sc-sub" style="color:var(--text3)">Ready to trade</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       CHARTS ROW
+  ═══════════════════════════════════════════════ -->
+  <div class="pf-charts-row">
+    <div class="pf-chart-card pf-chart-main">
+      <div class="pf-chart-header">
+        <h3><i class="fa fa-chart-area" style="color:var(--accent);margin-right:8px"></i>Portfolio Value Over Time</h3>
+        <div class="pf-range-btns">
+          <button class="pf-range-btn active" onclick="setPvRange('1W',this)">1W</button>
+          <button class="pf-range-btn" onclick="setPvRange('1M',this)">1M</button>
+          <button class="pf-range-btn" onclick="setPvRange('3M',this)">3M</button>
+          <button class="pf-range-btn" onclick="setPvRange('1Y',this)">1Y</button>
+        </div>
+      </div>
+      <canvas id="pvChart" height="160"></canvas>
+    </div>
+    <div class="pf-chart-card pf-chart-donut">
+      <h3><i class="fa fa-chart-pie" style="color:var(--accent);margin-right:8px"></i>Asset Allocation</h3>
+      <canvas id="allocChart" height="180"></canvas>
+      <div class="donut-legend" id="donutLegend"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       HOLDINGS TABLE
+  ═══════════════════════════════════════════════ -->
+  <div class="pf-holdings-wrap">
+    <div class="pf-holdings-header">
+      <h3><i class="fa fa-layer-group" style="color:var(--accent);margin-right:8px"></i>My Holdings</h3>
+      <div class="pf-holdings-tabs">
+        <button class="pf-htab active" onclick="setHoldingsTab('all',this)">All Assets</button>
+        <button class="pf-htab" onclick="setHoldingsTab('profit',this)"><i class="fa fa-arrow-trend-up" style="color:var(--green);font-size:11px"></i> In Profit</button>
+        <button class="pf-htab" onclick="setHoldingsTab('loss',this)"><i class="fa fa-arrow-trend-down" style="color:var(--red);font-size:11px"></i> In Loss</button>
+      </div>
+    </div>
+    <table class="pf-holdings-table">
+      <thead><tr>
+        <th>Asset</th>
+        <th>Holdings</th>
+        <th>Avg Buy Price</th>
+        <th>Current Price</th>
+        <th>Value (USDT)</th>
+        <th>PnL</th>
+        <th>24h Change</th>
+        <th>Action</th>
+      </tr></thead>
+      <tbody id="holdingsBody"></tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       RECENT ORDERS + PERFORMANCE
+  ═══════════════════════════════════════════════ -->
+  <div class="pf-bottom-row">
+    <div class="pf-orders-wrap">
+      <div class="pf-orders-header">
+        <h3><i class="fa fa-clock-rotate-left" style="color:var(--accent);margin-right:8px"></i>Recent Orders</h3>
+        <button class="pf-see-all" onclick="showToast('Full order history coming soon','info')">View All <i class="fa fa-arrow-right" style="font-size:10px"></i></button>
+      </div>
+      <table class="pf-orders-table">
+        <thead><tr>
+          <th>Date</th><th>Pair</th><th>Type</th><th>Side</th><th>Price</th><th>Amount</th><th>Total</th><th>Status</th>
+        </tr></thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </div>
+    <div class="pf-performance-wrap">
+      <h3><i class="fa fa-trophy" style="color:var(--accent);margin-right:8px"></i>Performance</h3>
+      <div class="pf-perf-stats">
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Best Performer</span>
+          <span class="pf-perf-val positive" id="bestPerformer">--</span>
+        </div>
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Worst Performer</span>
+          <span class="pf-perf-val negative" id="worstPerformer">--</span>
+        </div>
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Total Invested</span>
+          <span class="pf-perf-val" id="totalInvested">--</span>
+        </div>
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Current Value</span>
+          <span class="pf-perf-val" id="currentValue">--</span>
+        </div>
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Total Return</span>
+          <span class="pf-perf-val positive" id="totalReturn">--</span>
+        </div>
+        <div class="pf-perf-item">
+          <span class="pf-perf-label">Assets Held</span>
+          <span class="pf-perf-val" id="assetsCount">6</span>
+        </div>
+      </div>
+      <div style="margin-top:20px;text-align:center">
+        <button class="btn-primary" style="width:100%" onclick="location.href='trade.html'"><i class="fa fa-plus" style="margin-right:6px"></i>Add New Position</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PORTFOLIO TIPS
+═══════════════════════════════════════════════════ -->
+<section class="pf-tips-section">
+  <div class="pf-tips-inner">
+    <h2 class="pf-tips-title"><i class="fa fa-lightbulb" style="color:var(--accent);margin-right:10px"></i>Portfolio Tips</h2>
+    <div class="pf-tips-grid">
+      <div class="pf-tip-card">
+        <div class="pf-tip-icon" style="background:var(--accent-dim);color:var(--accent)"><i class="fa fa-shield-halved"></i></div>
+        <h4>Diversify Your Holdings</h4>
+        <p>Spread investments across different cryptocurrencies and sectors to reduce risk and capture growth opportunities.</p>
+      </div>
+      <div class="pf-tip-card">
+        <div class="pf-tip-icon" style="background:var(--green-dim);color:var(--green)"><i class="fa fa-dollar-sign"></i></div>
+        <h4>Dollar Cost Averaging</h4>
+        <p>Invest a fixed amount regularly instead of timing the market. This smooths out volatility over time.</p>
+      </div>
+      <div class="pf-tip-card">
+        <div class="pf-tip-icon" style="background:var(--blue-dim);color:var(--blue)"><i class="fa fa-arrows-rotate"></i></div>
+        <h4>Rebalance Regularly</h4>
+        <p>Review and adjust your portfolio allocation quarterly to maintain your target risk profile.</p>
+      </div>
+      <div class="pf-tip-card">
+        <div class="pf-tip-icon" style="background:var(--purple-dim);color:var(--purple)"><i class="fa fa-lock"></i></div>
+        <h4>Secure Your Assets</h4>
+        <p>Enable 2FA, use strong passwords, and consider moving long-term holdings to cold storage wallets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">&#9888;&#65039; Demo Platform &ndash; Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     MOBILE MENU
+═══════════════════════════════════════════════════ -->
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+  <a href="#" onclick="document.getElementById('mobileMenu').classList.remove('open');openModal('loginModal')"><i class="fa fa-right-to-bracket"></i> Log In</a>
+  <a href="#" onclick="document.getElementById('mobileMenu').classList.remove('open');openModal('registerModal')" style="background:var(--grad-gold);color:#000;font-weight:800"><i class="fa fa-user-plus"></i> Register</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     LOGIN MODAL
+═══════════════════════════════════════════════════ -->
+<div id="loginModal" class="modal-overlay" onclick="closeModalOutside(event,'loginModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Welcome Back</h2>
+    <p class="modal-subtitle">Log in to your account to continue trading</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="login_email" class="form-input" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <div class="form-input-icon">
+        <input type="password" id="login_pass" class="form-input" placeholder="Your password" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')doLogin()"/>
+        <i class="fa fa-eye input-icon" onclick="togglePwd('login_pass',this)"></i>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="checkbox-label"><input type="checkbox"/> Remember me</label>
+      <a href="#" class="link" style="font-size:12px" onclick="switchModal('loginModal','forgotModal')">Forgot Password?</a>
+    </div>
+    <button class="btn-primary full-width" id="loginSubmitBtn" onclick="doLogin()"><i class="fa fa-right-to-bracket"></i> Log In</button>
+    <div class="modal-divider">or continue with</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <button class="btn-secondary" style="padding:10px;font-size:13px" onclick="showToast('Google OAuth (demo)','info')"><i class="fab fa-google" style="color:#ea4335"></i> Google</button>
+      <button class="btn-secondary" style="padding:10px;font-size:13px" onclick="showToast('Apple OAuth (demo)','info')"><i class="fab fa-apple"></i> Apple</button>
+    </div>
+    <p class="modal-footer-text">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Register now</a></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     REGISTER MODAL
+═══════════════════════════════════════════════════ -->
+<div id="registerModal" class="modal-overlay" onclick="closeModalOutside(event,'registerModal')">
+  <div class="modal" style="width:480px;max-width:96vw">
+    <button class="modal-close" onclick="closeModal('registerModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Create Your Account</h2>
+    <p class="modal-subtitle">Join 150M+ traders worldwide. Free to sign up.</p>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" id="reg_first" class="form-input" placeholder="John" autocomplete="given-name"/>
+      </div>
+      <div class="form-group">
+        <label>Last Name *</label>
+        <input type="text" id="reg_last" class="form-input" placeholder="Doe" autocomplete="family-name"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address *</label>
+      <input type="email" id="reg_email" class="form-input" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label>Password *</label>
+      <div class="form-input-icon">
+        <input type="password" id="reg_pass" class="form-input" placeholder="Min 6 characters" oninput="checkRegPwd(this.value)"
+               onkeydown="if(event.key==='Enter')doRegister()"/>
+        <i class="fa fa-eye input-icon" onclick="togglePwd('reg_pass',this)"></i>
+      </div>
+      <div class="strength-bar"><div class="strength-fill" id="regPwdBar" style="width:0%;background:var(--red)"></div></div>
+    </div>
+    <div class="form-group">
+      <label>Referral Code <span style="color:var(--text3)">(Optional)</span></label>
+      <input type="text" id="reg_ref" class="form-input" placeholder="Enter referral code" style="text-transform:uppercase"/>
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label class="checkbox-label">
+        <input type="checkbox" id="reg_terms"/>
+        I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
+      </label>
+    </div>
+    <button class="btn-primary full-width" id="regSubmitBtn" onclick="doRegister()"><i class="fa fa-user-plus"></i> Create Account</button>
+    <p class="modal-footer-text">Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Log in</a></p>
+  </div>
+</div>
+
+<!-- ── FORGOT PASSWORD MODAL ── -->
+<div id="forgotModal" class="modal-overlay" onclick="closeModalOutside(event,'forgotModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('forgotModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Forgot Password?</h2>
+    <p class="modal-subtitle">Enter your email and we'll send you a reset code</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="forgot_email" class="form-input" placeholder="you@example.com" autocomplete="email"
+             onkeydown="if(event.key==='Enter')doForgotPassword()"/>
+    </div>
+    <button class="btn-primary full-width" id="forgotSubmitBtn" onclick="doForgotPassword()"><i class="fa fa-paper-plane"></i> Send Reset Code</button>
+    <p class="modal-footer-text"><a href="#" onclick="switchModal('forgotModal','loginModal')"><i class="fa fa-arrow-left" style="margin-right:4px"></i>Back to Log In</a></p>
+  </div>
+</div>
+
+<!-- ── RESET PASSWORD MODAL ── -->
+<div id="resetModal" class="modal-overlay" onclick="closeModalOutside(event,'resetModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('resetModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Reset Password</h2>
+    <p class="modal-subtitle">Enter the code sent to your email and choose a new password</p>
+    <p id="resetCodeHint" style="color:var(--accent);font-size:12px;text-align:center;margin-bottom:12px;font-weight:600"></p>
+    <div class="form-group">
+      <label>Reset Code</label>
+      <input type="text" id="reset_code" class="form-input" placeholder="Enter 6-digit code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:20px;font-weight:700"/>
+    </div>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" id="reset_pass" class="form-input" placeholder="Min 6 characters"
+             onkeydown="if(event.key==='Enter')doResetPassword()"/>
+    </div>
+    <button class="btn-primary full-width" id="resetSubmitBtn" onclick="doResetPassword()"><i class="fa fa-key"></i> Reset Password</button>
+    <p class="modal-footer-text"><a href="#" onclick="switchModal('resetModal','forgotModal')"><i class="fa fa-arrow-left" style="margin-right:4px"></i>Resend code</a></p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">
+  <span class="toast-icon fa"></span>
+  <span class="toast-msg"></span>
+  <span class="toast-close" onclick="this.parentElement.classList.remove('show')">&#10005;</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     PORTFOLIO PAGE STYLES
+═══════════════════════════════════════════════════ -->
+<style>
+/* ── Hero ────────────────────────────── */
+.pf-hero {
+  background:var(--bg2); border-bottom:1px solid var(--border); padding:28px 80px;
+}
+.pf-hero-inner {
+  max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+}
+.pf-hero h1 {
+  font-size:28px; font-weight:800; letter-spacing:-0.5px; display:flex; align-items:center;
+}
+.pf-hero p { color:var(--text2); font-size:14px; margin-top:6px; }
+.pf-hero-actions { display:flex; gap:10px; }
+
+/* ── Content ─────────────────────────── */
+.pf-content {
+  max-width:1400px; margin:0 auto; padding:28px 80px;
+}
+
+/* ── Summary Cards ───────────────────── */
+.pf-summary {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px;
+}
+.pf-summary-card {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg);
+  padding:20px; display:flex; align-items:flex-start; gap:14px; transition:all .3s;
+}
+.pf-summary-card:hover {
+  border-color:rgba(255,255,255,0.1); transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+}
+.pf-card-main { border-color:rgba(252,213,53,0.15); }
+.pf-sc-icon {
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-size:18px; flex-shrink:0;
+}
+.pf-sc-label { font-size:12px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.pf-sc-value { font-size:22px; font-weight:800; color:var(--text); margin:4px 0 2px; letter-spacing:-0.5px; }
+.pf-sc-sub { font-size:12px; font-weight:600; }
+
+/* ── Charts Row ──────────────────────── */
+.pf-charts-row {
+  display:grid; grid-template-columns:1fr 340px; gap:20px; margin-bottom:24px;
+}
+.pf-chart-card {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg);
+  padding:20px; transition:all .3s;
+}
+.pf-chart-card:hover { border-color:rgba(255,255,255,0.1); }
+.pf-chart-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+}
+.pf-chart-header h3, .pf-chart-donut h3 {
+  font-size:15px; font-weight:700; display:flex; align-items:center;
+}
+.pf-chart-donut h3 { margin-bottom:16px; }
+.pf-range-btns { display:flex; gap:4px; }
+.pf-range-btn {
+  padding:5px 12px; font-size:11px; font-weight:700; background:transparent;
+  color:var(--text3); border:1px solid var(--border); border-radius:6px;
+  cursor:pointer; font-family:var(--font); transition:all .2s;
+}
+.pf-range-btn:hover { color:var(--text); border-color:rgba(255,255,255,0.15); }
+.pf-range-btn.active { background:var(--accent-dim); color:var(--accent); border-color:rgba(252,213,53,0.3); }
+
+/* ── Holdings ────────────────────────── */
+.pf-holdings-wrap {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg);
+  overflow:hidden; margin-bottom:24px;
+}
+.pf-holdings-header {
+  display:flex; justify-content:space-between; align-items:center; padding:18px 20px;
+  border-bottom:1px solid var(--border);
+}
+.pf-holdings-header h3 { font-size:15px; font-weight:700; display:flex; align-items:center; }
+.pf-holdings-tabs { display:flex; gap:4px; }
+.pf-htab {
+  padding:6px 14px; font-size:12px; font-weight:600; background:transparent;
+  color:var(--text3); border:1px solid var(--border); border-radius:6px;
+  cursor:pointer; font-family:var(--font); transition:all .2s; display:flex; align-items:center; gap:5px;
+}
+.pf-htab:hover { color:var(--text); }
+.pf-htab.active { background:var(--accent-dim); color:var(--accent); border-color:rgba(252,213,53,0.3); }
+
+.pf-holdings-table {
+  width:100%; border-collapse:collapse; font-size:13px;
+}
+.pf-holdings-table th {
+  text-align:left; padding:12px 16px; color:var(--text3); font-weight:600;
+  font-size:11px; text-transform:uppercase; letter-spacing:.5px;
+  border-bottom:1px solid var(--border); background:rgba(255,255,255,0.01);
+}
+.pf-holdings-table td {
+  padding:14px 16px; border-bottom:1px solid var(--border); color:var(--text2);
+}
+.pf-holdings-table tbody tr:hover td { background:rgba(255,255,255,0.02); }
+.pf-holdings-table .pnl-positive { color:var(--green); font-weight:700; }
+.pf-holdings-table .pnl-negative { color:var(--red); font-weight:700; }
+
+/* ── Bottom Row ──────────────────────── */
+.pf-bottom-row {
+  display:grid; grid-template-columns:1fr 320px; gap:20px; margin-bottom:0;
+}
+.pf-orders-wrap {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg); overflow:hidden;
+}
+.pf-orders-header {
+  display:flex; justify-content:space-between; align-items:center; padding:18px 20px;
+  border-bottom:1px solid var(--border);
+}
+.pf-orders-header h3 { font-size:15px; font-weight:700; display:flex; align-items:center; }
+.pf-see-all {
+  font-size:12px; color:var(--accent); font-weight:600; background:none; border:none;
+  cursor:pointer; font-family:var(--font); display:flex; align-items:center; gap:6px;
+}
+.pf-see-all:hover { text-decoration:underline; }
+.pf-orders-table {
+  width:100%; border-collapse:collapse; font-size:12px;
+}
+.pf-orders-table th {
+  text-align:left; padding:10px 14px; color:var(--text3); font-weight:600;
+  font-size:11px; text-transform:uppercase; border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,0.01);
+}
+.pf-orders-table td { padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text2); }
+.pf-orders-table tbody tr:hover td { background:rgba(255,255,255,0.02); }
+
+/* ── Performance Card ────────────────── */
+.pf-performance-wrap {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg);
+  padding:20px;
+}
+.pf-performance-wrap h3 { font-size:15px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; }
+.pf-perf-stats { display:flex; flex-direction:column; gap:8px; }
+.pf-perf-item {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px; background:rgba(255,255,255,0.02); border-radius:8px;
+}
+.pf-perf-label { color:var(--text3); font-size:12px; }
+.pf-perf-val { font-size:13px; font-weight:700; color:var(--text); }
+
+/* ── Tips Section ────────────────────── */
+.pf-tips-section {
+  background:var(--bg2); padding:56px 80px; border-top:1px solid var(--border);
+}
+.pf-tips-inner { max-width:1400px; margin:0 auto; }
+.pf-tips-title { font-size:24px; font-weight:800; margin-bottom:28px; display:flex; align-items:center; }
+.pf-tips-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.pf-tip-card {
+  background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius-lg);
+  padding:24px; text-align:center; transition:all .35s;
+}
+.pf-tip-card:hover {
+  border-color:rgba(255,255,255,0.1); transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.25);
+}
+.pf-tip-icon {
+  width:52px; height:52px; border-radius:14px; display:flex; align-items:center;
+  justify-content:center; font-size:20px; margin:0 auto 16px;
+}
+.pf-tip-card h4 { font-size:15px; font-weight:700; margin-bottom:8px; }
+.pf-tip-card p { color:var(--text2); font-size:12px; line-height:1.7; }
+
+/* ── Responsive ──────────────────────── */
+@media (max-width:1200px) {
+  .pf-summary { grid-template-columns:repeat(2,1fr); }
+  .pf-charts-row { grid-template-columns:1fr; }
+  .pf-bottom-row { grid-template-columns:1fr; }
+  .pf-tips-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:1024px) {
+  .pf-hero { padding:24px 20px; }
+  .pf-content { padding:24px 20px; }
+  .pf-tips-section { padding:40px 20px; }
+}
+@media (max-width:768px) {
+  .pf-summary { grid-template-columns:1fr; }
+  .pf-hero-inner { flex-direction:column; align-items:flex-start; }
+  .pf-tips-grid { grid-template-columns:1fr; }
+  .pf-holdings-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .pf-holdings-table { font-size:11px; }
+  .pf-holdings-table th, .pf-holdings-table td { padding:8px 8px; }
+}
+</style>
+
+<script src="app.js"></script>
+<script src="animations.js"></script>
+<script>
+// ═══════════════════════════════════════════════════
+//   PORTFOLIO PAGE – Premium Dashboard
+// ═══════════════════════════════════════════════════
+
+// ── togglePwd ─────────────────────────────────
+function togglePwd(inputId, icon) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  icon.className = show ? 'fa fa-eye-slash input-icon' : 'fa fa-eye input-icon';
+}
+
+// ── Holdings Data ─────────────────────────────
+const HOLDINGS = [
+  { id:'BTC',  name:'Bitcoin',   qty:0.842,  avgBuy:62100  },
+  { id:'ETH',  name:'Ethereum',  qty:8.5,    avgBuy:3100   },
+  { id:'SOL',  name:'Solana',    qty:120,    avgBuy:145    },
+  { id:'BNB',  name:'BNB',       qty:22,     avgBuy:380    },
+  { id:'ADA',  name:'Cardano',   qty:8000,   avgBuy:0.42   },
+  { id:'AVAX', name:'Avalanche', qty:50,     avgBuy:28     },
+];
+const COLORS = ['#f0b90b','#627eea','#9945ff','#f7931a','#0033ad','#e84142'];
+let holdingsFilter = 'all';
+
+function buildHoldings() {
+  const tbody = document.getElementById('holdingsBody');
+  if (!tbody) return;
+
+  let holdings = HOLDINGS.map((h,i) => {
+    const coin = COINS.find(c=>c.id===h.id);
+    const cur  = liveData[h.id]?.price || coin?.price || h.avgBuy;
+    const val  = cur * h.qty;
+    const cost = h.avgBuy * h.qty;
+    const pnl  = val - cost;
+    const pnlPct = ((pnl/cost)*100).toFixed(2);
+    const chg = liveData[h.id]?.change || coin?.change || 0;
+    return { ...h, coin, cur, val, cost, pnl, pnlPct: parseFloat(pnlPct), chg, color: coin?.color || COLORS[i] };
+  });
+
+  if (holdingsFilter === 'profit') holdings = holdings.filter(h => h.pnl >= 0);
+  if (holdingsFilter === 'loss')   holdings = holdings.filter(h => h.pnl < 0);
+
+  tbody.innerHTML = holdings.map(h => {
+    const pnlCls = h.pnl >= 0 ? 'pnl-positive' : 'pnl-negative';
+    const chgCls = h.chg >= 0 ? 'positive' : 'negative';
+    return `<tr>
+      <td>
+        <div class="asset-cell">
+          <div class="asset-logo">${coinIcon(h.coin||{id:h.id,color:h.color,icon:ICON_CDN+'/'+h.id.toLowerCase()+'.png'}, 34)}</div>
+          <div><div style="font-weight:700">${h.id}</div><div style="color:var(--text2);font-size:12px">${h.name}</div></div>
+        </div>
+      </td>
+      <td style="font-weight:600">${h.qty} ${h.id}</td>
+      <td>$${h.avgBuy.toLocaleString()}</td>
+      <td id="hp-${h.id}" style="font-weight:600">$${h.cur.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td style="font-weight:700">$${h.val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td class="${pnlCls}">${h.pnl>=0?'+':''}$${Math.abs(h.pnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} (${h.pnl>=0?'+':''}${h.pnlPct}%)</td>
+      <td class="${chgCls}" style="font-weight:600">${fmtChange(h.chg)}</td>
+      <td>
+        <button class="trade-btn" onclick="location.href='trade.html?pair=${h.id}USDT'">Trade</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Update summary
+  updatePortfolioSummary();
+}
+
+function setHoldingsTab(tab, btn) {
+  document.querySelectorAll('.pf-htab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  holdingsFilter = tab;
+  buildHoldings();
+}
+
+function updatePortfolioSummary() {
+  let totalVal = 0, totalCost = 0;
+  let best = null, worst = null;
+
+  HOLDINGS.forEach(h => {
+    const coin = COINS.find(c=>c.id===h.id);
+    const cur = liveData[h.id]?.price || coin?.price || h.avgBuy;
+    const val = cur * h.qty;
+    const cost = h.avgBuy * h.qty;
+    const pnlPct = ((val-cost)/cost)*100;
+    totalVal += val;
+    totalCost += cost;
+    if (!best || pnlPct > best.pct) best = { id:h.id, pct:pnlPct };
+    if (!worst || pnlPct < worst.pct) worst = { id:h.id, pct:pnlPct };
+  });
+
+  const totalPnl = totalVal - totalCost;
+  const totalPnlPct = ((totalPnl/totalCost)*100).toFixed(2);
+  const totalWithUsdt = totalVal + 10000;
+
+  const balEl = document.getElementById('totalBalance');
+  if (balEl) balEl.textContent = '$' + totalWithUsdt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  const pnlEl = document.getElementById('unrealPnl');
+  if (pnlEl) {
+    pnlEl.textContent = `${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+    pnlEl.className = 'pf-sc-value ' + (totalPnl>=0?'positive':'negative');
+  }
+
+  // Performance card
+  const bestEl = document.getElementById('bestPerformer');
+  const worstEl = document.getElementById('worstPerformer');
+  const investedEl = document.getElementById('totalInvested');
+  const currentEl = document.getElementById('currentValue');
+  const returnEl = document.getElementById('totalReturn');
+  if (bestEl && best) bestEl.textContent = `${best.id} +${best.pct.toFixed(1)}%`;
+  if (worstEl && worst) worstEl.textContent = `${worst.id} ${worst.pct.toFixed(1)}%`;
+  if (investedEl) investedEl.textContent = '$' + totalCost.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  if (currentEl) currentEl.textContent = '$' + totalVal.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+  if (returnEl) {
+    returnEl.textContent = `${totalPnl>=0?'+':''}${totalPnlPct}%`;
+    returnEl.className = 'pf-perf-val ' + (totalPnl>=0?'positive':'negative');
+  }
+}
+
+// ── Allocation Donut ──────────────────────────
+let allocChartInst = null;
+function buildAllocChart() {
+  const values = HOLDINGS.map(h => {
+    const cur = liveData[h.id]?.price || COINS.find(c=>c.id===h.id)?.price || h.avgBuy;
+    return cur * h.qty;
+  });
+  const total = values.reduce((a,b)=>a+b,0);
+  const labels = HOLDINGS.map(h=>h.id);
+
+  const ctx = document.getElementById('allocChart');
+  if (!ctx) return;
+  if (allocChartInst) allocChartInst.destroy();
+  allocChartInst = new Chart(ctx, {
+    type:'doughnut',
+    data:{
+      labels,
+      datasets:[{
+        data: values,
+        backgroundColor: COLORS,
+        borderWidth:0, hoverOffset:8
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'rgba(24,28,36,0.95)', borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
+          titleColor:'#848e9c', bodyColor:'#eaecef', bodyFont:{weight:'700'}, padding:12, cornerRadius:8,
+          callbacks:{ label: ctx2 => ` ${ctx2.label}: $${ctx2.parsed.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})} (${((ctx2.parsed/total)*100).toFixed(1)}%)` }
+        }
+      },
+      cutout:'72%'
+    }
+  });
+
+  const lg = document.getElementById('donutLegend');
+  if (lg) {
+    lg.innerHTML = HOLDINGS.map((h,i) => {
+      const pct = ((values[i]/total)*100).toFixed(1);
+      return `<div class="legend-item">
+        <div class="legend-left"><div class="legend-dot" style="background:${COLORS[i]}"></div>${h.id} &ndash; ${h.name}</div>
+        <span style="color:var(--text2);font-weight:600">${pct}%</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ── Portfolio Value Chart ─────────────────────
+let pvChartInst = null;
+function buildPvChart(days=7) {
+  const ctx = document.getElementById('pvChart');
+  if (!ctx) return;
+  if (pvChartInst) { pvChartInst.destroy(); pvChartInst=null; }
+  const pts = days * 24;
+  const start = 74000;
+  const data = genSparkData(start, pts);
+  const labels = data.map((_,i) => {
+    const d = new Date(Date.now() - (pts-i)*3600*1000);
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  });
+  const step = Math.max(1, Math.floor(pts/12));
+  const sparseLabels = labels.map((l,i)=>i%step===0?l:'');
+  pvChartInst = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels: sparseLabels,
+      datasets:[{
+        data, borderColor:'#fcd535', borderWidth:2,
+        pointRadius:0, tension:0.4, fill:true,
+        backgroundColor: (ctx2) => {
+          const g = ctx2.chart.ctx.createLinearGradient(0,0,0,200);
+          g.addColorStop(0,'rgba(252,213,53,0.25)');
+          g.addColorStop(1,'rgba(252,213,53,0)');
+          return g;
+        }
+      }]
+    },
+    options:{
+      responsive:true, animation:false,
+      plugins:{ legend:{display:false}, tooltip:{
+        backgroundColor:'rgba(24,28,36,0.95)', borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
+        padding:12, cornerRadius:8, bodyFont:{weight:'700'},
+        callbacks:{ label: ctx2 => ` $${ctx2.parsed.y.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}` }
+      }},
+      scales:{
+        x:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#5e6673',font:{size:10},maxTicksLimit:8} },
+        y:{ grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#5e6673',font:{size:10},callback:v=>'$'+v.toLocaleString()} }
+      }
+    }
+  });
+}
+
+function setPvRange(r, btn) {
+  document.querySelectorAll('.pf-range-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const days = {'1W':7,'1M':30,'3M':90,'1Y':365}[r] || 7;
+  buildPvChart(days);
+}
+
+// ── Recent Orders ─────────────────────────────
+async function buildOrders() {
+  const tbody = document.getElementById('ordersBody');
+  if (!tbody) return;
+
+  // Try loading from backend first
+  const token = getToken();
+  if (token) {
+    try {
+      const res = await fetch(`${API}/user/orders`, { headers: { 'Authorization': `Bearer ${token}` } });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.orders && data.orders.length > 0) {
+          tbody.innerHTML = data.orders.slice(0,10).map(o => {
+            const sColor = o.status==='filled'?'var(--green)':o.status==='cancelled'?'var(--red)':'var(--yellow)';
+            return `<tr>
+              <td>${new Date(o.created_at||o.date).toLocaleString()}</td>
+              <td style="font-weight:700">${o.pair}</td>
+              <td style="color:var(--text2)">${o.type}</td>
+              <td style="color:${o.side==='buy'?'var(--green)':'var(--red)'};font-weight:700">${o.side.toUpperCase()}</td>
+              <td>$${parseFloat(o.price||0).toLocaleString()}</td>
+              <td>${o.amount}</td>
+              <td>$${parseFloat(o.total||0).toLocaleString()}</td>
+              <td><span style="color:${sColor};font-weight:600">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
+            </tr>`;
+          }).join('');
+          return;
+        }
+      }
+    } catch(e) {}
+  }
+
+  // Fallback demo orders
+  const pairs = ['BTC/USDT','ETH/USDT','SOL/USDT','BNB/USDT','ADA/USDT'];
+  const types = ['Limit','Market','Limit','Stop-Limit'];
+  const statuses = ['Filled','Filled','Partially Filled','Cancelled','Filled'];
+  const now = new Date();
+  tbody.innerHTML = Array.from({length:10}).map((_,i) => {
+    const pair  = pairs[i%pairs.length];
+    const side  = Math.random()>.4 ? 'Buy' : 'Sell';
+    const type  = types[i%types.length];
+    const price = (Math.random()*5000+1000).toFixed(2);
+    const amt   = (Math.random()*2+0.01).toFixed(4);
+    const total = (parseFloat(price)*parseFloat(amt)).toFixed(2);
+    const status= statuses[i%statuses.length];
+    const date  = new Date(now - i*randBetween(3600000,86400000));
+    const sColor = status==='Filled'?'var(--green)':status==='Cancelled'?'var(--red)':'var(--yellow)';
+    return `<tr>
+      <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
+      <td style="font-weight:700">${pair}</td>
+      <td style="color:var(--text2)">${type}</td>
+      <td style="color:${side==='Buy'?'var(--green)':'var(--red)'};font-weight:700">${side}</td>
+      <td>$${parseFloat(price).toLocaleString()}</td>
+      <td>${amt}</td>
+      <td>$${parseFloat(total).toLocaleString()}</td>
+      <td><span style="color:${sColor};font-weight:600">${status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Init ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildTicker();
+  buildHoldings();
+  buildAllocChart();
+  buildPvChart(7);
+  buildOrders();
+  updateNavForUser();
+
+  setInterval(() => {
+    updatePrices();
+    buildHoldings();
+  }, 2000);
+});
+</script>
+</body>
+</html>

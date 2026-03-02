@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futures Trading – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<!-- Hero Section -->
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+    <i class="fa fa-bolt"></i>
+  </div>
+  <div class="info-content">
+    <h1>Futures Trading</h1>
+    <p>Trade crypto futures with up to 125x leverage</p>
+  </div>
+</section>
+
+<!-- Stats Row -->
+<section class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">$48B</div>
+    <div class="stat-desc">24h Volume</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">150+</div>
+    <div class="stat-desc">Available Pairs</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">125x</div>
+    <div class="stat-desc">Max Leverage</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">0.02%</div>
+    <div class="stat-desc">Lowest Fees</div>
+  </div>
+</section>
+
+<!-- Contract Types -->
+<section class="info-content">
+  <h2>Contract Types</h2>
+  <p>Choose from a variety of futures contracts to suit your trading strategy.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-dollar-sign"></i>
+      </div>
+      <h3>USDT-M Futures</h3>
+      <p>Settle in USDT with linear contracts. The most popular futures type, offering straightforward PnL calculation and easy margin management.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa-brands fa-bitcoin"></i>
+      </div>
+      <h3>Coin-M Futures</h3>
+      <p>Settle in cryptocurrency with inverse contracts. Ideal for hedging your crypto positions and earning returns denominated in the base asset.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-infinity"></i>
+      </div>
+      <h3>Perpetual Contracts</h3>
+      <p>No expiry date — hold positions indefinitely. Funding rates keep the price anchored to spot, enabling continuous trading without rollover.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-calendar-days"></i>
+      </div>
+      <h3>Quarterly Futures</h3>
+      <p>Fixed expiry contracts settling every quarter. Trade the premium or discount to spot price and capitalize on time-based market dynamics.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Leverage Tiers -->
+<section class="info-content">
+  <h2>Leverage Tiers</h2>
+  <p>Leverage and margin requirements adjust based on your position size to manage risk effectively.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-gauge-high"></i>
+      </div>
+      <h3>Tier 1 — Up to 125x</h3>
+      <p>Position size up to $50,000. Initial margin as low as 0.8%. Best for small, high-conviction trades.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-gauge"></i>
+      </div>
+      <h3>Tier 2 — Up to 100x</h3>
+      <p>Position size $50,000–$250,000. Initial margin 1%. Suitable for intermediate position sizing.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-gauge-simple"></i>
+      </div>
+      <h3>Tier 3 — Up to 50x</h3>
+      <p>Position size $250,000–$1,000,000. Initial margin 2%. Designed for larger portfolios with moderate risk.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-shield-halved"></i>
+      </div>
+      <h3>Tier 4 — Up to 20x</h3>
+      <p>Position size above $1,000,000. Initial margin 5%. Conservative leverage for institutional-sized positions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Risk Management Tools -->
+<section class="info-content">
+  <h2>Risk Management Tools</h2>
+  <p>Protect your capital with advanced order types and risk controls built into the platform.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-hand"></i>
+      </div>
+      <h3>Stop-Loss</h3>
+      <p>Automatically close your position at a preset price to limit potential losses. Essential for managing downside risk in volatile markets.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-bullseye"></i>
+      </div>
+      <h3>Take-Profit</h3>
+      <p>Lock in gains by automatically closing your position when the price reaches your target. Never miss your profit targets again.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-route"></i>
+      </div>
+      <h3>Trailing Stop</h3>
+      <p>A dynamic stop-loss that follows the price as it moves in your favor. Capture maximum gains while protecting against reversals.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-life-ring"></i>
+      </div>
+      <h3>Liquidation Protection</h3>
+      <p>Auto-deleverage and insurance fund mechanisms help protect your account from unexpected liquidation events.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Trading Fees -->
+<section class="info-content">
+  <h2>Trading Fees</h2>
+  <p>Competitive fee structure with additional discounts for high-volume traders and VIP members.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-tags"></i>
+      </div>
+      <h3>Maker Fee</h3>
+      <p><strong style="font-size:1.5rem;color:#0ecb81">0.02%</strong></p>
+      <p>Add liquidity to the order book and pay the lowest fees. Limit orders that don't immediately fill qualify as maker orders.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-zap"></i>
+      </div>
+      <h3>Taker Fee</h3>
+      <p><strong style="font-size:1.5rem;color:#f3ba2f">0.04%</strong></p>
+      <p>Remove liquidity from the order book for instant execution. Market orders and immediately-filled limit orders are taker orders.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-crown"></i>
+      </div>
+      <h3>VIP Discounts</h3>
+      <p><strong style="font-size:1.5rem;color:#a855f7">Up to 50% off</strong></p>
+      <p>VIP traders enjoy significant fee reductions. Reach VIP status through 30-day trading volume or holding platform tokens.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="info-content" style="text-align:center;padding-bottom:4rem">
+  <h2>Ready to Trade Futures?</h2>
+  <p>Access 150+ trading pairs with up to 125x leverage and industry-leading risk tools.</p>
+  <br/>
+  <a href="trade.html" class="btn-primary" style="padding:1rem 2.5rem;font-size:1.1rem;text-decoration:none;display:inline-block">Start Futures Trading</a>
+</section>
+
+<!-- FAQ -->
+<section class="info-content">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What are crypto futures?</div>
+      <div class="faq-a">Crypto futures are derivative contracts that allow you to speculate on the future price of a cryptocurrency without owning the underlying asset. You can go long (buy) if you expect the price to rise, or go short (sell) if you expect it to fall.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What is the maximum leverage available?</div>
+      <div class="faq-a">CryptoEx offers up to 125x leverage on select trading pairs like BTC/USDT and ETH/USDT. The maximum available leverage varies by trading pair and your position size. Higher leverage amplifies both potential profits and losses.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What is the difference between USDT-M and Coin-M futures?</div>
+      <div class="faq-a">USDT-M (linear) futures are settled in USDT, making profit and loss calculation straightforward. Coin-M (inverse) futures are settled in the base cryptocurrency, which is useful for holding and earning in the underlying asset while trading.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> How does liquidation work?</div>
+      <div class="faq-a">Liquidation occurs when your margin balance falls below the maintenance margin requirement. CryptoEx uses a sophisticated liquidation engine that attempts partial liquidation first and employs an insurance fund to minimize the impact on traders.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What are funding rates in perpetual contracts?</div>
+      <div class="faq-a">Funding rates are periodic payments exchanged between long and short traders to keep the perpetual contract price in line with the spot price. When the rate is positive, longs pay shorts; when negative, shorts pay longs. Funding is typically settled every 8 hours.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+<script src="app.js"></script>
+</body>
+</html>

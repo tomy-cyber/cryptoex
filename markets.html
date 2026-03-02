@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Markets – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* ── Markets Page Specific Styles ── */
+    .markets-hero {
+      text-align:center;
+      padding:56px 24px 32px;
+      position:relative;
+      overflow:hidden;
+    }
+    .markets-hero::before {
+      content:'';
+      position:absolute;
+      top:-80px;left:50%;transform:translateX(-50%);
+      width:600px;height:600px;
+      background:radial-gradient(circle,rgba(240,185,11,0.08) 0%,rgba(240,185,11,0) 70%);
+      pointer-events:none;
+    }
+    .markets-hero h1 {
+      font-size:clamp(28px,4vw,44px);
+      font-weight:800;
+      margin-bottom:12px;
+      background:linear-gradient(135deg,#fff 0%,#f0b90b 50%,#1890ff 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .markets-hero p {
+      color:var(--text2);
+      font-size:16px;
+      max-width:560px;
+      margin:0 auto;
+    }
+
+    /* ── Market Stats Bar ── */
+    .market-stats-bar {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0;
+      padding:16px 24px;
+      background:var(--bg2);
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      flex-wrap:wrap;
+    }
+    .msb-item {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:4px 20px;
+    }
+    .msb-icon {
+      width:32px;height:32px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:14px;flex-shrink:0;
+    }
+    .msb-label { font-size:12px;color:var(--text3);white-space:nowrap; }
+    .msb-value { font-weight:700;font-size:14px;white-space:nowrap; }
+    .msb-divider { width:1px;height:28px;background:var(--border); }
+
+    /* ── Trending Cards ── */
+    .trending-section {
+      padding:32px 24px 0;
+      max-width:1200px;
+      margin:0 auto;
+    }
+    .trending-section .section-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:20px;
+    }
+    .trending-section .section-header h2 {
+      font-size:20px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .trending-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+    @media(max-width:900px) { .trending-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:500px) { .trending-grid { grid-template-columns:1fr; } }
+    .trend-card {
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:20px;
+      cursor:pointer;
+      transition:all 0.25s;
+      position:relative;
+      overflow:hidden;
+    }
+    .trend-card:hover {
+      border-color:var(--yellow);
+      transform:translateY(-3px);
+      box-shadow:0 8px 24px rgba(0,0,0,0.3);
+    }
+    .trend-card-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .trend-card-coin {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .trend-card-coin img { border-radius:50%; }
+    .trend-card-name { font-weight:700;font-size:15px; }
+    .trend-card-symbol { font-size:12px;color:var(--text3); }
+    .trend-card-rank {
+      font-size:11px;font-weight:700;color:var(--text3);
+      background:rgba(255,255,255,0.05);
+      border-radius:6px;padding:3px 8px;
+    }
+    .trend-card-price { font-size:20px;font-weight:700;margin-bottom:4px; }
+    .trend-card-change { font-size:13px;font-weight:600; }
+    .trend-card-chart { margin-top:8px; }
+
+    /* ── Premium Tabs ── */
+    .premium-tabs {
+      display:flex;
+      gap:6px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+    .premium-tabs .tab {
+      padding:8px 20px;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:600;
+      background:var(--bg2);
+      border:1px solid var(--border);
+      color:var(--text2);
+      cursor:pointer;
+      transition:all 0.2s;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .premium-tabs .tab:hover {
+      border-color:var(--yellow);
+      color:var(--text1);
+    }
+    .premium-tabs .tab.active {
+      background:linear-gradient(135deg,rgba(240,185,11,0.15),rgba(240,185,11,0.05));
+      border-color:var(--yellow);
+      color:var(--yellow);
+    }
+    .premium-tabs .tab i { font-size:12px; }
+
+    /* ── How to Start Section ── */
+    .how-to-section {
+      padding:64px 24px;
+      max-width:1000px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .how-to-section h2 {
+      font-size:28px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    .how-to-section > p {
+      color:var(--text2);
+      margin-bottom:40px;
+      font-size:15px;
+    }
+    .steps-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+      text-align:center;
+    }
+    @media(max-width:700px) { .steps-grid { grid-template-columns:1fr; } }
+    .step-card {
+      background:var(--bg2);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:32px 24px;
+      position:relative;
+      transition:all 0.25s;
+    }
+    .step-card:hover {
+      border-color:var(--yellow);
+      transform:translateY(-4px);
+      box-shadow:0 12px 32px rgba(0,0,0,0.25);
+    }
+    .step-number {
+      width:48px;height:48px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--yellow),#e6a800);
+      color:#000;
+      font-weight:800;
+      font-size:20px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
+    }
+    .step-card h3 { font-size:18px;font-weight:700;margin-bottom:8px; }
+    .step-card p { color:var(--text2);font-size:14px;line-height:1.6; }
+    .step-connector {
+      display:none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="markets.html" class="active">Markets</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Explore Markets</div>
+              <div class="mega-menu-grid">
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-chart-line"></i></div>
+                  <div class="mega-item-text"><h4>All Markets</h4><p>Browse 350+ crypto pairs</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-arrow-trend-up"></i></div>
+                  <div class="mega-item-text"><h4>Top Gainers <span class="mega-item-badge hot">HOT</span></h4><p>Biggest movers today</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-fire"></i></div>
+                  <div class="mega-item-text"><h4>Trending <span class="mega-item-badge new">NEW</span></h4><p>Most searched coins</p></div>
+                </a>
+                <a href="markets.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(168,85,247,0.12);color:var(--purple)"><i class="fa fa-layer-group"></i></div>
+                  <div class="mega-item-text"><h4>Categories</h4><p>DeFi, NFT, Layer-1 & more</p></div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-section">
+              <div class="mega-section-title">Trending Coins</div>
+              <div class="mega-menu-grid-3">
+                <div class="mega-coin-mini" onclick="location.href='trade.html?pair=BTCUSDT'">
+                  <img src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/btc.png" width="28" height="28"/>
+                  <div><div class="mc-name">BTC</div><div class="mc-price">$67,432</div></div>
+                  <span class="mc-change positive">+2.34%</span>
+                </div>
+                <div class="mega-coin-mini" onclick="location.href='trade.html?pair=ETHUSDT'">
+                  <img src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/eth.png" width="28" height="28"/>
+                  <div><div class="mc-name">ETH</div><div class="mc-price">$3,521</div></div>
+                  <span class="mc-change positive">+1.87%</span>
+                </div>
+                <div class="mega-coin-mini" onclick="location.href='trade.html?pair=SOLUSDT'">
+                  <img src="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/sol.png" width="28" height="28"/>
+                  <div><div class="mc-name">SOL</div><div class="mc-price">$172</div></div>
+                  <span class="mc-change positive">+5.41%</span>
+                </div>
+              </div>
+            </div>
+            <div class="mega-footer">
+              <a href="markets.html" class="mega-footer-link">View All Markets <i class="fa fa-arrow-right"></i></a>
+              <span style="font-size:11px;color:var(--text3)">350+ pairs available</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="trade.html">Trade</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Trading Products</div>
+              <div class="mega-menu-grid">
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-arrow-right-arrow-left"></i></div>
+                  <div class="mega-item-text"><h4>Spot Trading</h4><p>Buy & sell crypto instantly</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(246,70,93,0.12);color:var(--red)"><i class="fa fa-bolt"></i></div>
+                  <div class="mega-item-text"><h4>Futures <span class="mega-item-badge pro">PRO</span></h4><p>Trade with up to 125x leverage</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-chart-bar"></i></div>
+                  <div class="mega-item-text"><h4>Margin Trading</h4><p>Amplify your positions</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-robot"></i></div>
+                  <div class="mega-item-text"><h4>Trading Bots <span class="mega-item-badge new">NEW</span></h4><p>Automated grid & DCA strategies</p></div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-section">
+              <div class="mega-section-title">Tools & Features</div>
+              <div class="mega-menu-grid">
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(168,85,247,0.12);color:var(--purple)"><i class="fa fa-crosshairs"></i></div>
+                  <div class="mega-item-text"><h4>Advanced Charts</h4><p>TradingView with 100+ indicators</p></div>
+                </a>
+                <a href="trade.html" class="mega-item">
+                  <div class="mega-item-icon" style="background:rgba(6,214,160,0.12);color:var(--rgb-cyan)"><i class="fa fa-clock-rotate-left"></i></div>
+                  <div class="mega-item-text"><h4>Order History</h4><p>Track all your trades</p></div>
+                </a>
+              </div>
+            </div>
+            <div class="mega-footer">
+              <a href="trade.html" class="mega-footer-link">Open Trading Terminal <i class="fa fa-arrow-right"></i></a>
+              <span style="font-size:11px;color:var(--text3)">0.1% trading fee</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" id="navLoginBtn" onclick="openModal('loginModal')">Log In</button>
+    <button class="btn-primary" id="navRegisterBtn" onclick="openModal('registerModal')">Register</button>
+    <div id="navUserMenu" style="display:none;align-items:center;gap:10px">
+      <div class="nav-icon"><i class="fa fa-bell"></i></div>
+      <div class="user-avatar-btn" onclick="location.href='dashboard.html'">
+        <div class="avatar-circle" id="navUserAvatar">?</div>
+        <span id="navUserName">User</span>
+      </div>
+      <button class="btn-outline" onclick="doLogout()">Logout</button>
+    </div>
+    <div class="nav-icon"><i class="fa fa-cog"></i></div>
+  </div>
+</nav>
+
+<div class="ticker-bar"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<!-- HERO HEADER -->
+<div class="markets-hero">
+  <h1><i class="fa fa-chart-line" style="color:var(--accent);margin-right:14px"></i>Cryptocurrency Markets</h1>
+  <p>Real-time prices, charts, and market data for 350+ cryptocurrencies. Track performance, compare assets, and trade instantly.</p>
+</div>
+
+<!-- MARKET STATS BAR WITH ICONS -->
+<div class="market-stats-bar">
+  <div class="msb-item">
+    <div class="msb-icon" style="background:rgba(240,185,11,0.12);color:var(--yellow)"><i class="fa fa-globe"></i></div>
+    <div><span class="msb-label">Global Market Cap</span><br/><span class="msb-value">$2.41T</span> <span class="positive" style="font-size:12px">+1.8%</span></div>
+  </div>
+  <div class="msb-divider"></div>
+  <div class="msb-item">
+    <div class="msb-icon" style="background:rgba(24,144,255,0.12);color:var(--rgb-blue)"><i class="fa fa-chart-bar"></i></div>
+    <div><span class="msb-label">24h Volume</span><br/><span class="msb-value">$98.3B</span></div>
+  </div>
+  <div class="msb-divider"></div>
+  <div class="msb-item">
+    <div class="msb-icon" style="background:rgba(247,147,26,0.12);color:#f7931a"><i class="fab fa-bitcoin"></i></div>
+    <div><span class="msb-label">BTC Dominance</span><br/><span class="msb-value">55.2%</span></div>
+  </div>
+  <div class="msb-divider"></div>
+  <div class="msb-item">
+    <div class="msb-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-coins"></i></div>
+    <div><span class="msb-label">Active Cryptos</span><br/><span class="msb-value">22,487</span></div>
+  </div>
+  <div class="msb-divider"></div>
+  <div class="msb-item">
+    <div class="msb-icon" style="background:rgba(139,92,246,0.12);color:var(--rgb-purple)"><i class="fa fa-gauge-high"></i></div>
+    <div><span class="msb-label">Fear &amp; Greed</span><br/><span class="msb-value" style="color:var(--green)">72 &ndash; Greed</span></div>
+  </div>
+</div>
+
+<!-- TRENDING COINS -->
+<section class="trending-section">
+  <div class="section-header">
+    <h2><i class="fa fa-fire" style="color:var(--yellow)"></i> Trending Now</h2>
+  </div>
+  <div class="trending-grid" id="trendingGrid"></div>
+</section>
+
+<!-- SEARCH + TABLE -->
+<div class="search-bar-wrapper" style="padding-top:32px">
+  <div class="search-bar">
+    <i class="fa fa-magnifying-glass"></i>
+    <input type="text" id="marketSearch" placeholder="Search coins by name or symbol..." oninput="filterMarket()"/>
+  </div>
+</div>
+
+<div class="markets-content">
+  <div class="premium-tabs">
+    <button class="tab active" onclick="setMarketTab('all',this)"><i class="fa fa-layer-group"></i> All Coins</button>
+    <button class="tab" onclick="setMarketTab('spot',this)"><i class="fa fa-exchange-alt"></i> Spot</button>
+    <button class="tab" onclick="setMarketTab('defi',this)"><i class="fa fa-cubes"></i> DeFi</button>
+    <button class="tab" onclick="setMarketTab('gainers',this)"><i class="fa fa-arrow-trend-up" style="color:var(--green)"></i> Gainers</button>
+    <button class="tab" onclick="setMarketTab('losers',this)"><i class="fa fa-arrow-trend-down" style="color:var(--red)"></i> Losers</button>
+  </div>
+
+  <table class="market-table" id="marketsTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><i class="fa fa-coins" style="opacity:0.4;margin-right:4px;font-size:11px"></i>Coin</th>
+        <th><i class="fa fa-dollar-sign" style="opacity:0.4;margin-right:4px;font-size:11px"></i>Price</th>
+        <th><i class="fa fa-clock" style="opacity:0.4;margin-right:4px;font-size:11px"></i>1h %</th>
+        <th><i class="fa fa-arrow-right-arrow-left" style="opacity:0.4;margin-right:4px;font-size:11px"></i>24h %</th>
+        <th><i class="fa fa-calendar-week" style="opacity:0.4;margin-right:4px;font-size:11px"></i>7d %</th>
+        <th><i class="fa fa-chart-pie" style="opacity:0.4;margin-right:4px;font-size:11px"></i>Market Cap</th>
+        <th><i class="fa fa-chart-bar" style="opacity:0.4;margin-right:4px;font-size:11px"></i>Volume (24h)</th>
+        <th><i class="fa fa-chart-line" style="opacity:0.4;margin-right:4px;font-size:11px"></i>Sparkline (7d)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="marketsBody"></tbody>
+  </table>
+</div>
+
+<!-- HOW TO START TRADING -->
+<section class="how-to-section">
+  <h2>How to Start <span style="color:var(--yellow)">Trading</span></h2>
+  <p>Get started in three simple steps and begin trading crypto in minutes.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3>Create an Account</h3>
+      <p>Sign up for free in under a minute. No hidden fees, no commitment required. Just your email and a secure password.</p>
+      <div style="margin-top:16px">
+        <i class="fa fa-user-plus" style="font-size:28px;color:var(--yellow);opacity:0.4"></i>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3>Fund Your Wallet</h3>
+      <p>Deposit crypto or fiat currency using bank transfer, credit card, or P2P trading. Instant deposits available.</p>
+      <div style="margin-top:16px">
+        <i class="fa fa-wallet" style="font-size:28px;color:var(--rgb-blue);opacity:0.4"></i>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3>Start Trading</h3>
+      <p>Buy, sell, and trade 350+ cryptocurrencies with professional charts, low fees, and lightning-fast execution.</p>
+      <div style="margin-top:16px">
+        <i class="fa fa-chart-line" style="font-size:28px;color:var(--green);opacity:0.4"></i>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:32px">
+    <button class="btn-primary btn-lg" onclick="openModal('registerModal')"><i class="fa fa-rocket"></i> Get Started Free</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">&#9888;&#65039; Demo Platform &ndash; Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<!-- ── LOGIN MODAL ── -->
+<div id="loginModal" class="modal-overlay" onclick="closeModalOutside(event,'loginModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Welcome Back</h2>
+    <p class="modal-subtitle">Log in to your account to continue trading</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="login_email" class="form-input" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <div class="form-input-icon">
+        <input type="password" id="login_pass" class="form-input" placeholder="Your password" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')doLogin()"/>
+        <i class="fa fa-eye input-icon" onclick="togglePwd('login_pass',this)"></i>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="checkbox-label"><input type="checkbox"/> Remember me</label>
+      <a href="#" class="link" style="font-size:12px" onclick="switchModal('loginModal','forgotModal')">Forgot Password?</a>
+    </div>
+    <button class="btn-primary full-width" id="loginSubmitBtn" onclick="doLogin()"><i class="fa fa-right-to-bracket"></i> Log In</button>
+    <div class="modal-divider">or continue with</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <button class="btn-secondary" style="padding:10px;font-size:13px" onclick="showToast('Google OAuth (demo)','info')"><i class="fab fa-google" style="color:#ea4335"></i> Google</button>
+      <button class="btn-secondary" style="padding:10px;font-size:13px" onclick="showToast('Apple OAuth (demo)','info')"><i class="fab fa-apple"></i> Apple</button>
+    </div>
+    <p class="modal-footer-text">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Register now</a></p>
+  </div>
+</div>
+
+<!-- ── REGISTER MODAL ── -->
+<div id="registerModal" class="modal-overlay" onclick="closeModalOutside(event,'registerModal')">
+  <div class="modal" style="width:480px;max-width:96vw">
+    <button class="modal-close" onclick="closeModal('registerModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Create Your Account</h2>
+    <p class="modal-subtitle">Join 150M+ traders worldwide. Free to sign up.</p>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" id="reg_first" class="form-input" placeholder="John" autocomplete="given-name"/>
+      </div>
+      <div class="form-group">
+        <label>Last Name *</label>
+        <input type="text" id="reg_last" class="form-input" placeholder="Doe" autocomplete="family-name"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address *</label>
+      <input type="email" id="reg_email" class="form-input" placeholder="you@example.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label>Password *</label>
+      <div class="form-input-icon">
+        <input type="password" id="reg_pass" class="form-input" placeholder="Min 6 characters" oninput="checkRegPwd(this.value)"
+               onkeydown="if(event.key==='Enter')doRegister()"/>
+        <i class="fa fa-eye input-icon" onclick="togglePwd('reg_pass',this)"></i>
+      </div>
+      <div class="strength-bar"><div class="strength-fill" id="regPwdBar" style="width:0%;background:var(--red)"></div></div>
+    </div>
+    <div class="form-group">
+      <label>Referral Code <span style="color:var(--text3)">(Optional)</span></label>
+      <input type="text" id="reg_ref" class="form-input" placeholder="Enter referral code" style="text-transform:uppercase"/>
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label class="checkbox-label">
+        <input type="checkbox" id="reg_terms"/>
+        I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
+      </label>
+    </div>
+    <button class="btn-primary full-width" id="regSubmitBtn" onclick="doRegister()"><i class="fa fa-user-plus"></i> Create Account</button>
+    <p class="modal-footer-text">Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Log in</a></p>
+  </div>
+</div>
+
+<!-- ── FORGOT PASSWORD MODAL ── -->
+<div id="forgotModal" class="modal-overlay" onclick="closeModalOutside(event,'forgotModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('forgotModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Forgot Password?</h2>
+    <p class="modal-subtitle">Enter your email and we'll send you a reset code</p>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="forgot_email" class="form-input" placeholder="you@example.com" autocomplete="email"
+             onkeydown="if(event.key==='Enter')doForgotPassword()"/>
+    </div>
+    <button class="btn-primary full-width" id="forgotSubmitBtn" onclick="doForgotPassword()"><i class="fa fa-paper-plane"></i> Send Reset Code</button>
+    <p class="modal-footer-text"><a href="#" onclick="switchModal('forgotModal','loginModal')"><i class="fa fa-arrow-left" style="margin-right:4px"></i>Back to Log In</a></p>
+  </div>
+</div>
+
+<!-- ── RESET PASSWORD MODAL ── -->
+<div id="resetModal" class="modal-overlay" onclick="closeModalOutside(event,'resetModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('resetModal')"><i class="fa fa-xmark"></i></button>
+    <div class="modal-logo"><div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div></div>
+    <h2>Reset Password</h2>
+    <p class="modal-subtitle">Enter the code sent to your email and choose a new password</p>
+    <p id="resetCodeHint" style="color:var(--accent);font-size:12px;text-align:center;margin-bottom:12px;font-weight:600"></p>
+    <div class="form-group">
+      <label>Reset Code</label>
+      <input type="text" id="reset_code" class="form-input" placeholder="Enter 6-digit code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:20px;font-weight:700"/>
+    </div>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" id="reset_pass" class="form-input" placeholder="Min 6 characters"
+             onkeydown="if(event.key==='Enter')doResetPassword()"/>
+    </div>
+    <button class="btn-primary full-width" id="resetSubmitBtn" onclick="doResetPassword()"><i class="fa fa-key"></i> Reset Password</button>
+    <p class="modal-footer-text"><a href="#" onclick="switchModal('resetModal','forgotModal')"><i class="fa fa-arrow-left" style="margin-right:4px"></i>Resend code</a></p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">
+  <span class="toast-icon fa"></span>
+  <span class="toast-msg"></span>
+  <span class="toast-close" onclick="this.parentElement.classList.remove('show')">&#10005;</span>
+</div>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+  <a href="#" onclick="document.getElementById('mobileMenu').classList.remove('open');openModal('loginModal')"><i class="fa fa-right-to-bracket"></i> Log In</a>
+  <a href="#" onclick="document.getElementById('mobileMenu').classList.remove('open');openModal('registerModal')" style="background:var(--grad-gold);color:#000;font-weight:800"><i class="fa fa-user-plus"></i> Register</a>
+</div>
+
+<script src="app.js"></script>
+<script src="animations.js"></script>
+<script>
+/* ── Toggle Password Visibility ── */
+function togglePwd(inputId, icon) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  if (inp.type==='password') { inp.type='text'; icon.className='fa fa-eye-slash input-icon'; }
+  else { inp.type='password'; icon.className='fa fa-eye input-icon'; }
+}
+
+/* ── Markets Page Data & Logic ── */
+const mSparkCharts = {};
+const trendSparkCharts = {};
+
+const EXTRA_DATA = {
+  BTC:  { h1: 0.41,  d7:  8.32 },
+  ETH:  { h1: 0.22,  d7:  5.11 },
+  BNB:  { h1:-0.11,  d7: -1.44 },
+  SOL:  { h1: 0.88,  d7: 12.67 },
+  XRP:  { h1:-0.33,  d7: -4.21 },
+  ADA:  { h1: 0.55,  d7:  7.89 },
+  DOGE: { h1:-0.22,  d7: -6.30 },
+  DOT:  { h1: 0.14,  d7:  3.55 },
+  AVAX: { h1: 1.02,  d7: 18.44 },
+  LINK: { h1: 0.38,  d7:  4.77 },
+  MATIC:{ h1:-0.07,  d7: -2.11 },
+  UNI:  { h1: 0.29,  d7:  3.03 },
+};
+
+let currentMarketTab = 'all';
+
+/* ── Trending Cards (top 4 by 7d performance) ── */
+function buildTrendingCards() {
+  const grid = document.getElementById('trendingGrid');
+  if (!grid) return;
+
+  const ranked = COINS.map(c => ({
+    ...c,
+    d7: EXTRA_DATA[c.id]?.d7 ?? 0
+  })).sort((a,b) => Math.abs(b.d7) - Math.abs(a.d7)).slice(0, 4);
+
+  grid.innerHTML = ranked.map((c, i) => {
+    const cls = c.d7 >= 0 ? 'positive' : 'negative';
+    const arrow = c.d7 >= 0 ? '<i class="fa fa-caret-up"></i>' : '<i class="fa fa-caret-down"></i>';
+    return `<div class="trend-card" onclick="location.href='trade.html?pair=${c.id}USDT'">
+      <div class="trend-card-header">
+        <div class="trend-card-coin">
+          <img src="${c.icon}" alt="${c.id}" width="36" height="36" style="border-radius:50%"/>
+          <div>
+            <div class="trend-card-name">${c.id}</div>
+            <div class="trend-card-symbol">${c.name}</div>
+          </div>
+        </div>
+        <div class="trend-card-rank">#${i+1}</div>
+      </div>
+      <div class="trend-card-price" id="trend-price-${c.id}">${fmtPrice(c.price)}</div>
+      <div class="trend-card-change ${cls}" id="trend-change-${c.id}">
+        ${arrow} ${c.d7 >= 0 ? '+' : ''}${c.d7.toFixed(2)}% (7d)
+      </div>
+      <div class="trend-card-chart"><canvas id="trend-spark-${c.id}" width="260" height="48"></canvas></div>
+    </div>`;
+  }).join('');
+
+  ranked.forEach(c => {
+    const color = c.d7 >= 0 ? '#0ecb81' : '#f6465d';
+    if (trendSparkCharts[c.id]) trendSparkCharts[c.id].destroy();
+    trendSparkCharts[c.id] = makeSparkline(`trend-spark-${c.id}`, genSparkData(c.price, 30), color);
+  });
+}
+
+/* ── Markets Table ── */
+function buildMarketsTable(coins) {
+  const tbody = document.getElementById('marketsBody');
+  if (!tbody) return;
+  tbody.innerHTML = coins.map((c,i) => {
+    const cls = c.change >= 0 ? 'positive' : 'negative';
+    const ex = EXTRA_DATA[c.id] || { h1:0, d7:0 };
+    const h1cls = ex.h1>=0?'positive':'negative';
+    const d7cls = ex.d7>=0?'positive':'negative';
+    return `<tr>
+      <td>${i+1}</td>
+      <td>
+        <div class="coin-name-cell">
+          <div class="coin-logo">${coinIcon(c, 34)}</div>
+          <div>
+            <div class="coin-symbol">${c.id} ${c.new?'<span class="badge-new">NEW</span>':''}</div>
+            <div class="coin-full">${c.name}</div>
+          </div>
+        </div>
+      </td>
+      <td id="mp-price-${c.id}" style="font-weight:600">${fmtPrice(c.price)}</td>
+      <td class="${h1cls}">${ex.h1>=0?'+':''}${ex.h1.toFixed(2)}%</td>
+      <td class="${cls}" id="mp-change-${c.id}">${fmtChange(c.change)}</td>
+      <td class="${d7cls}">${ex.d7>=0?'+':''}${ex.d7.toFixed(2)}%</td>
+      <td>${c.cap}</td>
+      <td>${c.vol}</td>
+      <td><canvas id="mspark-${c.id}" width="120" height="36"></canvas></td>
+      <td><button class="trade-btn" onclick="location.href='trade.html?pair=${c.id}USDT'">Trade</button></td>
+    </tr>`;
+  }).join('');
+
+  coins.forEach(c => {
+    const color = (EXTRA_DATA[c.id]?.d7 ?? c.change) >= 0 ? '#0ecb81' : '#f6465d';
+    if (mSparkCharts[c.id]) mSparkCharts[c.id].destroy();
+    mSparkCharts[c.id] = makeSparkline(`mspark-${c.id}`, genSparkData(c.price, 28), color);
+  });
+}
+
+function setMarketTab(tab, btn) {
+  currentMarketTab = tab;
+  document.querySelectorAll('.premium-tabs .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  applyMarketFilters();
+}
+
+function filterMarket() { applyMarketFilters(); }
+
+function applyMarketFilters() {
+  const q = (document.getElementById('marketSearch')?.value || '').toLowerCase();
+  let coins = COINS.filter(c =>
+    c.id.toLowerCase().includes(q) || c.name.toLowerCase().includes(q)
+  );
+  if (currentMarketTab === 'gainers') coins = coins.filter(c=>c.change>0).sort((a,b)=>b.change-a.change);
+  else if (currentMarketTab === 'losers') coins = coins.filter(c=>c.change<0).sort((a,b)=>a.change-b.change);
+  else if (currentMarketTab === 'defi') coins = coins.filter(c=>['UNI','LINK','AVAX','DOT','MATIC'].includes(c.id));
+  buildMarketsTable(coins);
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  buildTicker();
+  buildTrendingCards();
+  applyMarketFilters();
+  updateNavForUser();
+  setInterval(updatePrices, 1500);
+});
+</script>
+</body>
+</html>

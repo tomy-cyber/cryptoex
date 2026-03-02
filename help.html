@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help Center – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:var(--blue, #3b82f6)">
+    <i class="fa fa-circle-question"></i>
+  </div>
+  <h1>Help Center</h1>
+  <p>Find answers to common questions and get the support you need.</p>
+</section>
+
+<div class="info-content">
+
+  <!-- Search Bar -->
+  <div style="max-width:600px;margin:0 auto 3rem">
+    <div style="position:relative">
+      <input type="text" placeholder="Search for help topics, questions, or keywords..." style="width:100%;padding:14px 20px 14px 48px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:1rem;outline:none">
+      <i class="fa fa-search" style="position:absolute;left:18px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.4)"></i>
+    </div>
+  </div>
+
+  <!-- Category Cards -->
+  <h2 style="text-align:center;margin-bottom:2rem">Browse by Category</h2>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6">
+        <i class="fa fa-rocket"></i>
+      </div>
+      <h3>Getting Started</h3>
+      <p>New to CryptoEx? Learn how to create your account, verify your identity, and make your first trade in minutes.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(234,179,8,0.15);color:#eab308">
+        <i class="fa fa-shield-halved"></i>
+      </div>
+      <h3>Account &amp; Security</h3>
+      <p>Manage your account settings, enable two-factor authentication, reset your password, and secure your funds.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(16,185,129,0.15);color:#10b981">
+        <i class="fa fa-arrow-right-arrow-left"></i>
+      </div>
+      <h3>Trading</h3>
+      <p>Learn about spot trading, limit and market orders, trading fees, and how to use advanced order types.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-wallet"></i>
+      </div>
+      <h3>Deposits &amp; Withdrawals</h3>
+      <p>How to deposit crypto or fiat currency, withdrawal limits, processing times, and supported payment methods.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(244,63,94,0.15);color:#f43f5e">
+        <i class="fa fa-piggy-bank"></i>
+      </div>
+      <h3>Earn Products</h3>
+      <p>Discover savings, staking, and liquidity farming options. Learn about APY rates, lock-up periods, and rewards.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(6,182,212,0.15);color:#06b6d4">
+        <i class="fa fa-wrench"></i>
+      </div>
+      <h3>Technical Issues</h3>
+      <p>Troubleshoot login problems, app crashes, transaction errors, and browser compatibility issues.</p>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <h2 style="text-align:center;margin:3rem 0 2rem">Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>How do I create a CryptoEx account?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>To create an account, click the "Register" button in the top right corner of the page. Enter your email address, create a strong password, and verify your email. You can then complete identity verification (KYC) to unlock full trading features including higher withdrawal limits.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>How do I enable two-factor authentication (2FA)?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>Navigate to Account Settings &gt; Security &gt; Two-Factor Authentication. We support Google Authenticator, Authy, and hardware security keys (YubiKey). Scan the QR code with your authenticator app, enter the 6-digit code to confirm, and save your backup codes in a secure location.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>What are the trading fees on CryptoEx?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>CryptoEx uses a maker-taker fee model. Standard fees start at 0.10% for makers and 0.10% for takers. Fees decrease based on your 30-day trading volume and CRX token holdings. VIP users can enjoy fees as low as 0.02% maker and 0.04% taker. View the full fee schedule on our Fees page.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>How long do deposits take to process?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>Crypto deposits are credited after the required number of network confirmations: Bitcoin (2 confirmations, ~20 min), Ethereum (12 confirmations, ~3 min), and most other tokens within minutes. Fiat deposits via bank transfer take 1-3 business days, while credit/debit card deposits are instant.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>What is the minimum withdrawal amount?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>Minimum withdrawal amounts vary by asset. For Bitcoin, the minimum is 0.0005 BTC. For Ethereum, it's 0.01 ETH. For USDT, the minimum is 10 USDT. You can view the complete list of minimum withdrawal amounts and associated network fees on the Withdrawal page for each asset.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>How do I reset my password?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>Click "Log In" then "Forgot Password". Enter the email address associated with your account and we'll send a password reset link. For security, password resets disable withdrawals for 24 hours. If you no longer have access to your email, contact our support team with your identity verification documents.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>What cryptocurrencies can I trade on CryptoEx?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>CryptoEx supports 350+ cryptocurrencies and 800+ trading pairs. This includes major assets like Bitcoin (BTC), Ethereum (ETH), Solana (SOL), and Cardano (ADA), as well as a wide selection of DeFi tokens, layer-2 tokens, and newly listed projects. Check the Markets page for the full list.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>Is my crypto insured on CryptoEx?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>CryptoEx maintains the Secure Asset Fund for Users (SAFU), a $1 billion emergency insurance fund to protect user assets. 95% of all user funds are stored in cold wallets with multi-signature security. We also conduct regular proof-of-reserves audits published on-chain for full transparency.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">
+        <span>How do I contact customer support?</span>
+        <i class="fa fa-chevron-down"></i>
+      </div>
+      <div class="faq-a">
+        <p>You can reach our 24/7 support team through multiple channels: Live Chat (available on every page), email at support@cryptoex.com, or through our official social media channels. For urgent account issues, use the in-app support ticket system for priority handling. Average response time is under 5 minutes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Still need help? -->
+  <div style="text-align:center;margin-top:3rem;padding:2rem;background:rgba(255,255,255,0.03);border-radius:16px;border:1px solid rgba(255,255,255,0.06)">
+    <h3>Still need help?</h3>
+    <p style="color:rgba(255,255,255,0.6);margin:0.5rem 0 1.5rem">Our support team is available around the clock to assist you.</p>
+    <a href="contact.html" class="btn-primary" style="text-decoration:none;display:inline-block;padding:12px 32px">Contact Support</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+</body>
+</html>

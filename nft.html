@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NFT Marketplace – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<!-- Hero Section -->
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+    <i class="fa fa-image"></i>
+  </div>
+  <div class="info-content">
+    <h1>NFT Marketplace</h1>
+    <p>Discover, collect, and trade unique digital assets</p>
+  </div>
+</section>
+
+<!-- Stats Row -->
+<section class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">$890M</div>
+    <div class="stat-desc">Total Volume</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">500K+</div>
+    <div class="stat-desc">NFTs Listed</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">12K+</div>
+    <div class="stat-desc">Collections</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">45K+</div>
+    <div class="stat-desc">Artists</div>
+  </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="info-content">
+  <h2>Featured Categories</h2>
+  <p>Explore a wide variety of NFTs across different categories and find what inspires you.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-palette"></i>
+      </div>
+      <h3>Art</h3>
+      <p>Digital art and illustrations from world-renowned and emerging artists. Discover unique masterpieces, generative art, and one-of-a-kind creations.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-gamepad"></i>
+      </div>
+      <h3>Gaming</h3>
+      <p>In-game items, characters, skins, and virtual equipment. Own your gaming assets across supported blockchain-powered games and metaverses.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-music"></i>
+      </div>
+      <h3>Music</h3>
+      <p>Music NFTs, albums, and exclusive releases from independent and established artists. Support creators directly and own a piece of music history.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-futbol"></i>
+      </div>
+      <h3>Sports</h3>
+      <p>Sports collectibles, highlight moments, and athlete memorabilia. Collect iconic plays, trading cards, and licensed sports content.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-camera"></i>
+      </div>
+      <h3>Photography</h3>
+      <p>Unique photo NFTs capturing breathtaking moments from photographers worldwide. Own rare shots from nature, urban landscapes, and culture.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(98,126,234,0.15);color:#627eea">
+        <i class="fa fa-globe"></i>
+      </div>
+      <h3>Virtual Worlds</h3>
+      <p>Metaverse land parcels, virtual real estate, and in-world assets. Invest in the digital frontier and build your presence in virtual worlds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="info-content">
+  <h2>How It Works</h2>
+  <p>Getting started with NFTs on CryptoEx is simple and straightforward.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-magnifying-glass"></i>
+      </div>
+      <h3>1. Browse</h3>
+      <p>Explore thousands of collections and individual NFTs across all categories. Use filters to find exactly what you are looking for by price, rarity, or creator.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-gavel"></i>
+      </div>
+      <h3>2. Buy or Bid</h3>
+      <p>Purchase NFTs instantly at listed prices or place bids on auction items. Connect your wallet or use your CryptoEx balance to complete transactions.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-trophy"></i>
+      </div>
+      <h3>3. Own &amp; Trade</h3>
+      <p>Your NFTs are stored securely in your CryptoEx wallet. Hold, showcase in your gallery, or relist on the marketplace to trade with other collectors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section class="info-content">
+  <h2>Why CryptoEx NFT?</h2>
+  <p>Our marketplace is designed to provide the best experience for creators and collectors alike.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-percent"></i>
+      </div>
+      <h3>Low Fees — Just 1%</h3>
+      <p>One of the lowest marketplace fees in the industry. Keep more of your earnings whether you are a creator minting new work or a collector trading on the secondary market.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-bolt"></i>
+      </div>
+      <h3>Instant Settlement</h3>
+      <p>Transactions settle instantly on supported blockchains. No waiting for confirmations — your NFT and funds transfer immediately upon purchase.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-link"></i>
+      </div>
+      <h3>Cross-Chain Support</h3>
+      <p>Trade NFTs across Ethereum, BNB Chain, Polygon, Solana, and more. Bridge your assets seamlessly between supported networks.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-wand-magic-sparkles"></i>
+      </div>
+      <h3>Creator Royalties</h3>
+      <p>Creators earn royalties on every secondary sale automatically enforced by smart contracts. Support your favorite artists every time their work changes hands.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Trending Collections -->
+<section class="info-content">
+  <h2>Trending Collections</h2>
+  <p>Discover the hottest NFT collections on CryptoEx right now.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-fire"></i>
+      </div>
+      <h3>Cosmic Apes</h3>
+      <p>10,000 unique generative apes exploring the cosmos. Each with hand-drawn traits and rare accessories.</p>
+      <p style="margin-top:0.75rem"><strong>Floor Price:</strong> <span style="color:#0ecb81">2.4 ETH</span></p>
+      <p><strong>24h Volume:</strong> <span style="color:#1e9af8">$1.2M</span></p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-gem"></i>
+      </div>
+      <h3>Crystal Kingdom</h3>
+      <p>5,000 mystical crystal creatures with elemental powers. Staking rewards and governance rights included.</p>
+      <p style="margin-top:0.75rem"><strong>Floor Price:</strong> <span style="color:#0ecb81">1.8 ETH</span></p>
+      <p><strong>24h Volume:</strong> <span style="color:#1e9af8">$890K</span></p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-robot"></i>
+      </div>
+      <h3>Neon Machines</h3>
+      <p>8,888 cyberpunk robot NFTs with upgradeable parts. Access exclusive events and community perks.</p>
+      <p style="margin-top:0.75rem"><strong>Floor Price:</strong> <span style="color:#0ecb81">0.95 ETH</span></p>
+      <p><strong>24h Volume:</strong> <span style="color:#1e9af8">$650K</span></p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-leaf"></i>
+      </div>
+      <h3>Garden Realms</h3>
+      <p>7,777 enchanted garden plots with growing ecosystems. Plant, nurture, and harvest rare digital flora.</p>
+      <p style="margin-top:0.75rem"><strong>Floor Price:</strong> <span style="color:#0ecb81">0.65 ETH</span></p>
+      <p><strong>24h Volume:</strong> <span style="color:#1e9af8">$420K</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="info-content" style="text-align:center;padding-bottom:4rem">
+  <h2>Start Your NFT Journey</h2>
+  <p>Browse thousands of unique digital assets, support creators, and build your collection today.</p>
+  <br/>
+  <a href="trade.html" class="btn-primary" style="padding:1rem 2.5rem;font-size:1.1rem;text-decoration:none;display:inline-block">Explore NFTs</a>
+</section>
+
+<!-- FAQ -->
+<section class="info-content">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What is an NFT?</div>
+      <div class="faq-a">An NFT (Non-Fungible Token) is a unique digital asset stored on a blockchain that represents ownership of a specific item such as art, music, video, or virtual real estate. Unlike cryptocurrencies, each NFT is one-of-a-kind and cannot be exchanged on a one-to-one basis.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> How do I buy an NFT on CryptoEx?</div>
+      <div class="faq-a">To buy an NFT, create or log into your CryptoEx account, browse the marketplace, and click on any NFT you like. You can either purchase at the listed price or place a bid if it is an auction. Payment can be made using your CryptoEx wallet balance or a connected external wallet.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What are the fees for trading NFTs?</div>
+      <div class="faq-a">CryptoEx charges a flat 1% marketplace fee on all NFT transactions, one of the lowest in the industry. Additionally, creators may set royalty fees (typically 2.5-10%) that are automatically distributed on secondary sales.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> Which blockchains are supported?</div>
+      <div class="faq-a">CryptoEx NFT marketplace supports multiple blockchains including Ethereum, BNB Chain, Polygon, Solana, and Arbitrum. Cross-chain bridging is available for seamless transfers between supported networks.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> Can I create and sell my own NFTs?</div>
+      <div class="faq-a">Yes, CryptoEx offers a no-code minting tool that lets you create NFTs from your digital files. Upload your artwork, set your price and royalty percentage, choose your blockchain, and list it on the marketplace — all without any coding knowledge.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+<script src="app.js"></script>
+</body>
+</html>

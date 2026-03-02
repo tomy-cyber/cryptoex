@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Staking – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+    <i class="fa-solid fa-layer-group"></i>
+  </div>
+  <div class="info-content">
+    <h1>Crypto Staking</h1>
+    <p>Stake your crypto and earn rewards</p>
+  </div>
+</section>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">$12B</div>
+    <div class="stat-desc">Total Staked</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">150+</div>
+    <div class="stat-desc">Validators</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">15%</div>
+    <div class="stat-desc">Avg Reward APY</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">25+</div>
+    <div class="stat-desc">Staking Assets</div>
+  </div>
+</div>
+
+<div class="earn-feature-grid">
+  <div class="earn-feature-card">
+    <h3><i class="fa-brands fa-ethereum" style="color:#627eea"></i> ETH Staking</h3>
+    <span class="apy-badge">4.5% APY</span>
+    <p><strong>Min Stake:</strong> 32 ETH</p>
+    <p><strong>Reward Frequency:</strong> Daily</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-sun" style="color:#9945ff"></i> SOL Staking</h3>
+    <span class="apy-badge">7.2% APY</span>
+    <p><strong>Min Stake:</strong> 1 SOL</p>
+    <p><strong>Reward Frequency:</strong> Every Epoch (~2 days)</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-circle-dot" style="color:#e6007a"></i> DOT Staking</h3>
+    <span class="apy-badge">14% APY</span>
+    <p><strong>Min Stake:</strong> 10 DOT</p>
+    <p><strong>Reward Frequency:</strong> Every Era (~24 hrs)</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-atom" style="color:#2e3148"></i> ATOM Staking</h3>
+    <span class="apy-badge">18% APY</span>
+    <p><strong>Min Stake:</strong> 5 ATOM</p>
+    <p><strong>Reward Frequency:</strong> Every Block (~7 sec)</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-a" style="color:#0033ad"></i> ADA Staking</h3>
+    <span class="apy-badge">5.5% APY</span>
+    <p><strong>Min Stake:</strong> 100 ADA</p>
+    <p><strong>Reward Frequency:</strong> Every Epoch (~5 days)</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-mountain" style="color:#e84142"></i> AVAX Staking</h3>
+    <span class="apy-badge">9.8% APY</span>
+    <p><strong>Min Stake:</strong> 25 AVAX</p>
+    <p><strong>Reward Frequency:</strong> Daily</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Stake Now</button>
+  </div>
+</div>
+
+<section class="info-cards">
+  <h2 style="text-align:center;width:100%;margin-bottom:1.5rem;font-size:1.8rem">Benefits of Staking with CryptoEx</h2>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+    </div>
+    <h3>No Technical Setup</h3>
+    <p>We handle all the validator infrastructure so you can start staking with just a few clicks. No hardware or technical knowledge required.</p>
+  </div>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(6,214,160,0.15);color:#06d6a0">
+      <i class="fa-solid fa-rotate"></i>
+    </div>
+    <h3>Automatic Rewards</h3>
+    <p>Staking rewards are automatically calculated and distributed to your account. Optionally enable auto-compounding for maximum returns.</p>
+  </div>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(252,213,53,0.15);color:#fcd535">
+      <i class="fa-solid fa-lock-open"></i>
+    </div>
+    <h3>Unstake Anytime</h3>
+    <p>For flexible staking options, you can unstake your assets at any time. Some networks may have a short unbonding period.</p>
+  </div>
+</section>
+
+<section class="faq-list">
+  <h2 style="text-align:center;margin-bottom:1.5rem;font-size:1.8rem">Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> What is crypto staking?</div>
+    <div class="faq-a">Crypto staking is the process of locking up your cryptocurrency to support the operations of a blockchain network (such as validating transactions). In return, you earn staking rewards, similar to earning interest on a savings account.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> Is there a risk of losing my staked assets?</div>
+    <div class="faq-a">While staking is generally considered lower risk than trading, there are potential risks including slashing (penalties for validator misbehavior) and market volatility affecting the value of staked assets. CryptoEx uses enterprise-grade validators to minimize slashing risk.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> How long does it take to unstake?</div>
+    <div class="faq-a">Unstaking periods vary by network. ETH has a variable queue, DOT takes 28 days, ATOM takes 21 days, and ADA can be unstaked at the end of an epoch. Flexible staking options on CryptoEx may offer instant unstaking.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> Do I need to run my own validator?</div>
+    <div class="faq-a">No. CryptoEx handles all validator operations on your behalf. You simply deposit your crypto and start earning rewards immediately. Our team manages infrastructure, updates, and security.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> Can I stake multiple assets at the same time?</div>
+    <div class="faq-a">Yes, you can stake multiple different assets simultaneously. Each staking position is managed independently, and you can view all your active stakes from the portfolio dashboard.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+<script src="app.js"></script>
+</body>
+</html>

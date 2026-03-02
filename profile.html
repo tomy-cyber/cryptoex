@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="markets.html">Markets</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Explore Markets</div>
+              <div class="mega-menu-grid">
+                <a href="markets.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-chart-line"></i></div><div class="mega-item-text"><h4>All Markets</h4><p>Browse 350+ crypto pairs</p></div></a>
+                <a href="markets.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-arrow-trend-up"></i></div><div class="mega-item-text"><h4>Top Gainers</h4><p>Biggest movers today</p></div></a>
+                <a href="markets.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-fire"></i></div><div class="mega-item-text"><h4>Trending</h4><p>Most searched coins</p></div></a>
+                <a href="markets.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(168,85,247,0.12);color:var(--purple)"><i class="fa fa-layer-group"></i></div><div class="mega-item-text"><h4>Categories</h4><p>DeFi, NFT, Layer-1 & more</p></div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="trade.html">Trade</a>
+        <div class="mega-menu">
+          <div class="mega-menu-panel">
+            <div class="mega-section">
+              <div class="mega-section-title">Trading Products</div>
+              <div class="mega-menu-grid">
+                <a href="trade.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(252,213,53,0.12);color:var(--accent)"><i class="fa fa-arrow-right-arrow-left"></i></div><div class="mega-item-text"><h4>Spot Trading</h4><p>Buy & sell crypto instantly</p></div></a>
+                <a href="trade.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(246,70,93,0.12);color:var(--red)"><i class="fa fa-bolt"></i></div><div class="mega-item-text"><h4>Futures</h4><p>Trade with up to 125x leverage</p></div></a>
+                <a href="trade.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(14,203,129,0.12);color:var(--green)"><i class="fa fa-chart-bar"></i></div><div class="mega-item-text"><h4>Margin Trading</h4><p>Amplify your positions</p></div></a>
+                <a href="trade.html" class="mega-item"><div class="mega-item-icon" style="background:rgba(30,154,248,0.12);color:var(--blue)"><i class="fa fa-robot"></i></div><div class="mega-item-text"><h4>Trading Bots</h4><p>Automated grid & DCA strategies</p></div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <div class="nav-icon"><i class="fa fa-bell"></i></div>
+    <div class="user-avatar-btn">
+      <div class="avatar-circle" id="navAvatar">?</div>
+      <span id="navName">Loading…</span>
+    </div>
+    <button class="btn-outline" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="ticker-bar" style="display:none"></div>
+
+<div class="dash-layout">
+  <!-- Sidebar -->
+  <div class="sidebar-nav">
+    <div class="sidebar-nav-group">Overview</div>
+    <div class="sidebar-nav-item" onclick="location.href='dashboard.html'"><i class="fa fa-gauge"></i> Dashboard</div>
+    <div class="sidebar-nav-item" onclick="location.href='portfolio.html'"><i class="fa fa-chart-pie"></i> Portfolio</div>
+    <div class="sidebar-nav-group">Account</div>
+    <div class="sidebar-nav-item active" id="sn-profile"><i class="fa fa-user"></i> Profile</div>
+    <div class="sidebar-nav-item" id="sn-security" onclick="showTab('security')"><i class="fa fa-shield"></i> Security</div>
+    <div class="sidebar-nav-item" id="sn-kyc" onclick="showTab('kyc')"><i class="fa fa-id-card"></i> Verification (KYC)</div>
+    <div class="sidebar-nav-item" id="sn-referral" onclick="showTab('referral')"><i class="fa fa-users"></i> Referral</div>
+    <div class="sidebar-nav-group">Actions</div>
+    <div class="sidebar-nav-item" onclick="location.href='trade.html'"><i class="fa fa-arrow-right-arrow-left"></i> Trade</div>
+    <div class="sidebar-nav-item" onclick="logout()" style="color:var(--red)"><i class="fa fa-right-from-bracket"></i> Logout</div>
+  </div>
+
+  <div class="dash-content" style="max-width:900px">
+
+    <!-- PROFILE TAB -->
+    <div id="tab-profile">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:24px">My Profile</h2>
+
+      <div class="profile-section">
+        <div class="profile-avatar-row">
+          <div class="profile-avatar-lg" id="profileAvatar">?</div>
+          <div class="profile-avatar-info">
+            <h4 id="profileFullName">Loading…</h4>
+            <p id="profileEmail">—</p>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+              <span id="profileKycBadge" class="kyc-badge unverified">Unverified</span>
+              <span id="profileMemberSince" style="color:var(--text2);font-size:12px"></span>
+            </div>
+          </div>
+        </div>
+
+        <h3><i class="fa fa-user-pen"></i> Personal Information</h3>
+        <div class="form-grid-2" style="margin-bottom:16px">
+          <div class="form-group"><label>First Name</label><input type="text" id="pf_first" class="form-input" placeholder="First name"/></div>
+          <div class="form-group"><label>Last Name</label> <input type="text" id="pf_last"  class="form-input" placeholder="Last name"/></div>
+        </div>
+        <div class="form-grid-2" style="margin-bottom:16px">
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="pf_phone" class="form-input" placeholder="+1 555 0000"/></div>
+          <div class="form-group">
+            <label>Country</label>
+            <select id="pf_country" class="form-input">
+              <option value="">Select country…</option>
+              <option>United States</option><option>United Kingdom</option><option>Germany</option>
+              <option>France</option><option>Japan</option><option>Singapore</option>
+              <option>Canada</option><option>Australia</option><option>Brazil</option>
+              <option>India</option><option>South Korea</option><option>Netherlands</option>
+              <option>Switzerland</option><option>UAE</option><option>Turkey</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="max-width:320px;margin-bottom:20px">
+          <label>Date of Birth</label>
+          <input type="date" id="pf_dob" class="form-input"/>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn-primary" onclick="saveProfile()"><i class="fa fa-save"></i> Save Changes</button>
+          <button class="btn-secondary" onclick="loadProfile()"><i class="fa fa-rotate-left"></i> Reset</button>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <h3><i class="fa fa-circle-info"></i> Account Details</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="rgb-card blue">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px">Email Address</div>
+            <div style="font-weight:600" id="acctEmail">—</div>
+          </div>
+          <div class="rgb-card purple">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px">Referral Code</div>
+            <div style="font-weight:600;font-family:monospace" id="acctReferral">—</div>
+          </div>
+          <div class="rgb-card green">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px">Member Since</div>
+            <div style="font-weight:600" id="acctSince">—</div>
+          </div>
+          <div class="rgb-card yellow">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:4px">Last Login</div>
+            <div style="font-weight:600" id="acctLastLogin">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY TAB -->
+    <div id="tab-security" style="display:none">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:24px">Security Settings</h2>
+      <div class="profile-section">
+        <h3><i class="fa fa-lock"></i> Change Password</h3>
+        <div style="max-width:440px">
+          <div class="form-group"><label>Current Password</label><input type="password" id="sec_cur" class="form-input" placeholder="Enter current password"/></div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="sec_new" class="form-input" placeholder="Min 6 characters" oninput="checkPwdStrength(this.value)"/>
+            <div class="strength-bar" style="margin-top:6px"><div class="strength-fill" id="pwdStrengthBar" style="width:0%;background:var(--red)"></div></div>
+            <div style="font-size:11px;color:var(--text2);margin-top:4px" id="pwdStrengthLabel">Enter a password</div>
+          </div>
+          <div class="form-group"><label>Confirm New Password</label><input type="password" id="sec_conf" class="form-input" placeholder="Repeat new password"/></div>
+          <button class="btn-primary" onclick="changePassword()"><i class="fa fa-key"></i> Update Password</button>
+        </div>
+      </div>
+      <div class="profile-section">
+        <h3><i class="fa fa-mobile-screen"></i> Two-Factor Authentication</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--bg3);border-radius:10px">
+          <div>
+            <div style="font-weight:600">Authenticator App (2FA)</div>
+            <div style="color:var(--text2);font-size:13px;margin-top:3px">Secure your account with Google Authenticator or Authy.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="twoFaToggle" onchange="toggle2FA(this.checked)"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="profile-section">
+        <h3 style="color:var(--red)"><i class="fa fa-triangle-exclamation"></i> Danger Zone</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;background:rgba(246,70,93,0.05);border:1px solid rgba(246,70,93,0.2);border-radius:10px">
+          <div>
+            <div style="font-weight:600;color:var(--red)">Deactivate Account</div>
+            <div style="color:var(--text2);font-size:13px;margin-top:3px">This will permanently close your account. This cannot be undone.</div>
+          </div>
+          <button class="btn-danger" onclick="showToast('Account deactivation requires contacting support (demo)', 'info')">Deactivate</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KYC TAB -->
+    <div id="tab-kyc" style="display:none">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:24px">Identity Verification (KYC)</h2>
+
+      <div id="kyc-verified-msg" style="display:none" class="rgb-card green" style="margin-bottom:24px">
+        <div style="display:flex;align-items:center;gap:16px;padding:8px">
+          <i class="fa fa-circle-check" style="font-size:36px;color:var(--green)"></i>
+          <div><div style="font-size:18px;font-weight:800">Identity Verified ✓</div><div style="color:var(--text2);margin-top:4px">Your KYC verification is complete. You have full access to all features.</div></div>
+        </div>
+      </div>
+
+      <div id="kyc-form-section">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px">
+          <div class="rgb-card" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">📋</div>
+            <div style="font-weight:700;margin-bottom:4px">Step 1</div>
+            <div style="color:var(--text2);font-size:12px">Fill in personal details</div>
+          </div>
+          <div class="rgb-card blue" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">🪪</div>
+            <div style="font-weight:700;margin-bottom:4px">Step 2</div>
+            <div style="color:var(--text2);font-size:12px">Provide ID number</div>
+          </div>
+          <div class="rgb-card green" style="text-align:center;padding:20px">
+            <div style="font-size:28px;margin-bottom:8px">✅</div>
+            <div style="font-weight:700;margin-bottom:4px">Step 3</div>
+            <div style="color:var(--text2);font-size:12px">Instant verification</div>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3><i class="fa fa-id-card"></i> KYC Submission</h3>
+          <div class="form-grid-2" style="margin-bottom:16px">
+            <div class="form-group">
+              <label>ID Type</label>
+              <select class="form-input" id="kyc_type">
+                <option>National ID</option>
+                <option>Passport</option>
+                <option>Driver's License</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ID Number</label>
+              <input type="text" id="kyc_id" class="form-input" placeholder="Enter your ID number"/>
+            </div>
+          </div>
+          <div class="form-grid-2" style="margin-bottom:16px">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input type="date" id="kyc_dob" class="form-input"/>
+            </div>
+            <div class="form-group">
+              <label>Country of Issuance</label>
+              <select id="kyc_country" class="form-input">
+                <option value="">Select country…</option>
+                <option>United States</option><option>United Kingdom</option><option>Germany</option>
+                <option>France</option><option>Japan</option><option>Singapore</option>
+                <option>Canada</option><option>Australia</option><option>Brazil</option><option>India</option>
+                <option>South Korea</option><option>UAE</option><option>Turkey</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label>Upload ID Document (Demo – no real file stored)</label>
+            <div style="border:2px dashed var(--border);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:border-color .2s" onmouseenter="this.style.borderColor='var(--yellow)'" onmouseleave="this.style.borderColor='var(--border)'">
+              <i class="fa fa-cloud-arrow-up" style="font-size:28px;color:var(--text2);margin-bottom:8px"></i>
+              <div style="font-weight:600;margin-bottom:4px">Drop file here or click to upload</div>
+              <div style="color:var(--text2);font-size:12px">JPG, PNG or PDF · Max 5MB · Demo mode only</div>
+              <input type="file" style="display:none" accept="image/*,.pdf"/>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px">
+            <label class="checkbox-label"><input type="checkbox" id="kyc_consent"/> I confirm all information is accurate and I consent to identity verification.</label>
+          </div>
+          <button class="btn-primary" onclick="submitKYC()"><i class="fa fa-paper-plane"></i> Submit for Verification</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERRAL TAB -->
+    <div id="tab-referral" style="display:none">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:24px">Referral Program</h2>
+      <div class="rgb-card yellow" style="margin-bottom:24px;padding:32px;text-align:center">
+        <div style="font-size:40px;margin-bottom:12px">🎁</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px">Earn up to 40% commission</div>
+        <div style="color:var(--text2);margin-bottom:24px">Invite friends to CryptoEx and earn a percentage of their trading fees forever.</div>
+        <div style="display:inline-flex;align-items:center;gap:0;background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px">
+          <div style="padding:12px 20px;font-family:monospace;font-size:16px;font-weight:700;color:var(--yellow)" id="referralCodeDisplay">—</div>
+          <button onclick="copyReferral()" style="padding:12px 20px;background:var(--yellow);color:#000;font-weight:700;font-size:13px">Copy</button>
+        </div>
+        <div style="color:var(--text3);font-size:12px">Share this code. Friends get 10% off fees, you earn 40%.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <div class="rgb-card blue" style="text-align:center;padding:24px">
+          <div style="font-size:26px;font-weight:800;color:var(--rgb-blue)">0</div>
+          <div style="color:var(--text2);font-size:12px;margin-top:6px">Total Referrals</div>
+        </div>
+        <div class="rgb-card green" style="text-align:center;padding:24px">
+          <div style="font-size:26px;font-weight:800;color:var(--green)">$0.00</div>
+          <div style="color:var(--text2);font-size:12px;margin-top:6px">Commission Earned</div>
+        </div>
+        <div class="rgb-card purple" style="text-align:center;padding:24px">
+          <div style="font-size:26px;font-weight:800;color:var(--rgb-purple)">40%</div>
+          <div style="color:var(--text2);font-size:12px;margin-top:6px">Your Commission Rate</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /dash-content -->
+</div><!-- /dash-layout -->
+
+<div id="toast" class="toast"><span class="toast-icon"></span><span class="toast-msg"></span><span class="toast-close" onclick="this.parentElement.classList.remove('show')">✕</span></div>
+
+<style>
+.toggle-switch { position:relative; display:inline-block; width:48px; height:26px; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+.toggle-slider {
+  position:absolute; cursor:pointer; inset:0;
+  background:var(--bg4); border-radius:26px; transition:.3s;
+}
+.toggle-slider::before {
+  content:''; position:absolute; height:20px; width:20px; left:3px; bottom:3px;
+  background:#fff; border-radius:50%; transition:.3s;
+}
+.toggle-switch input:checked + .toggle-slider { background:var(--yellow); }
+.toggle-switch input:checked + .toggle-slider::before { transform:translateX(22px); }
+</style>
+
+<script src="app.js"></script>
+<script src="animations.js"></script>
+<script>
+/* API and getToken() already defined in app.js */
+function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer '+getToken()}; }
+function logout() { localStorage.removeItem('cx_token'); localStorage.removeItem('cx_user'); location.href='index.html'; }
+
+let userData = null;
+
+// Tab switching
+const tabs = ['profile','security','kyc','referral'];
+function showTab(name) {
+  tabs.forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name?'':'none';
+    const sn = document.getElementById('sn-'+t);
+    if (sn) sn.classList.toggle('active', t===name);
+  });
+  document.getElementById('sn-profile').classList.toggle('active', name==='profile');
+}
+// check URL hash
+const hash = location.hash.replace('#','');
+if (tabs.includes(hash)) showTab(hash);
+
+async function loadProfile() {
+  const token = getToken();
+  if (!token) { location.href = 'index.html'; return; }
+  try {
+    const res = await fetch(`${API}/user/me`, { headers: authHeaders() });
+    if (res.status===401) { logout(); return; }
+    userData = await res.json();
+    applyProfile(userData);
+  } catch(e) { showToast('Failed to load profile','error'); }
+}
+
+function applyProfile(u) {
+  const init = ((u.first_name||u.email||'?')[0]).toUpperCase();
+  document.getElementById('navAvatar').textContent = init;
+  document.getElementById('navName').textContent = u.first_name || u.email;
+  document.getElementById('profileAvatar').textContent = init;
+  document.getElementById('profileFullName').textContent = `${u.first_name||''} ${u.last_name||''}`.trim() || u.email;
+  document.getElementById('profileEmail').textContent = u.email;
+  const kycMap = { unverified:'🔴 Unverified', pending:'🟡 Pending Review', verified:'🟢 Verified' };
+  document.getElementById('profileKycBadge').textContent = kycMap[u.kyc_status]||'Unverified';
+  document.getElementById('profileKycBadge').className = `kyc-badge ${u.kyc_status||'unverified'}`;
+  document.getElementById('profileMemberSince').textContent = `Member since ${new Date(u.created_at).toLocaleDateString('en-US',{year:'numeric',month:'long'})}`;
+  document.getElementById('acctEmail').textContent     = u.email;
+  document.getElementById('acctReferral').textContent  = u.referral_code || '—';
+  document.getElementById('acctSince').textContent     = new Date(u.created_at).toLocaleDateString();
+  document.getElementById('acctLastLogin').textContent = u.last_login ? new Date(u.last_login).toLocaleString() : 'First login';
+  document.getElementById('referralCodeDisplay').textContent = u.referral_code || '—';
+  // Fill form
+  document.getElementById('pf_first').value   = u.first_name || '';
+  document.getElementById('pf_last').value    = u.last_name  || '';
+  document.getElementById('pf_phone').value   = u.phone      || '';
+  document.getElementById('pf_country').value = u.country    || '';
+  document.getElementById('pf_dob').value     = u.date_of_birth || '';
+  // KYC
+  if (u.kyc_status === 'verified') {
+    document.getElementById('kyc-verified-msg').style.display = 'block';
+    document.getElementById('kyc-form-section').style.display = 'none';
+  }
+}
+
+async function saveProfile() {
+  const body = {
+    first_name:   document.getElementById('pf_first').value.trim(),
+    last_name:    document.getElementById('pf_last').value.trim(),
+    phone:        document.getElementById('pf_phone').value.trim(),
+    country:      document.getElementById('pf_country').value,
+    date_of_birth:document.getElementById('pf_dob').value,
+  };
+  if (!body.first_name || !body.last_name) { showToast('First and last name are required','error'); return; }
+  try {
+    const res  = await fetch(`${API}/user/profile`, { method:'PUT', headers:authHeaders(), body:JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.errors?.[0]?.msg || data.error);
+    showToast('✓ Profile updated successfully!', 'success');
+    applyProfile(data);
+  } catch(e) { showToast(e.message||'Update failed','error'); }
+}
+
+function checkPwdStrength(pwd) {
+  const bar = document.getElementById('pwdStrengthBar');
+  const lbl = document.getElementById('pwdStrengthLabel');
+  if (!pwd) { bar.style.width='0%'; lbl.textContent='Enter a password'; return; }
+  let score = 0;
+  if (pwd.length >= 6)  score++;
+  if (pwd.length >= 10) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  const map = ['','Weak','Fair','Good','Strong','Very Strong'];
+  const col = ['','var(--red)','var(--rgb-orange)','var(--yellow)','var(--green)','var(--rgb-cyan)'];
+  bar.style.width = (score*20)+'%';
+  bar.style.background = col[score]||col[1];
+  lbl.textContent = map[score] || 'Weak';
+  lbl.style.color = col[score]||col[1];
+}
+
+async function changePassword() {
+  const cur  = document.getElementById('sec_cur').value;
+  const pwd  = document.getElementById('sec_new').value;
+  const conf = document.getElementById('sec_conf').value;
+  if (!cur || !pwd) { showToast('Fill in all fields','error'); return; }
+  if (pwd !== conf) { showToast('Passwords do not match','error'); return; }
+  if (pwd.length < 6) { showToast('Password must be at least 6 characters','error'); return; }
+  try {
+    const res  = await fetch(`${API}/user/change-password`, { method:'PUT', headers:authHeaders(), body:JSON.stringify({current_password:cur,new_password:pwd}) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('✓ Password changed successfully!','success');
+    document.getElementById('sec_cur').value='';
+    document.getElementById('sec_new').value='';
+    document.getElementById('sec_conf').value='';
+  } catch(e) { showToast(e.message||'Failed','error'); }
+}
+
+function toggle2FA(on) {
+  showToast(on ? '2FA enabled (demo)' : '2FA disabled (demo)', on?'success':'info');
+}
+
+async function submitKYC() {
+  const id      = document.getElementById('kyc_id').value.trim();
+  const dob     = document.getElementById('kyc_dob').value;
+  const country = document.getElementById('kyc_country').value;
+  const consent = document.getElementById('kyc_consent').checked;
+  if (!id || !dob || !country) { showToast('Please fill in all KYC fields','error'); return; }
+  if (!consent) { showToast('Please confirm the consent checkbox','error'); return; }
+  try {
+    const res  = await fetch(`${API}/user/kyc`, { method:'POST', headers:authHeaders(), body:JSON.stringify({id_number:id,date_of_birth:dob,country}) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('✓ KYC submitted! Verifying… (auto-approved in 2s)','success');
+    setTimeout(() => { showToast('✓ KYC Verified!','success'); loadProfile(); }, 3000);
+  } catch(e) { showToast(e.message||'KYC failed','error'); }
+}
+
+function copyReferral() {
+  const code = document.getElementById('referralCodeDisplay').textContent;
+  if (code === '—') return;
+  navigator.clipboard.writeText(code).then(() => showToast('Referral code copied!','success'));
+}
+
+document.addEventListener('DOMContentLoaded', loadProfile);
+</script>
+</body>
+</html>

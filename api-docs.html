@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>API Documentation – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:var(--purple, #a855f7)">
+    <i class="fa fa-code"></i>
+  </div>
+  <h1>API Documentation</h1>
+  <p>Build powerful trading applications with the CryptoEx REST and WebSocket APIs.</p>
+</section>
+
+<div class="info-content">
+
+  <!-- Quick Start -->
+  <h2 style="margin-bottom:1rem">Quick Start</h2>
+  <p style="color:rgba(255,255,255,0.6);margin-bottom:1.5rem">Get up and running with the CryptoEx API in minutes. All endpoints use the base URL <code style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;font-size:0.9em">https://api.cryptoex.com</code></p>
+
+  <div class="code-block">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">GET /api/v3/ticker/price — Get current price for a symbol</span>
+    </div>
+<pre style="margin:0;color:#e2e8f0;overflow-x:auto"><code><span style="color:#10b981">GET</span> /api/v3/ticker/price?symbol=BTCUSDT
+
+<span style="color:rgba(255,255,255,0.4)">// Response</span>
+{
+  "symbol": "BTCUSDT",
+  "price": "67432.50",
+  "timestamp": 1709312400000
+}</code></pre>
+  </div>
+
+  <div class="code-block" style="margin-top:1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">POST /api/v3/order — Place a new order (requires authentication)</span>
+    </div>
+<pre style="margin:0;color:#e2e8f0;overflow-x:auto"><code><span style="color:#eab308">POST</span> /api/v3/order
+<span style="color:#3b82f6">Content-Type:</span> application/json
+<span style="color:#3b82f6">X-CEX-APIKEY:</span> your_api_key_here
+
+{
+  "symbol": "BTCUSDT",
+  "side": "BUY",
+  "type": "LIMIT",
+  "timeInForce": "GTC",
+  "quantity": "0.01",
+  "price": "65000.00"
+}
+
+<span style="color:rgba(255,255,255,0.4)">// Response</span>
+{
+  "orderId": 28374615,
+  "symbol": "BTCUSDT",
+  "status": "NEW",
+  "side": "BUY",
+  "type": "LIMIT",
+  "price": "65000.00",
+  "origQty": "0.01",
+  "executedQty": "0.00",
+  "transactTime": 1709312400123
+}</code></pre>
+  </div>
+
+  <!-- API Section Cards -->
+  <h2 style="margin:3rem 0 2rem">API Sections</h2>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(59,130,246,0.15);color:#3b82f6">
+        <i class="fa fa-server"></i>
+      </div>
+      <h3>REST API</h3>
+      <p>Standard HTTP endpoints for account management, order placement, market data queries, and wallet operations. Supports JSON request/response format.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(16,185,129,0.15);color:#10b981">
+        <i class="fa fa-plug"></i>
+      </div>
+      <h3>WebSocket API</h3>
+      <p>Real-time streaming data via persistent WebSocket connections. Subscribe to live price tickers, order book updates, trade streams, and account events.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(234,179,8,0.15);color:#eab308">
+        <i class="fa fa-chart-line"></i>
+      </div>
+      <h3>Market Data</h3>
+      <p>Access candlestick/kline data, order book depth, recent trades, 24h statistics, and aggregate trade data for all supported trading pairs.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-user-shield"></i>
+      </div>
+      <h3>Account</h3>
+      <p>Query account balances, trade history, open orders, order history, and account status. All account endpoints require API key authentication.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(244,63,94,0.15);color:#f43f5e">
+        <i class="fa fa-arrow-right-arrow-left"></i>
+      </div>
+      <h3>Trading</h3>
+      <p>Place, modify, and cancel orders. Supports market, limit, stop-limit, OCO, and trailing stop order types across spot and margin markets.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(6,182,212,0.15);color:#06b6d4">
+        <i class="fa fa-wallet"></i>
+      </div>
+      <h3>Wallet</h3>
+      <p>Manage deposits and withdrawals, query transaction history, generate deposit addresses, and check network status for all supported assets.</p>
+    </div>
+  </div>
+
+  <!-- Common Endpoints -->
+  <h2 style="margin:3rem 0 1.5rem">Common Endpoints</h2>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;background:rgba(255,255,255,0.03);border-radius:12px;overflow:hidden">
+      <thead>
+        <tr style="background:rgba(255,255,255,0.06)">
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Method</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Endpoint</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Description</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Auth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/ping</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Test server connectivity</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/time</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Get server time</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/ticker/price</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Get latest price for a symbol</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/ticker/24hr</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">24-hour rolling statistics</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/depth</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Order book depth</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/klines</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Candlestick/kline data</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.4);font-size:0.9rem">None</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#eab308;font-weight:600;font-size:0.85rem">POST</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/order</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Place a new order</td>
+          <td style="padding:12px 16px;color:#eab308;font-size:0.9rem">SIGNED</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#f43f5e;font-weight:600;font-size:0.85rem">DELETE</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/order</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Cancel an active order</td>
+          <td style="padding:12px 16px;color:#eab308;font-size:0.9rem">SIGNED</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#10b981;font-weight:600;font-size:0.85rem">GET</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/account</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Get account information</td>
+          <td style="padding:12px 16px;color:#eab308;font-size:0.9rem">SIGNED</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px"><span style="color:#eab308;font-weight:600;font-size:0.85rem">POST</span></td>
+          <td style="padding:12px 16px;font-family:monospace;font-size:0.85rem">/api/v3/withdraw</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6);font-size:0.9rem">Submit a withdrawal request</td>
+          <td style="padding:12px 16px;color:#eab308;font-size:0.9rem">SIGNED</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Rate Limits -->
+  <h2 style="margin:3rem 0 1.5rem">Rate Limits</h2>
+  <p style="color:rgba(255,255,255,0.6);margin-bottom:1.5rem">API rate limits are enforced per API key. Exceeding these limits will result in a 429 status code response. Limits reset on a rolling window basis.</p>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;background:rgba(255,255,255,0.03);border-radius:12px;overflow:hidden">
+      <thead>
+        <tr style="background:rgba(255,255,255,0.06)">
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Endpoint Type</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Rate Limit</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Window</th>
+          <th style="padding:14px 16px;text-align:left;font-weight:600;color:rgba(255,255,255,0.8);font-size:0.9rem">Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.8)">Public Market Data</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1,200 requests</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1 minute</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1-20</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.8)">Order Placement</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">100 orders</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">10 seconds</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.8)">Order Cancellation</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">100 requests</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">10 seconds</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.8)">Account Data</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">600 requests</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">1 minute</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">5-10</td>
+        </tr>
+        <tr style="border-top:1px solid rgba(255,255,255,0.06)">
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.8)">WebSocket Connections</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">300 connections</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">5 minutes</td>
+          <td style="padding:12px 16px;color:rgba(255,255,255,0.6)">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Authentication -->
+  <h2 style="margin:3rem 0 1rem">Authentication</h2>
+  <p style="color:rgba(255,255,255,0.6);margin-bottom:1.5rem">Authenticated endpoints require an API key sent via the <code style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;font-size:0.9em">X-CEX-APIKEY</code> header. Signed endpoints additionally require an HMAC SHA256 signature of the query parameters using your secret key.</p>
+
+  <div class="code-block">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">Authentication Example (Python)</span>
+    </div>
+<pre style="margin:0;color:#e2e8f0;overflow-x:auto"><code><span style="color:#a855f7">import</span> hashlib, hmac, time, requests
+
+API_KEY = <span style="color:#10b981">"your_api_key"</span>
+SECRET_KEY = <span style="color:#10b981">"your_secret_key"</span>
+BASE_URL = <span style="color:#10b981">"https://api.cryptoex.com"</span>
+
+<span style="color:#a855f7">def</span> <span style="color:#3b82f6">signed_request</span>(method, endpoint, params={}):
+    params[<span style="color:#10b981">"timestamp"</span>] = <span style="color:#eab308">int</span>(time.time() * 1000)
+    query_string = <span style="color:#10b981">"&amp;"</span>.join(
+        [f<span style="color:#10b981">"{k}={v}"</span> <span style="color:#a855f7">for</span> k, v <span style="color:#a855f7">in</span> params.items()]
+    )
+    signature = hmac.new(
+        SECRET_KEY.encode(), query_string.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    params[<span style="color:#10b981">"signature"</span>] = signature
+
+    headers = {<span style="color:#10b981">"X-CEX-APIKEY"</span>: API_KEY}
+    response = requests.request(
+        method, f<span style="color:#10b981">"{BASE_URL}{endpoint}"</span>,
+        params=params, headers=headers
+    )
+    <span style="color:#a855f7">return</span> response.json()
+
+<span style="color:rgba(255,255,255,0.4)"># Get account info</span>
+account = signed_request(<span style="color:#10b981">"GET"</span>, <span style="color:#10b981">"/api/v3/account"</span>)
+
+<span style="color:rgba(255,255,255,0.4)"># Place a limit order</span>
+order = signed_request(<span style="color:#10b981">"POST"</span>, <span style="color:#10b981">"/api/v3/order"</span>, {
+    <span style="color:#10b981">"symbol"</span>: <span style="color:#10b981">"ETHUSDT"</span>,
+    <span style="color:#10b981">"side"</span>: <span style="color:#10b981">"BUY"</span>,
+    <span style="color:#10b981">"type"</span>: <span style="color:#10b981">"LIMIT"</span>,
+    <span style="color:#10b981">"timeInForce"</span>: <span style="color:#10b981">"GTC"</span>,
+    <span style="color:#10b981">"quantity"</span>: <span style="color:#10b981">"0.5"</span>,
+    <span style="color:#10b981">"price"</span>: <span style="color:#10b981">"3200.00"</span>
+})</code></pre>
+  </div>
+
+  <!-- WebSocket Example -->
+  <h2 style="margin:3rem 0 1rem">WebSocket Streams</h2>
+  <p style="color:rgba(255,255,255,0.6);margin-bottom:1.5rem">Connect to the WebSocket endpoint at <code style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;font-size:0.9em">wss://stream.cryptoex.com/ws</code> for real-time data feeds.</p>
+
+  <div class="code-block">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">WebSocket — Subscribe to live trades (JavaScript)</span>
+    </div>
+<pre style="margin:0;color:#e2e8f0;overflow-x:auto"><code><span style="color:#a855f7">const</span> ws = <span style="color:#a855f7">new</span> WebSocket(<span style="color:#10b981">"wss://stream.cryptoex.com/ws/btcusdt@trade"</span>);
+
+ws.onmessage = (event) =&gt; {
+  <span style="color:#a855f7">const</span> trade = JSON.parse(event.data);
+  console.log(
+    <span style="color:#10b981">`Price: ${trade.p} | Qty: ${trade.q} | Side: ${trade.m ? "SELL" : "BUY"}`</span>
+  );
+};
+
+<span style="color:rgba(255,255,255,0.4)">// Available streams:</span>
+<span style="color:rgba(255,255,255,0.4)">// &lt;symbol&gt;@trade      — Real-time trades</span>
+<span style="color:rgba(255,255,255,0.4)">// &lt;symbol&gt;@depth      — Order book updates</span>
+<span style="color:rgba(255,255,255,0.4)">// &lt;symbol&gt;@kline_1m   — 1-minute candlesticks</span>
+<span style="color:rgba(255,255,255,0.4)">// &lt;symbol&gt;@ticker     — 24hr ticker stats</span>
+<span style="color:rgba(255,255,255,0.4)">// &lt;symbol&gt;@miniTicker  — Mini ticker</span></code></pre>
+  </div>
+
+  <!-- Need Help? -->
+  <div style="text-align:center;margin-top:3rem;padding:2rem;background:rgba(255,255,255,0.03);border-radius:16px;border:1px solid rgba(255,255,255,0.06)">
+    <h3>Need API Support?</h3>
+    <p style="color:rgba(255,255,255,0.6);margin:0.5rem 0 1.5rem">Our developer support team can help with integration questions, rate limit increases, and enterprise API access.</p>
+    <a href="contact.html" class="btn-primary" style="text-decoration:none;display:inline-block;padding:12px 32px">Contact Developer Support</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
