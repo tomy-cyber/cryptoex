@@ -1,7 +1,7 @@
 /* ============================================================
    CryptoEx – Main Application JS
    ============================================================ */
-const API = 'http://localhost:4000/api';
+const API = '/api';
 
 // ── Coin Data with real icons ────────────────────────────────
 const ICON_CDN = 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color';
