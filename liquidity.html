@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Liquidity Pools – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:rgba(6,214,160,0.15);color:#06d6a0">
+    <i class="fa-solid fa-droplet"></i>
+  </div>
+  <div class="info-content">
+    <h1>Liquidity Pools</h1>
+    <p>Provide liquidity and earn trading fees</p>
+  </div>
+</section>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">$8.5B</div>
+    <div class="stat-desc">Total Liquidity</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">200+</div>
+    <div class="stat-desc">Active Pools</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">25%</div>
+    <div class="stat-desc">Avg APY</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">$150M+</div>
+    <div class="stat-desc">Fee Revenue</div>
+  </div>
+</div>
+
+<div class="earn-feature-grid">
+  <h2 style="text-align:center;width:100%;margin-bottom:1.5rem;font-size:1.8rem;grid-column:1/-1">Featured Pools</h2>
+  <div class="earn-feature-card">
+    <h3><i class="fa-brands fa-bitcoin" style="color:#f7931a"></i> BTC / USDT Pool</h3>
+    <span class="apy-badge">12.5% APY</span>
+    <p><strong>TVL:</strong> $1.2B</p>
+    <p><strong>24h Volume:</strong> $84M</p>
+    <p><strong>Your Share:</strong> Proportional to deposit</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Add Liquidity</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-brands fa-ethereum" style="color:#627eea"></i> ETH / USDT Pool</h3>
+    <span class="apy-badge">15.8% APY</span>
+    <p><strong>TVL:</strong> $890M</p>
+    <p><strong>24h Volume:</strong> $62M</p>
+    <p><strong>Your Share:</strong> Proportional to deposit</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Add Liquidity</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-sun" style="color:#9945ff"></i> SOL / USDT Pool</h3>
+    <span class="apy-badge">28.4% APY</span>
+    <p><strong>TVL:</strong> $340M</p>
+    <p><strong>24h Volume:</strong> $45M</p>
+    <p><strong>Your Share:</strong> Proportional to deposit</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Add Liquidity</button>
+  </div>
+  <div class="earn-feature-card">
+    <h3><i class="fa-solid fa-coins" style="color:#f3ba2f"></i> BNB / USDT Pool</h3>
+    <span class="apy-badge">18.2% APY</span>
+    <p><strong>TVL:</strong> $520M</p>
+    <p><strong>24h Volume:</strong> $38M</p>
+    <p><strong>Your Share:</strong> Proportional to deposit</p>
+    <button class="btn-primary" onclick="location.href='index.html'">Add Liquidity</button>
+  </div>
+</div>
+
+<section class="info-cards">
+  <h2 style="text-align:center;width:100%;margin-bottom:1.5rem;font-size:1.8rem">Risk Warning: Impermanent Loss</h2>
+  <div class="info-card" style="border-left:4px solid #ef4444">
+    <div class="info-card-icon" style="background:rgba(239,68,68,0.15);color:#ef4444">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    <h3>What is Impermanent Loss?</h3>
+    <p>When you provide liquidity, the relative price of your deposited assets may change compared to when you deposited them. This can result in a loss compared to simply holding the assets. The loss is "impermanent" because it may reverse if prices return to their original ratio.</p>
+  </div>
+  <div class="info-card" style="border-left:4px solid #f59e0b">
+    <div class="info-card-icon" style="background:rgba(245,158,11,0.15);color:#f59e0b">
+      <i class="fa-solid fa-chart-line"></i>
+    </div>
+    <h3>When Does It Occur?</h3>
+    <p>Impermanent loss increases as the price ratio between the two assets in a pool diverges from the ratio at the time of deposit. Stablecoin pairs (e.g., USDT/USDC) have minimal impermanent loss risk, while volatile pairs carry higher risk.</p>
+  </div>
+  <div class="info-card" style="border-left:4px solid #06d6a0">
+    <div class="info-card-icon" style="background:rgba(6,214,160,0.15);color:#06d6a0">
+      <i class="fa-solid fa-shield-halved"></i>
+    </div>
+    <h3>Mitigating the Risk</h3>
+    <p>Trading fees earned from the pool can offset impermanent loss. High-volume pools with significant fee revenue often generate net positive returns. Consider pools with correlated assets for lower risk.</p>
+  </div>
+</section>
+
+<section class="info-cards">
+  <h2 style="text-align:center;width:100%;margin-bottom:1.5rem;font-size:1.8rem">How It Works</h2>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(6,214,160,0.15);color:#06d6a0">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <h3>1. Choose a Pool</h3>
+    <p>Browse available liquidity pools and select one based on the trading pair, APY, TVL, and your risk tolerance. Higher APY pools may carry more impermanent loss risk.</p>
+  </div>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+      <i class="fa-solid fa-coins"></i>
+    </div>
+    <h3>2. Deposit Both Assets</h3>
+    <p>Provide equal value of both assets in the pair. For example, in a BTC/USDT pool, you deposit both BTC and USDT proportionally to the current pool ratio.</p>
+  </div>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(252,213,53,0.15);color:#fcd535">
+      <i class="fa-solid fa-ticket"></i>
+    </div>
+    <h3>3. Receive LP Tokens</h3>
+    <p>You receive LP (Liquidity Provider) tokens representing your share of the pool. These tokens accrue trading fees proportionally and can be redeemed for your assets at any time.</p>
+  </div>
+  <div class="info-card">
+    <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+      <i class="fa-solid fa-sack-dollar"></i>
+    </div>
+    <h3>4. Earn Trading Fees</h3>
+    <p>Every trade in the pool generates a fee that is distributed to liquidity providers based on their pool share. Fees are automatically reinvested to compound your returns.</p>
+  </div>
+</section>
+
+<section class="faq-list">
+  <h2 style="text-align:center;margin-bottom:1.5rem;font-size:1.8rem">Frequently Asked Questions</h2>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> What are liquidity pools?</div>
+    <div class="faq-a">Liquidity pools are smart contract-based reserves of token pairs that facilitate decentralized trading. By depositing assets into a pool, you become a liquidity provider and earn a share of the trading fees generated when users swap tokens in the pool.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> How much can I earn from providing liquidity?</div>
+    <div class="faq-a">Earnings depend on the pool's trading volume, your share of the total liquidity, and the fee tier. Higher volume pools generate more fees. Current APY rates are displayed on each pool card and are updated in real-time based on recent trading activity.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> Can I withdraw my liquidity at any time?</div>
+    <div class="faq-a">Yes, you can remove your liquidity at any time by redeeming your LP tokens. There are no lock-up periods or withdrawal penalties. You will receive both assets in the pair proportional to the current pool ratio, which may differ from your initial deposit ratio.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> What is the minimum amount to provide liquidity?</div>
+    <div class="faq-a">There is no strict minimum, but we recommend providing at least $100 equivalent to ensure meaningful returns after transaction fees. Each pool may have suggested minimum amounts displayed on the deposit interface.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q"><i class="fa fa-chevron-right"></i> Are the displayed APY rates guaranteed?</div>
+    <div class="faq-a">No, APY rates are estimates based on recent trading volume and fee revenue. Actual returns may be higher or lower depending on future trading activity, pool composition changes, and price movements of the underlying assets. Past performance does not guarantee future results.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+<script src="app.js"></script>
+</body>
+</html>

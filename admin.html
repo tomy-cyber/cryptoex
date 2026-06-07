@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script>if(!localStorage.getItem('cx_token')){window.location.replace('/index.html?login=1');}</script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#0b0e11;--bg2:#161a1e;--bg3:#1e2329;--bg4:#2b3139;
+      --accent:#f0b90b;--green:#0ecb81;--red:#f6465d;--blue:#1e9af8;--purple:#8b5cf6;
+      --text1:#eaecef;--text2:#848e9c;--text3:#4a5568;
+      --border:#2b3139;--radius:10px;
+    }
+    body{background:var(--bg);color:var(--text1);font-family:'Inter',system-ui,sans-serif;font-size:14px;min-height:100vh;display:flex}
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:none;outline:none;font-family:inherit;font-size:13px}
+
+    /* Sidebar */
+    .sidebar{width:220px;min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+    .sidebar-logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .sidebar-logo .logo-icon{color:var(--accent);font-size:20px}
+    .sidebar-logo .logo-text{font-weight:800;font-size:16px}
+    .sidebar-logo .admin-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;letter-spacing:.5px}
+    .nav-group{padding:16px 12px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3)}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:8px;margin:1px 8px;cursor:pointer;transition:all .15s;color:var(--text2);font-size:13px}
+    .nav-item:hover{background:var(--bg3);color:var(--text1)}
+    .nav-item.active{background:rgba(240,185,11,.1);color:var(--accent);font-weight:600}
+    .nav-item i{width:16px;text-align:center}
+    .sidebar-bottom{margin-top:auto;padding:12px;border-top:1px solid var(--border)}
+    .admin-user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:var(--bg3)}
+    .admin-avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#000;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+
+    /* Main */
+    .main{margin-left:220px;flex:1;min-height:100vh;display:flex;flex-direction:column}
+    .topbar{padding:16px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);position:sticky;top:0;z-index:50}
+    .topbar-title{font-size:18px;font-weight:700}
+    .topbar-right{display:flex;align-items:center;gap:12px}
+    .content{padding:28px;flex:1}
+
+    /* Stat cards */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+    .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+    .stat-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .stat-value{font-size:26px;font-weight:800}
+    .stat-sub{font-size:12px;color:var(--text2);margin-top:4px}
+
+    /* Tables */
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px}
+    .card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .card-title{font-weight:700;font-size:15px}
+    .card-body{padding:0}
+    table{width:100%;border-collapse:collapse}
+    th{padding:10px 16px;text-align:left;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);background:var(--bg3)}
+    td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(255,255,255,.02)}
+
+    /* Badges */
+    .badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600}
+    .badge-green{background:rgba(14,203,129,.15);color:var(--green)}
+    .badge-red{background:rgba(246,70,93,.15);color:var(--red)}
+    .badge-yellow{background:rgba(240,185,11,.15);color:var(--accent)}
+    .badge-blue{background:rgba(30,154,248,.15);color:var(--blue)}
+    .badge-gray{background:rgba(132,142,156,.15);color:var(--text2)}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:7px;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s}
+    .btn-primary{background:var(--accent);color:#000}
+    .btn-primary:hover{opacity:.9}
+    .btn-danger{background:rgba(246,70,93,.15);color:var(--red);border:1px solid rgba(246,70,93,.3)}
+    .btn-danger:hover{background:rgba(246,70,93,.25)}
+    .btn-secondary{background:var(--bg3);color:var(--text1);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--bg4)}
+    .btn-sm{padding:5px 10px;font-size:12px}
+    .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
+    .btn-ghost:hover{color:var(--text1);background:var(--bg3)}
+
+    /* Forms */
+    .form-group{margin-bottom:16px}
+    .form-label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:600}
+    .form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 12px;color:var(--text1);font-size:13px;font-family:inherit;outline:none;transition:border .15s}
+    .form-input:focus{border-color:var(--accent)}
+    select.form-input option{background:var(--bg3)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+    .modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .modal-title{font-size:16px;font-weight:700}
+    .modal-close{background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;padding:4px}
+    .modal-close:hover{color:var(--text1)}
+    .modal-body{padding:20px 24px}
+    .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+    /* User detail panel */
+    .detail-tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);padding:0 20px}
+    .detail-tab{padding:12px 16px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+    .detail-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .detail-pane{display:none;padding:20px}
+    .detail-pane.active{display:block}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .info-item{background:var(--bg3);border-radius:8px;padding:12px 14px}
+    .info-key{font-size:11px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+    .info-val{font-size:13px;font-weight:600;word-break:break-all}
+
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:13px;z-index:9999;opacity:0;transform:translateY(20px);transition:all .3s;pointer-events:none;max-width:360px}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .toast.success{border-color:var(--green);color:var(--green)}
+    .toast.error{border-color:var(--red);color:var(--red)}
+    .toast.info{border-color:var(--blue);color:var(--blue)}
+
+    /* Search */
+    .search-box{position:relative;display:flex;align-items:center}
+    .search-box input{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:8px 12px 8px 34px;color:var(--text1);font-size:13px;outline:none;width:220px}
+    .search-box input:focus{border-color:var(--accent)}
+    .search-box i{position:absolute;left:10px;color:var(--text2);font-size:13px}
+
+    /* Section hide */
+    .section{display:none}
+    .section.active{display:block}
+
+    /* Scrollbar */
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--bg2)}
+    ::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <i class="fa-solid fa-coins logo-icon"></i>
+    <span class="logo-text">CryptoEx</span>
+    <span class="admin-badge">ADMIN</span>
+  </div>
+
+  <div class="nav-group">Overview</div>
+  <div class="nav-item active" onclick="showSection('dashboard')"><i class="fa fa-gauge"></i> Dashboard</div>
+
+  <div class="nav-group">Management</div>
+  <div class="nav-item" onclick="showSection('users')"><i class="fa fa-users"></i> Users</div>
+  <div class="nav-item" onclick="showSection('transactions')"><i class="fa fa-list"></i> Transactions</div>
+  <div class="nav-item" onclick="showSection('invoices')"><i class="fa fa-file-invoice-dollar"></i> Invoices</div>
+
+  <div class="sidebar-bottom">
+    <div class="admin-user">
+      <div class="admin-avatar" id="sidebarAvatar">A</div>
+      <div>
+        <div style="font-size:13px;font-weight:600" id="sidebarName">Admin</div>
+        <div style="font-size:11px;color:var(--text2)" id="sidebarEmail"></div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" style="width:100%;margin-top:8px;justify-content:center" onclick="doLogout()">
+      <i class="fa fa-right-from-bracket"></i> Logout
+    </button>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-right">
+      <button class="btn btn-primary" id="topbarAction" onclick="openCreateModal()" style="display:none">
+        <i class="fa fa-plus"></i> <span id="topbarActionLabel">Action</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ─────────────────────────────── -->
+    <div class="section active" id="section-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label"><i class="fa fa-users" style="color:var(--blue)"></i> Total Users</div>
+          <div class="stat-value" id="stat-users">—</div>
+          <div class="stat-sub">Registered accounts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label"><i class="fa fa-arrow-right-arrow-left" style="color:var(--green)"></i> Transactions</div>
+          <div class="stat-value" id="stat-txs">—</div>
+          <div class="stat-sub">All time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label"><i class="fa fa-file-invoice-dollar" style="color:var(--accent)"></i> Paid Invoices</div>
+          <div class="stat-value" id="stat-inv">—</div>
+          <div class="stat-sub" id="stat-inv-sub">Total revenue</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label"><i class="fa fa-id-card" style="color:var(--purple)"></i> Pending KYC</div>
+          <div class="stat-value" id="stat-kyc">—</div>
+          <div class="stat-sub">Awaiting review</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recent Users</span>
+          <button class="btn btn-secondary btn-sm" onclick="showSection('users')">View All</button>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>User</th><th>Email</th><th>KYC</th><th>Joined</th><th></th></tr></thead>
+            <tbody id="dash-recent-users"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS ──────────────────────────────────── -->
+    <div class="section" id="section-users">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">All Users</span>
+          <div class="search-box">
+            <i class="fa fa-search"></i>
+            <input type="text" id="userSearch" placeholder="Search by name or email…" oninput="filterUsers()"/>
+          </div>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Country</th><th>KYC</th><th>Admin</th><th>Joined</th><th>Actions</th></tr></thead>
+            <tbody id="users-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TRANSACTIONS ───────────────────────────── -->
+    <div class="section" id="section-transactions">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">All Transactions</span>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>ID</th><th>User</th><th>Type</th><th>Coin</th><th>Amount</th><th>Status</th><th>Note</th><th>Date</th></tr></thead>
+            <tbody id="txs-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INVOICES ───────────────────────────────── -->
+    <div class="section" id="section-invoices">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Invoices</span>
+          <button class="btn btn-primary btn-sm" onclick="openModal('invoiceModal')">
+            <i class="fa fa-plus"></i> New Invoice
+          </button>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>Number</th><th>User</th><th>Amount</th><th>Coin</th><th>Description</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody id="invoices-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- ── User Detail Modal ──────────────────────────── -->
+<div class="modal-overlay" id="userDetailModal" onclick="if(event.target===this)closeModal('userDetailModal')">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <div class="modal-title" id="userDetailTitle">User Details</div>
+      <button class="modal-close" onclick="closeModal('userDetailModal')"><i class="fa fa-xmark"></i></button>
+    </div>
+    <div class="detail-tabs">
+      <div class="detail-tab active" onclick="switchDetailTab('info')">Info</div>
+      <div class="detail-tab" onclick="switchDetailTab('balances')">Balances</div>
+      <div class="detail-tab" onclick="switchDetailTab('activity')">Transactions</div>
+      <div class="detail-tab" onclick="switchDetailTab('actions')">Actions</div>
+    </div>
+
+    <!-- Info -->
+    <div class="detail-pane active" id="dtab-info">
+      <div class="info-grid" id="detail-info-grid"></div>
+    </div>
+
+    <!-- Balances -->
+    <div class="detail-pane" id="dtab-balances">
+      <table>
+        <thead><tr><th>Coin</th><th>Amount</th><th>Avg Buy Price</th><th></th></tr></thead>
+        <tbody id="detail-balances-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Transactions -->
+    <div class="detail-pane" id="dtab-activity">
+      <table>
+        <thead><tr><th>Type</th><th>Coin</th><th>Amount</th><th>Status</th><th>Note</th><th>Date</th></tr></thead>
+        <tbody id="detail-txs-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Actions -->
+    <div class="detail-pane" id="dtab-actions">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+        <!-- Set Balance -->
+        <div style="background:var(--bg3);border-radius:10px;padding:16px">
+          <div style="font-weight:700;margin-bottom:12px"><i class="fa fa-wallet" style="color:var(--accent)"></i> Set Balance</div>
+          <div class="form-group">
+            <label class="form-label">Coin</label>
+            <select class="form-input" id="act-bal-coin">
+              <option>USDT</option><option>BTC</option><option>ETH</option><option>BNB</option>
+              <option>SOL</option><option>XRP</option><option>ADA</option><option>DOGE</option>
+              <option>DOT</option><option>AVAX</option><option>LINK</option><option>MATIC</option><option>UNI</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount</label>
+            <input type="number" class="form-input" id="act-bal-amount" placeholder="0.00" min="0" step="any"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Avg Buy Price (optional)</label>
+            <input type="number" class="form-input" id="act-bal-avgbuy" placeholder="0.00" min="0" step="any"/>
+          </div>
+          <button class="btn btn-primary" style="width:100%" onclick="doSetBalance()">Set Balance</button>
+        </div>
+
+        <!-- Add Transaction -->
+        <div style="background:var(--bg3);border-radius:10px;padding:16px">
+          <div style="font-weight:700;margin-bottom:12px"><i class="fa fa-plus-circle" style="color:var(--green)"></i> Add Transaction</div>
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select class="form-input" id="act-tx-type">
+              <option value="deposit">Deposit</option>
+              <option value="profit">Profit</option>
+              <option value="withdraw">Withdraw</option>
+              <option value="adjustment">Adjustment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Coin</label>
+            <select class="form-input" id="act-tx-coin">
+              <option>USDT</option><option>BTC</option><option>ETH</option><option>BNB</option>
+              <option>SOL</option><option>XRP</option><option>ADA</option><option>DOGE</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount</label>
+            <input type="number" class="form-input" id="act-tx-amount" placeholder="0.00" min="0.001" step="any"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Note (optional)</label>
+            <input type="text" class="form-input" id="act-tx-note" placeholder="e.g. Monthly profit payout"/>
+          </div>
+          <button class="btn btn-primary" style="width:100%;background:var(--green);color:#000" onclick="doAddTransaction()">Add Transaction</button>
+        </div>
+      </div>
+
+      <!-- KYC & Admin controls -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:var(--bg3);border-radius:10px;padding:16px">
+          <div style="font-weight:700;margin-bottom:12px"><i class="fa fa-id-card" style="color:var(--purple)"></i> KYC Status</div>
+          <select class="form-input" id="act-kyc-status" style="margin-bottom:10px">
+            <option value="unverified">Unverified</option>
+            <option value="pending">Pending</option>
+            <option value="verified">Verified</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <button class="btn btn-secondary" style="width:100%" onclick="doUpdateKYC()">Update KYC</button>
+        </div>
+        <div style="background:var(--bg3);border-radius:10px;padding:16px">
+          <div style="font-weight:700;margin-bottom:12px"><i class="fa fa-shield-halved" style="color:var(--red)"></i> Danger Zone</div>
+          <button class="btn btn-secondary" style="width:100%;margin-bottom:8px" id="act-toggle-admin" onclick="doToggleAdmin()">Make Admin</button>
+          <button class="btn btn-danger" style="width:100%" onclick="doDeleteUser()"><i class="fa fa-trash"></i> Delete User</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('userDetailModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Invoice Modal ──────────────────────────────── -->
+<div class="modal-overlay" id="invoiceModal" onclick="if(event.target===this)closeModal('invoiceModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Generate Invoice</div>
+      <button class="modal-close" onclick="closeModal('invoiceModal')"><i class="fa fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">User</label>
+        <select class="form-input" id="inv-user-id">
+          <option value="">Select a user…</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Amount</label>
+          <input type="number" class="form-input" id="inv-amount" placeholder="0.00" min="0.01" step="any"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Coin</label>
+          <select class="form-input" id="inv-coin">
+            <option>USDT</option><option>BTC</option><option>ETH</option><option>BNB</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="inv-desc" placeholder="e.g. Trading fee, Profit share…"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('invoiceModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="doCreateInvoice()"><i class="fa fa-file-invoice-dollar"></i> Generate Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Set Balance Modal (from table) ────────────── -->
+<div class="modal-overlay" id="editBalModal" onclick="if(event.target===this)closeModal('editBalModal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Edit Balance</div>
+      <button class="modal-close" onclick="closeModal('editBalModal')"><i class="fa fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Coin</label>
+        <input type="text" class="form-input" id="ebal-coin" readonly/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">New Amount</label>
+        <input type="number" class="form-input" id="ebal-amount" placeholder="0.00" min="0" step="any"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('editBalModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="doEditBalSave()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api';
+let allUsers = [];
+let currentUserId = null;
+let currentUserData = null;
+let editBalUserId = null;
+
+function getToken() { return localStorage.getItem('cx_token'); }
+function getUser()  { try { return JSON.parse(localStorage.getItem('cx_user')||'null'); } catch { return null; } }
+
+async function apiFetch(path, opts = {}) {
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', 'Authorization': getToken(), ...(opts.headers||{}) }
+  });
+  if (res.status === 401 || res.status === 403) {
+    showToast(res.status === 403 ? 'Admin access required' : 'Session expired', 'error');
+    if (res.status === 401) { localStorage.clear(); location.href = '/index.html?login=1'; }
+    throw new Error('Unauthorized');
+  }
+  return res;
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
+function doLogout() {
+  localStorage.removeItem('cx_token');
+  localStorage.removeItem('cx_user');
+  location.href = '/index.html';
+}
+
+// ── Section nav ─────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + name)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
+  });
+  const titles = { dashboard:'Dashboard', users:'Users', transactions:'Transactions', invoices:'Invoices' };
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+  const actionLabel = { invoices:'New Invoice' };
+  const topbarBtn = document.getElementById('topbarAction');
+  topbarBtn.style.display = actionLabel[name] ? 'flex' : 'none';
+  if (actionLabel[name]) document.getElementById('topbarActionLabel').textContent = actionLabel[name];
+  if (name === 'users') loadUsers();
+  if (name === 'transactions') loadAllTxs();
+  if (name === 'invoices') loadInvoices();
+}
+
+function openCreateModal() {
+  const active = document.querySelector('.section.active');
+  if (active?.id === 'section-invoices') openModal('invoiceModal');
+}
+
+// ── Stats ────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const res  = await apiFetch('/admin/stats');
+    const data = await res.json();
+    document.getElementById('stat-users').textContent = data.total_users ?? '—';
+    document.getElementById('stat-txs').textContent   = data.total_transactions ?? '—';
+    document.getElementById('stat-inv').textContent   = data.paid_invoices ?? '—';
+    document.getElementById('stat-inv-sub').textContent = data.invoice_revenue ? `$${data.invoice_revenue.toLocaleString()} revenue` : 'Total revenue';
+    document.getElementById('stat-kyc').textContent   = data.pending_kyc ?? '—';
+  } catch(e) {}
+}
+
+// ── Users ────────────────────────────────────────────
+async function loadUsers() {
+  try {
+    const res  = await apiFetch('/admin/users');
+    allUsers   = await res.json();
+    renderUsers(allUsers);
+    populateUserSelects(allUsers);
+
+    // Recent users for dashboard
+    const tbody = document.getElementById('dash-recent-users');
+    if (tbody) {
+      tbody.innerHTML = allUsers.slice(0, 5).map(u => `
+        <tr>
+          <td><b>${u.first_name || ''} ${u.last_name || ''}</b></td>
+          <td style="color:var(--text2)">${u.email}</td>
+          <td>${kycBadge(u.kyc_status)}</td>
+          <td style="color:var(--text2)">${fmtDate(u.created_at)}</td>
+          <td><button class="btn btn-secondary btn-sm" onclick="openUserDetail(${u.id})">View</button></td>
+        </tr>`).join('');
+    }
+  } catch(e) {}
+}
+
+function renderUsers(users) {
+  const tbody = document.getElementById('users-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td style="color:var(--text2)">${u.id}</td>
+      <td><b>${u.first_name || ''} ${u.last_name || ''}</b></td>
+      <td style="color:var(--text2)">${u.email}</td>
+      <td style="color:var(--text2)">${u.country || '—'}</td>
+      <td>${kycBadge(u.kyc_status)}</td>
+      <td>${u.is_admin ? '<span class="badge badge-red">Admin</span>' : '<span class="badge badge-gray">User</span>'}</td>
+      <td style="color:var(--text2)">${fmtDate(u.created_at)}</td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-secondary btn-sm" onclick="openUserDetail(${u.id})"><i class="fa fa-eye"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="quickDelete(${u.id})"><i class="fa fa-trash"></i></button>
+      </td>
+    </tr>`).join('');
+}
+
+function filterUsers() {
+  const q = document.getElementById('userSearch').value.toLowerCase();
+  renderUsers(allUsers.filter(u =>
+    (u.email || '').toLowerCase().includes(q) ||
+    (u.first_name || '').toLowerCase().includes(q) ||
+    (u.last_name || '').toLowerCase().includes(q)
+  ));
+}
+
+function populateUserSelects(users) {
+  const sel = document.getElementById('inv-user-id');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Select a user…</option>' +
+    users.filter(u => !u.is_admin).map(u =>
+      `<option value="${u.id}">${u.first_name || ''} ${u.last_name || ''} (${u.email})</option>`
+    ).join('');
+}
+
+// ── User Detail ─────────────────────────────────────
+async function openUserDetail(id) {
+  currentUserId = id;
+  try {
+    const res  = await apiFetch(`/admin/users/${id}`);
+    currentUserData = await res.json();
+    const { user, balances, transactions } = currentUserData;
+
+    document.getElementById('userDetailTitle').textContent = `${user.first_name || ''} ${user.last_name || ''} — ${user.email}`;
+
+    // Info
+    const infoFields = [
+      ['ID', user.id], ['Email', user.email],
+      ['First Name', user.first_name || '—'], ['Last Name', user.last_name || '—'],
+      ['Phone', user.phone || '—'], ['Country', user.country || '—'],
+      ['Date of Birth', user.date_of_birth || '—'], ['KYC', user.kyc_status],
+      ['Admin', user.is_admin ? 'Yes' : 'No'], ['Referral Code', user.referral_code || '—'],
+      ['Joined', fmtDate(user.created_at)], ['Last Login', fmtDate(user.last_login)],
+    ];
+    document.getElementById('detail-info-grid').innerHTML = infoFields.map(([k, v]) =>
+      `<div class="info-item"><div class="info-key">${k}</div><div class="info-val">${v}</div></div>`
+    ).join('');
+
+    // Balances
+    document.getElementById('detail-balances-body').innerHTML = balances.length
+      ? balances.map(b => `
+          <tr>
+            <td><b>${b.coin}</b></td>
+            <td>${b.amount.toFixed(8)}</td>
+            <td>${b.avg_buy ? '$' + b.avg_buy.toLocaleString() : '—'}</td>
+            <td><button class="btn btn-secondary btn-sm" onclick="openEditBal(${id},'${b.coin}',${b.amount})">Edit</button></td>
+          </tr>`).join('')
+      : '<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:20px">No balances yet</td></tr>';
+
+    // Transactions
+    document.getElementById('detail-txs-body').innerHTML = transactions.length
+      ? transactions.map(t => `
+          <tr>
+            <td>${typeBadge(t.type)}</td>
+            <td><b>${t.coin}</b></td>
+            <td>${t.amount.toLocaleString(undefined, {maximumFractionDigits:8})}</td>
+            <td>${statusBadge(t.status)}</td>
+            <td style="color:var(--text2)">${t.note || '—'}</td>
+            <td style="color:var(--text2)">${fmtDate(t.created_at)}</td>
+          </tr>`).join('')
+      : '<tr><td colspan="6" style="text-align:center;color:var(--text2);padding:20px">No transactions</td></tr>';
+
+    // Pre-fill actions form
+    document.getElementById('act-kyc-status').value = user.kyc_status;
+    document.getElementById('act-toggle-admin').textContent = user.is_admin ? 'Remove Admin' : 'Make Admin';
+
+    switchDetailTab('info');
+    openModal('userDetailModal');
+  } catch(e) { showToast('Failed to load user', 'error'); }
+}
+
+function switchDetailTab(name) {
+  document.querySelectorAll('.detail-tab').forEach((t, i) => {
+    const names = ['info','balances','activity','actions'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.detail-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(`dtab-${name}`)?.classList.add('active');
+}
+
+// ── Actions ──────────────────────────────────────────
+async function doSetBalance() {
+  const coin   = document.getElementById('act-bal-coin').value;
+  const amount = parseFloat(document.getElementById('act-bal-amount').value);
+  const avgBuy = parseFloat(document.getElementById('act-bal-avgbuy').value) || 0;
+  if (!coin || isNaN(amount)) { showToast('Fill in coin and amount', 'error'); return; }
+  try {
+    const res = await apiFetch(`/admin/users/${currentUserId}/balance`, {
+      method: 'PUT', body: JSON.stringify({ coin, amount, avg_buy: avgBuy })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    openUserDetail(currentUserId);
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function doAddTransaction() {
+  const type   = document.getElementById('act-tx-type').value;
+  const coin   = document.getElementById('act-tx-coin').value;
+  const amount = parseFloat(document.getElementById('act-tx-amount').value);
+  const note   = document.getElementById('act-tx-note').value.trim();
+  if (!amount || isNaN(amount)) { showToast('Enter a valid amount', 'error'); return; }
+  try {
+    const res = await apiFetch(`/admin/users/${currentUserId}/transaction`, {
+      method: 'POST', body: JSON.stringify({ type, coin, amount, note })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    openUserDetail(currentUserId);
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function doUpdateKYC() {
+  const kyc_status = document.getElementById('act-kyc-status').value;
+  try {
+    const res = await apiFetch(`/admin/users/${currentUserId}/kyc`, {
+      method: 'PUT', body: JSON.stringify({ kyc_status })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    loadUsers();
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function doToggleAdmin() {
+  const isAdmin = currentUserData?.user?.is_admin;
+  if (!confirm(`${isAdmin ? 'Remove admin from' : 'Make admin'} this user?`)) return;
+  try {
+    const res = await apiFetch(`/admin/users/${currentUserId}/admin`, {
+      method: 'PUT', body: JSON.stringify({ is_admin: !isAdmin })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    openUserDetail(currentUserId);
+    loadUsers();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function doDeleteUser() {
+  const name = `${currentUserData?.user?.first_name || ''} ${currentUserData?.user?.last_name || ''}`.trim();
+  if (!confirm(`Permanently delete ${name}? This cannot be undone.`)) return;
+  try {
+    const res = await apiFetch(`/admin/users/${currentUserId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('User deleted', 'success');
+    closeModal('userDetailModal');
+    loadUsers();
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function quickDelete(id) {
+  if (!confirm('Delete this user permanently?')) return;
+  try {
+    const res = await apiFetch(`/admin/users/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('User deleted', 'success');
+    loadUsers(); loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+// ── Edit balance from table ──────────────────────────
+function openEditBal(userId, coin, amount) {
+  editBalUserId = userId;
+  document.getElementById('ebal-coin').value   = coin;
+  document.getElementById('ebal-amount').value = amount;
+  openModal('editBalModal');
+}
+async function doEditBalSave() {
+  const coin   = document.getElementById('ebal-coin').value;
+  const amount = parseFloat(document.getElementById('ebal-amount').value);
+  if (isNaN(amount)) { showToast('Enter a valid amount', 'error'); return; }
+  try {
+    const res = await apiFetch(`/admin/users/${editBalUserId}/balance`, {
+      method: 'PUT', body: JSON.stringify({ coin, amount })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    closeModal('editBalModal');
+    if (editBalUserId === currentUserId) openUserDetail(currentUserId);
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+// ── All Transactions ──────────────────────────────────
+async function loadAllTxs() {
+  try {
+    // We load per-user but need global — iterate users
+    const res   = await apiFetch('/admin/users');
+    const users = await res.json();
+    const all   = [];
+    await Promise.all(users.map(async u => {
+      const r2 = await apiFetch(`/admin/users/${u.id}`);
+      const d2 = await r2.json();
+      (d2.transactions || []).forEach(t => all.push({ ...t, userEmail: u.email, userName: `${u.first_name||''} ${u.last_name||''}`.trim() }));
+    }));
+    all.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const tbody = document.getElementById('txs-table-body');
+    tbody.innerHTML = all.map(t => `
+      <tr>
+        <td style="color:var(--text2)">${t.id}</td>
+        <td><div style="font-weight:600">${t.userName || '—'}</div><div style="font-size:11px;color:var(--text2)">${t.userEmail}</div></td>
+        <td>${typeBadge(t.type)}</td>
+        <td><b>${t.coin}</b></td>
+        <td>${t.amount.toLocaleString(undefined, {maximumFractionDigits:8})}</td>
+        <td>${statusBadge(t.status)}</td>
+        <td style="color:var(--text2)">${t.note || '—'}</td>
+        <td style="color:var(--text2)">${fmtDate(t.created_at)}</td>
+      </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text2)">No transactions yet</td></tr>';
+  } catch(e) {}
+}
+
+// ── Invoices ─────────────────────────────────────────
+async function loadInvoices() {
+  try {
+    const res  = await apiFetch('/admin/invoices');
+    const list = await res.json();
+    const tbody = document.getElementById('invoices-table-body');
+    tbody.innerHTML = list.map(inv => `
+      <tr>
+        <td style="font-family:monospace;color:var(--accent)">${inv.number}</td>
+        <td><div style="font-weight:600">${inv.first_name||''} ${inv.last_name||''}</div><div style="font-size:11px;color:var(--text2)">${inv.email}</div></td>
+        <td><b>${inv.amount.toLocaleString()}</b></td>
+        <td>${inv.coin}</td>
+        <td style="color:var(--text2)">${inv.description || '—'}</td>
+        <td>${invStatusBadge(inv.status)}</td>
+        <td style="color:var(--text2)">${fmtDate(inv.created_at)}</td>
+        <td style="display:flex;gap:6px">
+          ${inv.status === 'pending' ? `<button class="btn btn-secondary btn-sm" onclick="updateInvoiceStatus(${inv.id},'paid')">Mark Paid</button>` : ''}
+          ${inv.status !== 'cancelled' ? `<button class="btn btn-danger btn-sm" onclick="updateInvoiceStatus(${inv.id},'cancelled')">Cancel</button>` : ''}
+        </td>
+      </tr>`).join('') || '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text2)">No invoices yet</td></tr>';
+  } catch(e) {}
+}
+
+async function doCreateInvoice() {
+  const user_id     = parseInt(document.getElementById('inv-user-id').value);
+  const amount      = parseFloat(document.getElementById('inv-amount').value);
+  const coin        = document.getElementById('inv-coin').value;
+  const description = document.getElementById('inv-desc').value.trim();
+  if (!user_id) { showToast('Select a user', 'error'); return; }
+  if (!amount)  { showToast('Enter amount', 'error'); return; }
+  try {
+    const res  = await apiFetch('/admin/invoices', {
+      method: 'POST', body: JSON.stringify({ user_id, amount, coin, description })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(`Invoice ${data.number} created`, 'success');
+    closeModal('invoiceModal');
+    loadInvoices();
+    loadStats();
+    // Reset form
+    document.getElementById('inv-amount').value = '';
+    document.getElementById('inv-desc').value = '';
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function updateInvoiceStatus(id, status) {
+  try {
+    const res  = await apiFetch(`/admin/invoices/${id}/status`, {
+      method: 'PUT', body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('Invoice updated', 'success');
+    loadInvoices();
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+// ── Helpers ──────────────────────────────────────────
+function kycBadge(s) {
+  const map = { verified:'badge-green', pending:'badge-yellow', unverified:'badge-gray', rejected:'badge-red' };
+  return `<span class="badge ${map[s]||'badge-gray'}">${s||'—'}</span>`;
+}
+function typeBadge(t) {
+  const map = { deposit:'badge-green', profit:'badge-blue', withdraw:'badge-red', adjustment:'badge-yellow' };
+  return `<span class="badge ${map[t]||'badge-gray'}">${t}</span>`;
+}
+function statusBadge(s) {
+  const map = { completed:'badge-green', pending:'badge-yellow', failed:'badge-red' };
+  return `<span class="badge ${map[s]||'badge-gray'}">${s}</span>`;
+}
+function invStatusBadge(s) {
+  const map = { paid:'badge-green', pending:'badge-yellow', cancelled:'badge-red' };
+  return `<span class="badge ${map[s]||'badge-gray'}">${s}</span>`;
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+}
+
+// ── Init ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  const user = getUser();
+  if (!user) { location.href = '/index.html?login=1'; return; }
+
+  // Verify admin access
+  try {
+    const res = await apiFetch('/admin/stats');
+    if (!res.ok) throw new Error();
+  } catch(e) {
+    showToast('Admin access required', 'error');
+    setTimeout(() => location.href = '/dashboard.html', 2000);
+    return;
+  }
+
+  document.getElementById('sidebarAvatar').textContent = (user.first_name || user.email || 'A')[0].toUpperCase();
+  document.getElementById('sidebarName').textContent   = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'Admin';
+  document.getElementById('sidebarEmail').textContent  = user.email || '';
+
+  await loadStats();
+  await loadUsers();
+});
+</script>
+</body>
+</html>

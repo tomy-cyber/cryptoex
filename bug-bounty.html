@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bug Bounty Program – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:var(--green, #10b981)">
+    <i class="fa fa-bug"></i>
+  </div>
+  <h1>Bug Bounty Program</h1>
+  <p>Help us keep CryptoEx secure and earn rewards for responsibly disclosing vulnerabilities.</p>
+</section>
+
+<div class="info-content">
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num">$2.5M+</div>
+      <div class="stat-desc">Total Paid to Researchers</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">1,200+</div>
+      <div class="stat-desc">Bugs Resolved</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">500+</div>
+      <div class="stat-desc">Active Security Hunters</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">$100,000</div>
+      <div class="stat-desc">Maximum Reward per Bug</div>
+    </div>
+  </div>
+
+  <!-- Reward Tiers -->
+  <h2 style="text-align:center;margin:3rem 0 2rem">Reward Tiers</h2>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(239,68,68,0.15);color:#ef4444">
+        <i class="fa fa-skull-crossbones"></i>
+      </div>
+      <h3>Critical</h3>
+      <p style="font-size:1.5rem;font-weight:700;color:#ef4444;margin:0.5rem 0">$10,000 – $100,000</p>
+      <p>Remote code execution, smart contract exploits, unauthorized fund access, authentication bypass affecting all users, private key exposure, or complete system compromise.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(249,115,22,0.15);color:#f97316">
+        <i class="fa fa-triangle-exclamation"></i>
+      </div>
+      <h3>High</h3>
+      <p style="font-size:1.5rem;font-weight:700;color:#f97316;margin:0.5rem 0">$5,000 – $10,000</p>
+      <p>Privilege escalation, significant data leaks, CSRF on critical actions, SQL injection, server-side request forgery (SSRF), or vulnerabilities enabling unauthorized trading.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(234,179,8,0.15);color:#eab308">
+        <i class="fa fa-exclamation"></i>
+      </div>
+      <h3>Medium</h3>
+      <p style="font-size:1.5rem;font-weight:700;color:#eab308;margin:0.5rem 0">$1,000 – $5,000</p>
+      <p>Cross-site scripting (XSS), insecure direct object references, information disclosure of sensitive data, session management flaws, or API rate limit bypasses.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(16,185,129,0.15);color:#10b981">
+        <i class="fa fa-info-circle"></i>
+      </div>
+      <h3>Low</h3>
+      <p style="font-size:1.5rem;font-weight:700;color:#10b981;margin:0.5rem 0">$100 – $1,000</p>
+      <p>Open redirects, clickjacking on non-sensitive pages, verbose error messages, minor information leaks, missing security headers, or low-impact configuration issues.</p>
+    </div>
+  </div>
+
+  <!-- Scope Section -->
+  <h2 style="margin:3rem 0 1.5rem">Program Scope</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem">
+
+    <!-- In Scope -->
+    <div style="background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:16px;padding:2rem">
+      <h3 style="color:#10b981;margin-bottom:1rem"><i class="fa fa-check-circle" style="margin-right:8px"></i>In Scope</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem">
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>CryptoEx web application (cryptoex.com)</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>CryptoEx REST and WebSocket APIs (api.cryptoex.com)</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>iOS and Android mobile applications</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>Authentication and authorization systems</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>Trading engine and order matching system</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>Wallet and withdrawal infrastructure</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>Smart contracts deployed by CryptoEx</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-check" style="color:#10b981;margin-top:4px;flex-shrink:0"></i>
+          <span>Payment processing and fiat on-ramp systems</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Out of Scope -->
+    <div style="background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:16px;padding:2rem">
+      <h3 style="color:#ef4444;margin-bottom:1rem"><i class="fa fa-times-circle" style="margin-right:8px"></i>Out of Scope</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.75rem">
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Social engineering or phishing attacks on staff</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Denial of service (DoS/DDoS) attacks</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Physical security testing or office access</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Third-party services, integrations, or dependencies</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Bugs in outdated browsers or deprecated features</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Self-XSS or issues requiring unlikely user interaction</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Missing best practices without demonstrated impact</span>
+        </li>
+        <li style="display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.7)">
+          <i class="fa fa-xmark" style="color:#ef4444;margin-top:4px;flex-shrink:0"></i>
+          <span>Spam, rate limiting, or brute force without real impact</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Submission Guidelines -->
+  <h2 style="margin:3rem 0 1.5rem">Submission Guidelines</h2>
+  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:2rem">
+    <ol style="margin:0;padding-left:1.5rem;display:flex;flex-direction:column;gap:1rem;color:rgba(255,255,255,0.7)">
+      <li>
+        <strong style="color:#fff">Discover a vulnerability</strong> — Test only against your own accounts. Never access, modify, or delete data belonging to other users.
+      </li>
+      <li>
+        <strong style="color:#fff">Document your findings</strong> — Provide a clear description, reproduction steps, screenshots or video proof-of-concept, and potential impact assessment.
+      </li>
+      <li>
+        <strong style="color:#fff">Submit your report</strong> — Email your findings to <span style="color:#10b981">security@cryptoex.com</span> with the subject line "[Bug Bounty] - Brief Title". Include your CryptoEx user ID for reward payout.
+      </li>
+      <li>
+        <strong style="color:#fff">Wait for triage</strong> — Our security team will acknowledge your report within 24 hours and provide an initial severity assessment within 72 hours.
+      </li>
+      <li>
+        <strong style="color:#fff">Coordinate disclosure</strong> — Do not publicly disclose the vulnerability until we have confirmed the fix has been deployed. We ask for a minimum 90-day disclosure window.
+      </li>
+      <li>
+        <strong style="color:#fff">Receive your reward</strong> — Once the fix is verified and deployed, bounty payments are processed within 14 business days via your preferred method (crypto or bank transfer).
+      </li>
+    </ol>
+  </div>
+
+  <!-- Rules of Engagement -->
+  <h2 style="margin:3rem 0 1.5rem">Rules of Engagement</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.5rem;display:flex;align-items:flex-start;gap:12px">
+      <i class="fa fa-user-secret" style="color:#a855f7;font-size:1.2rem;margin-top:2px;flex-shrink:0"></i>
+      <div>
+        <strong style="color:#fff">Use test accounts only</strong>
+        <p style="color:rgba(255,255,255,0.6);margin:0.25rem 0 0;font-size:0.9rem">Create your own test accounts. Never interact with other users' data or accounts.</p>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.5rem;display:flex;align-items:flex-start;gap:12px">
+      <i class="fa fa-ban" style="color:#ef4444;font-size:1.2rem;margin-top:2px;flex-shrink:0"></i>
+      <div>
+        <strong style="color:#fff">No automated scanning</strong>
+        <p style="color:rgba(255,255,255,0.6);margin:0.25rem 0 0;font-size:0.9rem">Do not use automated vulnerability scanners against production systems without prior approval.</p>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.5rem;display:flex;align-items:flex-start;gap:12px">
+      <i class="fa fa-lock" style="color:#eab308;font-size:1.2rem;margin-top:2px;flex-shrink:0"></i>
+      <div>
+        <strong style="color:#fff">Keep it confidential</strong>
+        <p style="color:rgba(255,255,255,0.6);margin:0.25rem 0 0;font-size:0.9rem">Do not discuss or disclose findings publicly until the issue has been resolved and approved.</p>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.5rem;display:flex;align-items:flex-start;gap:12px">
+      <i class="fa fa-handshake" style="color:#3b82f6;font-size:1.2rem;margin-top:2px;flex-shrink:0"></i>
+      <div>
+        <strong style="color:#fff">Act in good faith</strong>
+        <p style="color:rgba(255,255,255,0.6);margin:0.25rem 0 0;font-size:0.9rem">Make a genuine effort to avoid privacy violations, data destruction, and service disruption.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hall of Fame -->
+  <h2 style="text-align:center;margin:3rem 0 2rem">Hall of Fame</h2>
+  <p style="text-align:center;color:rgba(255,255,255,0.6);margin-bottom:2rem">Recognizing our top security researchers who have made CryptoEx safer for everyone.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#eab308,#f97316);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem">
+        <i class="fa fa-trophy" style="color:#fff"></i>
+      </div>
+      <h4 style="margin-bottom:0.25rem">Alex Chen</h4>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.5rem">28 vulnerabilities reported</p>
+      <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600">6 Critical</span>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#6366f1);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem">
+        <i class="fa fa-medal" style="color:#fff"></i>
+      </div>
+      <h4 style="margin-bottom:0.25rem">Sarah Kim</h4>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.5rem">22 vulnerabilities reported</p>
+      <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600">4 Critical</span>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem">
+        <i class="fa fa-star" style="color:#fff"></i>
+      </div>
+      <h4 style="margin-bottom:0.25rem">Marcus Rivera</h4>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.5rem">19 vulnerabilities reported</p>
+      <span style="background:rgba(249,115,22,0.15);color:#f97316;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600">8 High</span>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;text-align:center">
+      <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem">
+        <i class="fa fa-award" style="color:#fff"></i>
+      </div>
+      <h4 style="margin-bottom:0.25rem">Priya Patel</h4>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:0.5rem">15 vulnerabilities reported</p>
+      <span style="background:rgba(249,115,22,0.15);color:#f97316;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:600">5 High</span>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center;margin-top:3rem;padding:2rem;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.15);border-radius:16px">
+    <h3>Ready to Hunt?</h3>
+    <p style="color:rgba(255,255,255,0.6);margin:0.5rem 0 1.5rem">Join hundreds of security researchers protecting the CryptoEx platform and earning rewards.</p>
+    <a href="mailto:security@cryptoex.com" class="btn-primary" style="text-decoration:none;display:inline-block;padding:12px 32px">Submit a Report</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

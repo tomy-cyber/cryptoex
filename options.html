@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Options Trading – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<!-- Hero Section -->
+<section class="info-hero">
+  <div class="info-hero-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+    <i class="fa fa-chart-bar"></i>
+  </div>
+  <div class="info-content">
+    <h1>Options Trading</h1>
+    <p>Trade crypto options for hedging and speculation</p>
+  </div>
+</section>
+
+<!-- Stats Row -->
+<section class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">$2.8B</div>
+    <div class="stat-desc">24h Volume</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">10+</div>
+    <div class="stat-desc">Available Assets</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">500+</div>
+    <div class="stat-desc">Strike Prices</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">Daily/Weekly/Monthly</div>
+    <div class="stat-desc">Expiry Options</div>
+  </div>
+</section>
+
+<!-- Option Types -->
+<section class="info-content">
+  <h2>Option Types</h2>
+  <p>Understand the different option contracts available for your trading strategy.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-arrow-trend-up"></i>
+      </div>
+      <h3>Call Options</h3>
+      <p>Gives you the right to buy the underlying asset at a specified strike price. Profit when the market price rises above the strike price plus the premium paid.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-arrow-trend-down"></i>
+      </div>
+      <h3>Put Options</h3>
+      <p>Gives you the right to sell the underlying asset at a specified strike price. Profit when the market price falls below the strike price minus the premium paid.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-clock"></i>
+      </div>
+      <h3>European Style</h3>
+      <p>Can only be exercised at the expiration date. Typically more straightforward to price and commonly used for crypto options on CryptoEx.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-calendar-check"></i>
+      </div>
+      <h3>American Style</h3>
+      <p>Can be exercised at any time before the expiration date. Offers maximum flexibility for managing positions and capturing favorable price movements.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Supported Assets -->
+<section class="info-content">
+  <h2>Supported Assets</h2>
+  <p>Trade options on the most liquid and popular cryptocurrencies.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa-brands fa-bitcoin"></i>
+      </div>
+      <h3>BTC Options</h3>
+      <p>The most liquid crypto options market. Trade calls and puts on Bitcoin with hundreds of strike prices and multiple expiry dates.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(98,126,234,0.15);color:#627eea">
+        <i class="fa-brands fa-ethereum"></i>
+      </div>
+      <h3>ETH Options</h3>
+      <p>Ethereum options with deep liquidity. Hedge your ETH holdings or speculate on price movements with flexible contracts.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-circle-nodes"></i>
+      </div>
+      <h3>SOL Options</h3>
+      <p>Solana options for high-performance blockchain exposure. Access growing liquidity in the SOL derivatives market.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-coins"></i>
+      </div>
+      <h3>BNB Options</h3>
+      <p>BNB options with competitive spreads. Trade the native token of the BNB Chain ecosystem with flexible strike prices.</p>
+    </div>
+  </div>
+</section>
+
+<!-- The Greeks -->
+<section class="info-content">
+  <h2>Understanding the Greeks</h2>
+  <p>Key risk metrics that help you understand how option prices change under different conditions.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-delta"></i>
+      </div>
+      <h3>Delta (&Delta;)</h3>
+      <p>Measures the rate of change in the option price relative to a $1 change in the underlying asset. Ranges from 0 to 1 for calls and -1 to 0 for puts.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-chart-line"></i>
+      </div>
+      <h3>Gamma (&Gamma;)</h3>
+      <p>Measures the rate of change of delta. High gamma means delta is highly sensitive to price changes. Peaks for at-the-money options near expiry.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-hourglass-half"></i>
+      </div>
+      <h3>Theta (&Theta;)</h3>
+      <p>Measures time decay — how much value an option loses each day. All else equal, options lose value as expiration approaches. Important for sellers.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(168,85,247,0.15);color:#a855f7">
+        <i class="fa fa-wind"></i>
+      </div>
+      <h3>Vega (V)</h3>
+      <p>Measures sensitivity to implied volatility changes. Higher vega means option price is more affected by volatility shifts. Critical in crypto markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Strategy Examples -->
+<section class="info-content">
+  <h2>Popular Strategies</h2>
+  <p>Combine options to create sophisticated trading strategies for different market conditions.</p>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(14,203,129,0.15);color:#0ecb81">
+        <i class="fa fa-shield"></i>
+      </div>
+      <h3>Covered Call</h3>
+      <p>Hold the underlying asset and sell a call option against it. Generate income from the premium while limiting upside potential. Best in neutral to slightly bullish markets.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(246,70,93,0.15);color:#f6465d">
+        <i class="fa fa-umbrella"></i>
+      </div>
+      <h3>Protective Put</h3>
+      <p>Hold the underlying asset and buy a put option as insurance. Limits downside risk while maintaining upside exposure. Acts like a portfolio insurance policy.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(30,154,248,0.15);color:#1e9af8">
+        <i class="fa fa-arrows-left-right"></i>
+      </div>
+      <h3>Straddle</h3>
+      <p>Buy both a call and put at the same strike price and expiry. Profit from large price moves in either direction. Ideal when you expect high volatility but are unsure of direction.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-icon" style="background:rgba(243,186,47,0.15);color:#f3ba2f">
+        <i class="fa fa-arrows-up-down"></i>
+      </div>
+      <h3>Strangle</h3>
+      <p>Buy a call and put at different strike prices. Cheaper than a straddle but requires a larger price move to profit. Good for expected volatility events.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="info-content" style="text-align:center;padding-bottom:4rem">
+  <h2>Start Trading Options</h2>
+  <p>Access advanced options trading with competitive pricing, deep liquidity, and powerful analytics.</p>
+  <br/>
+  <a href="trade.html" class="btn-primary" style="padding:1rem 2.5rem;font-size:1.1rem;text-decoration:none;display:inline-block">Start Options Trading</a>
+</section>
+
+<!-- FAQ -->
+<section class="info-content">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What are crypto options?</div>
+      <div class="faq-a">Crypto options are financial derivatives that give you the right, but not the obligation, to buy (call) or sell (put) a cryptocurrency at a predetermined price (strike price) on or before a specific date (expiration). You pay a premium to acquire this right.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What is the difference between calls and puts?</div>
+      <div class="faq-a">A call option gives you the right to buy at the strike price — you profit when prices rise. A put option gives you the right to sell at the strike price — you profit when prices fall. Buying options limits your maximum loss to the premium paid.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> How are options priced?</div>
+      <div class="faq-a">Option prices (premiums) are determined by several factors: the current price of the underlying asset, the strike price, time until expiration, implied volatility, and interest rates. The Black-Scholes model and its variants are commonly used for pricing.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> Can I lose more than my premium?</div>
+      <div class="faq-a">As an option buyer, your maximum loss is limited to the premium you paid. However, as an option seller (writer), your potential loss can be significant — theoretically unlimited for naked call sellers. Always use proper risk management.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><i class="fa fa-chevron-right"></i> What expiry dates are available?</div>
+      <div class="faq-a">CryptoEx offers daily, weekly, and monthly expiration options. Daily options expire at 08:00 UTC each day, weekly options on Fridays, and monthly options on the last Friday of each month. This flexibility lets you match options to your trading timeframe.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => q.parentElement.classList.toggle('open')));
+</script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anti-Money Laundering Policy – CryptoEx</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:8px;color:inherit"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></a></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="markets.html">Markets</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="#">Earn</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')"><i class="fa fa-bars"></i></button>
+    <button class="btn-outline" onclick="location.href='index.html'">Log In</button>
+    <button class="btn-primary" onclick="location.href='index.html'">Register</button>
+  </div>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"><i class="fa fa-xmark"></i></button>
+  <a href="index.html"><i class="fa fa-house"></i> Home</a>
+  <a href="markets.html"><i class="fa fa-chart-line"></i> Markets</a>
+  <a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i> Trade</a>
+  <a href="portfolio.html"><i class="fa fa-chart-pie"></i> Portfolio</a>
+  <a href="dashboard.html"><i class="fa fa-gauge"></i> Dashboard</a>
+</div>
+
+<section class="info-hero" style="background:linear-gradient(135deg,#15803d 0%,#22c55e 50%,#4ade80 100%)">
+  <div class="info-hero-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+  <h1>Anti-Money Laundering Policy</h1>
+  <p>CryptoEx is committed to preventing money laundering, terrorist financing, and other financial crimes through robust compliance procedures.</p>
+  <div class="info-meta">Last updated: March 1, 2026</div>
+</section>
+
+<div class="info-layout">
+  <aside class="info-toc">
+    <h3>Table of Contents</h3>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#legal-framework">Legal Framework</a></li>
+      <li><a href="#kyc">KYC Requirements</a></li>
+      <li><a href="#kyc-tiers">KYC Verification Tiers</a></li>
+      <li><a href="#cdd">Customer Due Diligence</a></li>
+      <li><a href="#transaction-monitoring">Transaction Monitoring</a></li>
+      <li><a href="#suspicious-activity">Suspicious Activity Reporting</a></li>
+      <li><a href="#sanctions">Sanctions Screening</a></li>
+      <li><a href="#record-keeping">Record Keeping</a></li>
+      <li><a href="#training">Staff Training</a></li>
+      <li><a href="#compliance-program">Compliance Program</a></li>
+      <li><a href="#enforcement">Enforcement &amp; Penalties</a></li>
+    </ul>
+  </aside>
+
+  <div class="info-content">
+
+    <section id="introduction">
+      <h2><i class="fa fa-circle-info"></i> Introduction</h2>
+      <p>CryptoEx Ltd. ("CryptoEx") is firmly committed to preventing the use of its platform for money laundering, terrorist financing, proliferation financing, and any other forms of financial crime. This Anti-Money Laundering (AML) Policy outlines the principles, procedures, and controls that CryptoEx has implemented to detect, prevent, and report suspicious activities in compliance with applicable laws and regulations.</p>
+      <p>This policy applies to all CryptoEx employees, officers, directors, contractors, and agents, as well as all users of the CryptoEx platform. Every team member is responsible for understanding and adhering to the requirements set forth in this policy, and for reporting any suspected violations to the Compliance Department.</p>
+      <p>CryptoEx takes a risk-based approach to AML compliance, allocating resources proportionate to the identified risks. We continuously evaluate and update our AML program to address emerging risks, regulatory developments, and evolving typologies of financial crime in the cryptocurrency industry.</p>
+    </section>
+
+    <section id="legal-framework">
+      <h2><i class="fa fa-landmark"></i> Legal Framework</h2>
+      <p>CryptoEx's AML program is designed to comply with applicable anti-money laundering and counter-terrorism financing laws and regulations, including but not limited to:</p>
+      <ul>
+        <li><strong>Financial Action Task Force (FATF) Recommendations:</strong> We adhere to the FATF's international standards on combating money laundering, terrorist financing, and proliferation financing, including the updated guidance on virtual asset service providers (VASPs).</li>
+        <li><strong>Singapore Payment Services Act (PSA):</strong> As a licensed digital payment token service provider in Singapore, we comply with the AML/CFT requirements under the PSA and guidelines issued by the Monetary Authority of Singapore (MAS).</li>
+        <li><strong>EU Anti-Money Laundering Directives (AMLD):</strong> For our European operations, we comply with the applicable EU AML Directives and the Markets in Crypto-Assets (MiCA) regulation.</li>
+        <li><strong>US Bank Secrecy Act (BSA):</strong> Where applicable, we comply with the BSA and FinCEN regulations regarding virtual currency business activities.</li>
+        <li><strong>Travel Rule:</strong> We implement the FATF Travel Rule requirements for the transfer of virtual assets, ensuring that originator and beneficiary information is transmitted with qualifying transactions.</li>
+      </ul>
+      <p>CryptoEx monitors regulatory developments globally and adapts its compliance program accordingly to meet new requirements as they emerge.</p>
+    </section>
+
+    <section id="kyc">
+      <h2><i class="fa fa-id-card"></i> KYC Requirements</h2>
+      <p>Know Your Customer (KYC) procedures are a fundamental component of CryptoEx's AML program. All users must complete identity verification before gaining access to trading services. Our KYC process is designed to:</p>
+      <ul>
+        <li>Verify the identity of each user and confirm they are who they claim to be.</li>
+        <li>Assess the risk profile of each user based on their location, trading activity, and other relevant factors.</li>
+        <li>Ensure compliance with sanctions lists and politically exposed person (PEP) databases.</li>
+        <li>Detect and prevent identity theft, account takeover, and other forms of identity fraud.</li>
+        <li>Meet regulatory requirements across all jurisdictions in which CryptoEx operates.</li>
+      </ul>
+
+      <h3>Required Documents</h3>
+      <p>Users are required to provide the following documentation as part of the KYC verification process:</p>
+      <ul>
+        <li><strong>Government-Issued Photo ID:</strong> A valid passport, national identity card, or driver's license. The document must be current (not expired) and clearly legible.</li>
+        <li><strong>Proof of Address:</strong> A utility bill, bank statement, or government-issued document dated within the last three months, showing your full name and residential address.</li>
+        <li><strong>Selfie Verification:</strong> A live selfie or video verification to confirm that the person submitting the documents is the same person depicted on the photo ID.</li>
+        <li><strong>Source of Funds (if applicable):</strong> For higher-risk users or large transactions, CryptoEx may request documentation demonstrating the legitimate source of funds being deposited.</li>
+      </ul>
+    </section>
+
+    <section id="kyc-tiers">
+      <h2><i class="fa fa-layer-group"></i> KYC Verification Tiers</h2>
+      <p>CryptoEx implements a tiered verification system that balances user accessibility with regulatory compliance. Higher verification levels provide access to greater trading and withdrawal limits.</p>
+
+      <div class="info-cards">
+        <div class="info-card" style="border-left:4px solid #94a3b8">
+          <div class="info-card-icon" style="color:#94a3b8"><i class="fa fa-user"></i></div>
+          <h3>Tier 1 – Basic</h3>
+          <p><strong>Requirements:</strong> Email verification, phone number verification, and basic personal information (name, date of birth, country of residence).</p>
+          <p><strong>Limits:</strong> Cryptocurrency deposits only. Daily withdrawal limit of $2,000 equivalent. No fiat currency access. Spot trading only.</p>
+          <p><strong>Processing Time:</strong> Instant upon submission.</p>
+        </div>
+        <div class="info-card" style="border-left:4px solid #3b82f6">
+          <div class="info-card-icon" style="color:#3b82f6"><i class="fa fa-user-check"></i></div>
+          <h3>Tier 2 – Intermediate</h3>
+          <p><strong>Requirements:</strong> Government-issued photo ID, proof of residential address, and selfie/liveness verification.</p>
+          <p><strong>Limits:</strong> Daily withdrawal limit of $100,000 equivalent. Access to fiat deposits and withdrawals. Spot and margin trading enabled. Up to 10x leverage.</p>
+          <p><strong>Processing Time:</strong> Typically 1-3 business days for manual review.</p>
+        </div>
+        <div class="info-card" style="border-left:4px solid #f59e0b">
+          <div class="info-card-icon" style="color:#f59e0b"><i class="fa fa-user-tie"></i></div>
+          <h3>Tier 3 – Advanced</h3>
+          <p><strong>Requirements:</strong> All Tier 2 requirements plus proof of source of funds, additional address verification, and enhanced due diligence questionnaire.</p>
+          <p><strong>Limits:</strong> Daily withdrawal limit of $1,000,000 equivalent. Full access to all trading products including futures and options. Up to 125x leverage. OTC trading access. Priority customer support.</p>
+          <p><strong>Processing Time:</strong> 3-5 business days for enhanced review.</p>
+        </div>
+        <div class="info-card" style="border-left:4px solid #22c55e">
+          <div class="info-card-icon" style="color:#22c55e"><i class="fa fa-building"></i></div>
+          <h3>Tier 4 – Institutional</h3>
+          <p><strong>Requirements:</strong> Corporate registration documents, beneficial ownership information, board resolution, authorized signatories, AML/CFT policies, and audited financial statements.</p>
+          <p><strong>Limits:</strong> Custom withdrawal limits. Full platform access. Dedicated account manager. Custom API rate limits. Sub-account management. Institutional-grade reporting.</p>
+          <p><strong>Processing Time:</strong> 5-10 business days for comprehensive institutional review.</p>
+        </div>
+      </div>
+      <p>CryptoEx reserves the right to request additional documentation or verification at any tier level if deemed necessary based on risk assessment. Failure to provide requested documentation may result in account restrictions or closure.</p>
+    </section>
+
+    <section id="cdd">
+      <h2><i class="fa fa-magnifying-glass"></i> Customer Due Diligence</h2>
+      <p>CryptoEx applies Customer Due Diligence (CDD) measures proportionate to the risk profile of each user. Our CDD framework includes three levels of scrutiny:</p>
+
+      <h3>Simplified Due Diligence (SDD)</h3>
+      <p>Applied to low-risk users with limited trading activity and from jurisdictions with robust AML frameworks. SDD involves standard identity verification and periodic monitoring of account activity.</p>
+
+      <h3>Standard Due Diligence (CDD)</h3>
+      <p>Applied to the majority of users. CDD includes identity verification, address verification, screening against sanctions lists and PEP databases, and ongoing monitoring of transaction patterns. Users are subject to periodic reviews to ensure their information remains current and accurate.</p>
+
+      <h3>Enhanced Due Diligence (EDD)</h3>
+      <p>Applied to higher-risk users, including:</p>
+      <ul>
+        <li>Politically Exposed Persons (PEPs) and their close associates or family members.</li>
+        <li>Users from jurisdictions identified as high-risk by the FATF or our internal risk assessment.</li>
+        <li>Users conducting large or unusual transactions that do not align with their stated profile.</li>
+        <li>Users in industries associated with higher money laundering risk.</li>
+        <li>Users flagged by our transaction monitoring systems for further investigation.</li>
+      </ul>
+      <p>EDD measures include more extensive background checks, source of funds and source of wealth verification, more frequent account reviews, and senior management approval for onboarding and continued relationship maintenance.</p>
+    </section>
+
+    <section id="transaction-monitoring">
+      <h2><i class="fa fa-eye"></i> Transaction Monitoring</h2>
+      <p>CryptoEx employs sophisticated transaction monitoring systems to detect potentially suspicious activities in real time. Our monitoring framework includes both automated and manual components:</p>
+
+      <h3>Automated Monitoring</h3>
+      <ul>
+        <li><strong>Rule-Based Detection:</strong> Automated rules flag transactions that meet predefined criteria, such as transactions exceeding certain thresholds, rapid movement of funds, or patterns consistent with known money laundering typologies.</li>
+        <li><strong>Blockchain Analytics:</strong> We utilize leading blockchain analytics tools to trace the origin and destination of cryptocurrency transactions, identify connections to sanctioned wallets, darknet markets, mixers, and other high-risk services.</li>
+        <li><strong>Behavioral Analytics:</strong> Machine learning models analyze user behavior patterns to detect anomalies that may indicate suspicious activity, such as unusual trading patterns, sudden changes in transaction volume, or activity inconsistent with the user's profile.</li>
+        <li><strong>Risk Scoring:</strong> Each transaction and user is assigned a dynamic risk score based on multiple factors, including transaction amount, counterparty risk, geographic risk, and behavioral patterns.</li>
+      </ul>
+
+      <h3>Manual Review</h3>
+      <p>Transactions flagged by automated systems are reviewed by trained compliance analysts who evaluate the context and determine whether a Suspicious Activity Report (SAR) should be filed. Analysts consider all available information, including the user's profile, transaction history, and any explanations provided by the user.</p>
+
+      <h3>Monitored Activities</h3>
+      <p>Our monitoring systems specifically watch for the following red flags:</p>
+      <ul>
+        <li>Structuring transactions to avoid reporting thresholds.</li>
+        <li>Rapid deposits followed by immediate withdrawals to different wallets.</li>
+        <li>Transactions involving privacy coins, mixing services, or anonymization tools.</li>
+        <li>Transactions to or from wallets associated with darknet markets, ransomware, or scam operations.</li>
+        <li>Deposits from multiple unrelated sources into a single account.</li>
+        <li>Unusual trading patterns that may indicate wash trading or market manipulation.</li>
+        <li>Users accessing accounts from IP addresses in restricted jurisdictions using VPNs or proxies.</li>
+      </ul>
+    </section>
+
+    <section id="suspicious-activity">
+      <h2><i class="fa fa-flag"></i> Suspicious Activity Reporting</h2>
+      <p>CryptoEx is committed to filing Suspicious Activity Reports (SARs) and Suspicious Transaction Reports (STRs) with the appropriate Financial Intelligence Units (FIUs) when suspicious activity is detected or suspected.</p>
+      <p><strong>Reporting Obligations:</strong> When our monitoring systems or staff identify activity that may involve money laundering, terrorist financing, or other financial crimes, a SAR is filed with the relevant authorities within the timeframes prescribed by applicable law (typically within 15 business days of detection).</p>
+      <p><strong>Tipping Off Prohibition:</strong> CryptoEx is prohibited by law from informing users that a SAR has been filed or that their account is under investigation for suspicious activity. Employees who disclose the existence or content of a SAR to unauthorized persons may face criminal penalties.</p>
+      <p><strong>Internal Reporting:</strong> All CryptoEx employees are required to report any suspicious activity they observe to the Compliance Department through our internal reporting system. Employees can also report concerns through a confidential whistleblower channel. CryptoEx has a strict non-retaliation policy for employees who report suspected violations in good faith.</p>
+      <p><strong>Cooperation with Authorities:</strong> CryptoEx fully cooperates with law enforcement agencies, regulatory authorities, and Financial Intelligence Units in their investigations. We respond promptly to lawful requests for information, including subpoenas, court orders, and regulatory inquiries.</p>
+    </section>
+
+    <section id="sanctions">
+      <h2><i class="fa fa-ban"></i> Sanctions Screening</h2>
+      <p>CryptoEx maintains a comprehensive sanctions compliance program to ensure that we do not provide services to sanctioned individuals, entities, or jurisdictions:</p>
+      <ul>
+        <li><strong>Onboarding Screening:</strong> All new users are screened against global sanctions lists during the account registration process. Users who match or closely match entries on sanctions lists are subject to enhanced review before account approval.</li>
+        <li><strong>Ongoing Screening:</strong> User data is continuously rescreened against updated sanctions lists. When sanctions lists are updated, all existing users are rescreened within 24 hours.</li>
+        <li><strong>Sanctions Lists:</strong> We screen against multiple sanctions lists, including the US OFAC SDN List, the EU Consolidated Sanctions List, the UN Security Council Sanctions List, the UK HM Treasury Sanctions List, and other applicable national and regional sanctions programs.</li>
+        <li><strong>Wallet Screening:</strong> Cryptocurrency wallet addresses are screened against databases of known sanctioned wallets using blockchain analytics tools. Transactions to or from sanctioned wallets are automatically blocked.</li>
+        <li><strong>Jurisdiction Blocking:</strong> IP-based geoblocking and additional controls are implemented to prevent access from comprehensively sanctioned jurisdictions.</li>
+      </ul>
+      <p>Any confirmed matches against sanctions lists result in immediate account freezing and reporting to the relevant authorities. False positive matches are documented and resolved through a structured review process.</p>
+    </section>
+
+    <section id="record-keeping">
+      <h2><i class="fa fa-folder-open"></i> Record Keeping</h2>
+      <p>CryptoEx maintains comprehensive records of all user information and transactions in compliance with applicable regulatory requirements:</p>
+      <ul>
+        <li><strong>User Identity Records:</strong> Copies of all KYC documentation, verification results, and due diligence assessments are retained for a minimum of 5 years after the end of the business relationship or the completion of an occasional transaction.</li>
+        <li><strong>Transaction Records:</strong> Complete records of all transactions conducted on the platform, including trade history, deposits, withdrawals, wallet addresses, and timestamps, are retained for a minimum of 7 years from the date of each transaction.</li>
+        <li><strong>Suspicious Activity Records:</strong> All SARs filed, internal investigation reports, and supporting documentation are retained for a minimum of 7 years from the date of filing.</li>
+        <li><strong>Communication Records:</strong> Records of all communications with users related to AML compliance, including verification requests, account restriction notices, and compliance-related inquiries, are retained for 5 years.</li>
+        <li><strong>Training Records:</strong> Records of all AML training completed by employees, including training materials, attendance records, and assessment results, are retained for 5 years.</li>
+      </ul>
+      <p>All records are stored securely with appropriate access controls and encryption. Records are made available to regulatory authorities and law enforcement agencies upon lawful request.</p>
+    </section>
+
+    <section id="training">
+      <h2><i class="fa fa-graduation-cap"></i> Staff Training</h2>
+      <p>CryptoEx recognizes that an effective AML program depends on well-trained employees who understand their compliance obligations. Our training program includes:</p>
+      <ul>
+        <li><strong>Onboarding Training:</strong> All new employees receive comprehensive AML/CFT training within their first two weeks of employment. This training covers the fundamentals of money laundering and terrorist financing, CryptoEx's AML policies and procedures, and employees' reporting obligations.</li>
+        <li><strong>Annual Refresher Training:</strong> All employees receive annual refresher training that covers updates to AML regulations, new money laundering typologies, changes to CryptoEx's policies and procedures, and case studies of suspicious activity specific to the cryptocurrency industry.</li>
+        <li><strong>Role-Specific Training:</strong> Employees in compliance, customer support, and other high-exposure roles receive additional specialized training tailored to their specific responsibilities and the types of suspicious activity they are most likely to encounter.</li>
+        <li><strong>Senior Management Briefings:</strong> Senior management and board members receive regular briefings on AML compliance matters, including regulatory developments, risk assessments, program effectiveness, and notable enforcement actions in the industry.</li>
+      </ul>
+      <p>Training effectiveness is assessed through regular testing, and employees who do not meet minimum competency standards are required to complete additional training. Training records are maintained for audit and regulatory review purposes.</p>
+    </section>
+
+    <section id="compliance-program">
+      <h2><i class="fa fa-clipboard-check"></i> Compliance Program</h2>
+      <p>CryptoEx's AML compliance program is overseen by a dedicated Chief Compliance Officer (CCO) who reports directly to the Board of Directors. The compliance program includes the following components:</p>
+
+      <h3>Governance Structure</h3>
+      <ul>
+        <li><strong>Chief Compliance Officer:</strong> Responsible for the overall design, implementation, and effectiveness of the AML program. The CCO has the authority and resources necessary to fulfill these responsibilities independently.</li>
+        <li><strong>Compliance Team:</strong> A dedicated team of compliance analysts, investigators, and regulatory affairs specialists who manage day-to-day compliance operations.</li>
+        <li><strong>Money Laundering Reporting Officer (MLRO):</strong> Designated officer responsible for receiving internal suspicious activity reports and filing SARs with the relevant FIU.</li>
+        <li><strong>Board Oversight:</strong> The Board of Directors receives quarterly reports on AML compliance matters and approves the annual compliance program and risk assessment.</li>
+      </ul>
+
+      <h3>Risk Assessment</h3>
+      <p>CryptoEx conducts a comprehensive enterprise-wide risk assessment at least annually. This assessment evaluates the money laundering and terrorist financing risks associated with our products, services, user base, geographic exposure, and distribution channels. The results of the risk assessment inform our compliance policies, procedures, and resource allocation.</p>
+
+      <h3>Independent Audit</h3>
+      <p>The AML program is subject to independent audit at least annually by qualified external auditors. The audit evaluates the design and effectiveness of our AML controls, identifies gaps or weaknesses, and provides recommendations for improvement. Audit findings are reported to the Board of Directors and addressed through a formal remediation plan.</p>
+
+      <h3>Regulatory Engagement</h3>
+      <p>CryptoEx maintains open and transparent relationships with regulatory authorities in all jurisdictions where we operate. We participate in industry working groups, respond promptly to regulatory inquiries, and proactively engage with regulators on emerging compliance challenges in the cryptocurrency industry.</p>
+    </section>
+
+    <section id="enforcement">
+      <h2><i class="fa fa-gavel"></i> Enforcement &amp; Penalties</h2>
+      <p>CryptoEx takes violations of this AML Policy seriously. The following enforcement measures may be applied when violations are detected:</p>
+
+      <h3>User Enforcement</h3>
+      <ul>
+        <li><strong>Account Restrictions:</strong> Users who fail to comply with KYC requirements or whose accounts are flagged for suspicious activity may have their accounts restricted, including suspension of trading, deposits, and withdrawal capabilities.</li>
+        <li><strong>Account Freezing:</strong> In cases where there is a reasonable suspicion of money laundering, terrorist financing, or other financial crime, CryptoEx may freeze user accounts and associated assets pending investigation. Account freezes may also be imposed at the direction of law enforcement or regulatory authorities.</li>
+        <li><strong>Account Termination:</strong> Users found to have violated this AML Policy or engaged in financial crime will have their accounts permanently terminated. Remaining assets may be frozen and reported to the relevant authorities.</li>
+        <li><strong>Law Enforcement Referral:</strong> Confirmed cases of money laundering, terrorist financing, or other financial crime will be reported to law enforcement agencies and relevant regulatory authorities for investigation and prosecution.</li>
+      </ul>
+
+      <h3>Employee Enforcement</h3>
+      <ul>
+        <li>Employees who fail to comply with AML policies and procedures, fail to report suspicious activity, or facilitate money laundering may face disciplinary action up to and including termination of employment.</li>
+        <li>Employees who knowingly participate in or facilitate financial crime may be subject to criminal prosecution in addition to employment termination.</li>
+        <li>CryptoEx has a strict non-retaliation policy that protects employees who report suspected violations in good faith from any form of retaliation.</li>
+      </ul>
+
+      <h3>Contact the Compliance Department</h3>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fa fa-envelope"></i></div>
+          <h3>Compliance Inquiries</h3>
+          <p>compliance@cryptoex.com</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fa fa-flag"></i></div>
+          <h3>Report Suspicious Activity</h3>
+          <p>report@cryptoex.com</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><i class="fa fa-phone-volume"></i></div>
+          <h3>Whistleblower Hotline</h3>
+          <p>Available 24/7 — confidential and anonymous reporting through our secure portal.</p>
+        </div>
+      </div>
+      <p>CryptoEx is committed to maintaining the highest standards of AML compliance and to playing its part in protecting the integrity of the global financial system. We continuously invest in our compliance infrastructure, technology, and people to stay ahead of evolving threats and regulatory expectations.</p>
+    </section>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span>Crypto<span class="logo-accent">Ex</span></span></div>
+      <p>The world's leading cryptocurrency exchange platform trusted by 150M+ users globally.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="trade.html"><i class="fa fa-arrow-right-arrow-left"></i>Spot Trading</a></li><li><a href="futures.html"><i class="fa fa-bolt"></i>Futures</a></li><li><a href="options.html"><i class="fa fa-chart-bar"></i>Options</a></li><li><a href="nft.html"><i class="fa fa-image"></i>NFT</a></li></ul></div>
+    <div class="footer-col"><h4>Earn</h4><ul><li><a href="savings.html"><i class="fa fa-piggy-bank"></i>Savings</a></li><li><a href="staking.html"><i class="fa fa-layer-group"></i>Staking</a></li><li><a href="loans.html"><i class="fa fa-hand-holding-dollar"></i>Loans</a></li><li><a href="liquidity.html"><i class="fa fa-droplet"></i>Liquidity</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="help.html"><i class="fa fa-circle-question"></i>Help Center</a></li><li><a href="contact.html"><i class="fa fa-envelope"></i>Contact Us</a></li><li><a href="api-docs.html"><i class="fa fa-code"></i>API Docs</a></li><li><a href="bug-bounty.html"><i class="fa fa-bug"></i>Bug Bounty</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html"><i class="fa fa-shield-halved"></i>Privacy Policy</a></li><li><a href="terms.html"><i class="fa fa-file-contract"></i>Terms of Use</a></li><li><a href="risk-warning.html"><i class="fa fa-triangle-exclamation"></i>Risk Warning</a></li><li><a href="aml-policy.html"><i class="fa fa-scale-balanced"></i>AML Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 CryptoEx. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Demo Platform – Not real financial advice. Crypto trading involves risk.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
