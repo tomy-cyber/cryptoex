@@ -11,7 +11,7 @@ const adminRoutes = require('./routes/admin');
 const { db, init } = require('./db');
 
 if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET = 'cryptoex_production_secret_change_me';
+  process.env.JWT_SECRET = 'novatrace_production_secret_change_me';
 }
 if (!process.env.JWT_EXPIRES_IN) {
   process.env.JWT_EXPIRES_IN = '7d';
@@ -88,7 +88,7 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }
 // ── Init DB then Start ──────────────────────────────
 init(() => {
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n✅  CryptoEx server running on port ${PORT}`);
+    console.log(`\n✅  NovaTrace server running on port ${PORT}`);
     console.log(`   Frontend: http://localhost:${PORT}/index.html`);
     console.log(`   Admin:    http://localhost:${PORT}/admin.html`);
     console.log(`   API:      http://localhost:${PORT}/api/\n`);

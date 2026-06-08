@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel – CryptoEx</title>
+  <title>Admin Panel – NovaTrace</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script>if(!localStorage.getItem('cx_token')){window.location.replace('/index.html?login=1');}</script>
+  <script>if(!localStorage.getItem('nt_token')){window.location.replace('/index.html?login=1');}</script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{
@@ -138,7 +138,7 @@
 <aside class="sidebar">
   <div class="sidebar-logo">
     <i class="fa-solid fa-coins logo-icon"></i>
-    <span class="logo-text">CryptoEx</span>
+    <span class="logo-text">NovaTrace</span>
     <span class="admin-badge">ADMIN</span>
   </div>
 
@@ -460,8 +460,8 @@ let currentUserId = null;
 let currentUserData = null;
 let editBalUserId = null;
 
-function getToken() { return localStorage.getItem('cx_token'); }
-function getUser()  { try { return JSON.parse(localStorage.getItem('cx_user')||'null'); } catch { return null; } }
+function getToken() { return localStorage.getItem('nt_token'); }
+function getUser()  { try { return JSON.parse(localStorage.getItem('nt_user')||'null'); } catch { return null; } }
 
 async function apiFetch(path, opts = {}) {
   const res = await fetch(API + path, {
@@ -488,8 +488,8 @@ function openModal(id)  { document.getElementById(id)?.classList.add('open'); }
 function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
 
 function doLogout() {
-  localStorage.removeItem('cx_token');
-  localStorage.removeItem('cx_user');
+  localStorage.removeItem('nt_token');
+  localStorage.removeItem('nt_user');
   location.href = '/index.html';
 }
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   CryptoEx – Premium Animations Engine v2
+   NovaTrace – Premium Animations Engine v2
    Cinematic scroll reveals, particle systems, fluid card effects,
    gradient borders, counter animations, micro-interactions
    ============================================================ */
@@ -814,5 +814,5 @@
   }
 
   // Public API for dynamic content
-  window.CryptoExAnims = { init, initReveal, autoReveal, init3DCards, animateCounters, staggerElements, initGlassCards, initMegaMenuInteractions };
+  window.NovaTraceAnims = { init, initReveal, autoReveal, init3DCards, animateCounters, staggerElements, initGlassCards, initMegaMenuInteractions };
 })();

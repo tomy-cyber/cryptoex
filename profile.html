@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profile – CryptoEx</title>
+  <title>Profile – NovaTrace</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <script>if(!localStorage.getItem("cx_token")){window.location.replace("/index.html?login=1");}</script>
+  <script>if(!localStorage.getItem("nt_token")){window.location.replace("/index.html?login=1");}</script>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
@@ -13,7 +13,7 @@
 
 <nav class="navbar">
   <div class="nav-left">
-    <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Crypto<span class="logo-accent">Ex</span></span></div>
+    <div class="logo"><i class="fa-solid fa-coins logo-icon"></i><span class="logo-text">Nova<span class="logo-accent">Trace</span></span></div>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li>
@@ -278,7 +278,7 @@
       <div class="rgb-card yellow" style="margin-bottom:24px;padding:32px;text-align:center">
         <div style="font-size:40px;margin-bottom:12px">🎁</div>
         <div style="font-size:22px;font-weight:800;margin-bottom:8px">Earn up to 40% commission</div>
-        <div style="color:var(--text2);margin-bottom:24px">Invite friends to CryptoEx and earn a percentage of their trading fees forever.</div>
+        <div style="color:var(--text2);margin-bottom:24px">Invite friends to NovaTrace and earn a percentage of their trading fees forever.</div>
         <div style="display:inline-flex;align-items:center;gap:0;background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px">
           <div style="padding:12px 20px;font-family:monospace;font-size:16px;font-weight:700;color:var(--yellow)" id="referralCodeDisplay">—</div>
           <button onclick="copyReferral()" style="padding:12px 20px;background:var(--yellow);color:#000;font-weight:700;font-size:13px">Copy</button>
@@ -326,7 +326,7 @@
 <script>
 /* API and getToken() already defined in app.js */
 function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer '+getToken()}; }
-function logout() { localStorage.removeItem('cx_token'); localStorage.removeItem('cx_user'); location.href='index.html'; }
+function logout() { localStorage.removeItem('nt_token'); localStorage.removeItem('nt_user'); location.href='index.html'; }
 
 let userData = null;
 

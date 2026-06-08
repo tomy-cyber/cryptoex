@@ -1,5 +1,5 @@
 /* ============================================================
-   CryptoEx – Main Application JS
+   NovaTrace – Main Application JS
    ============================================================ */
 const API = '/api';
 
@@ -211,8 +211,8 @@ function showToast(msg, type='success') {
 }
 
 // ── Auth (connected to real backend) ─────────────────────────
-function getToken() { return localStorage.getItem('cx_token'); }
-function getUser()  { try { return JSON.parse(localStorage.getItem('cx_user')||'null'); } catch { return null; } }
+function getToken() { return localStorage.getItem('nt_token'); }
+function getUser()  { try { return JSON.parse(localStorage.getItem('nt_user')||'null'); } catch { return null; } }
 
 function updateNavForUser() {
   const user = getUser();
@@ -252,8 +252,8 @@ async function doRegister() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.errors?.[0]?.msg || data.error || 'Registration failed');
-    localStorage.setItem('cx_token', data.token);
-    localStorage.setItem('cx_user',  JSON.stringify(data.user));
+    localStorage.setItem('nt_token', data.token);
+    localStorage.setItem('nt_user',  JSON.stringify(data.user));
     closeModal('registerModal');
     showToast(`✓ Welcome, ${data.user.first_name}! Account created.`, 'success');
     updateNavForUser();
@@ -280,8 +280,8 @@ async function doLogin() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Invalid credentials');
-    localStorage.setItem('cx_token', data.token);
-    localStorage.setItem('cx_user',  JSON.stringify(data.user));
+    localStorage.setItem('nt_token', data.token);
+    localStorage.setItem('nt_user',  JSON.stringify(data.user));
     closeModal('loginModal');
     showToast(`✓ Welcome back, ${data.user.first_name||'Trader'}!`, 'success');
     updateNavForUser();
@@ -294,8 +294,8 @@ async function doLogin() {
 }
 
 function doLogout() {
-  localStorage.removeItem('cx_token');
-  localStorage.removeItem('cx_user');
+  localStorage.removeItem('nt_token');
+  localStorage.removeItem('nt_user');
   location.href='index.html';
 }
 
@@ -353,8 +353,8 @@ async function doResetPassword() {
     if (!res.ok) throw new Error(data.error || 'Reset failed');
     // Auto-login after reset
     if (data.token) {
-      localStorage.setItem('cx_token', data.token);
-      localStorage.setItem('cx_user',  JSON.stringify(data.user));
+      localStorage.setItem('nt_token', data.token);
+      localStorage.setItem('nt_user',  JSON.stringify(data.user));
     }
     closeModal('resetModal');
     showToast('Password reset successfully! You are now logged in.', 'success');
@@ -388,8 +388,8 @@ function handleOAuthCallback() {
   const user   = params.get('user');
   if (token && user) {
     try {
-      localStorage.setItem('cx_token', token);
-      localStorage.setItem('cx_user',  decodeURIComponent(user));
+      localStorage.setItem('nt_token', token);
+      localStorage.setItem('nt_user',  decodeURIComponent(user));
       // Clean URL
       window.history.replaceState({}, '', window.location.pathname);
       updateNavForUser();

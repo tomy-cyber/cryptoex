@@ -5,6 +5,7 @@
       <stop offset="100%" style="stop-color:#d4a800"/>
     </linearGradient>
   </defs>
-  <circle cx="16" cy="16" r="15" fill="url(#g)" stroke="#b8960a" stroke-width="1"/>
-  <text x="16" y="21" font-family="Arial,sans-serif" font-size="14" font-weight="900" text-anchor="middle" fill="#0b0e11">CX</text>
+  <rect width="32" height="32" rx="8" fill="#0b0e11"/>
+  <rect width="32" height="32" rx="8" fill="url(#g)" opacity="0.15"/>
+  <text x="16" y="22" font-family="Arial,sans-serif" font-size="13" font-weight="900" text-anchor="middle" fill="url(#g)">NT</text>
 </svg>

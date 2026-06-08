@@ -1,7 +1,7 @@
 {
-  "name": "cryptoex",
+  "name": "novatrace",
   "version": "1.0.0",
-  "description": "CryptoEx – Professional Cryptocurrency Exchange Platform",
+  "description": "NovaTrace – Professional Cryptocurrency Exchange Platform",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
