@@ -29,12 +29,11 @@ COINS.forEach(c => { liveData[c.id] = { price: c.price, change: c.change }; });
 
 // ── Utils ────────────────────────────────────────────────────
 function randBetween(min, max) { return Math.random() * (max - min) + min; }
-function jitter(price) { return parseFloat((price * (1 + randBetween(-0.003, 0.003))).toPrecision(6)); }
 
 function fmtPrice(p) {
   if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits:2, maximumFractionDigits:2 });
   if (p >= 1)    return '$' + p.toFixed(3);
-  return '$' + p.toFixed(4);
+  return '$' + p.toFixed(6);
 }
 function fmtChange(c) { return (c >= 0 ? '+' : '') + c.toFixed(2) + '%'; }
 
@@ -54,6 +53,88 @@ function makeSparkline(canvasId, data, color) {
   });
 }
 
+// ── Binance WebSocket — Real-Time Prices ─────────────────────
+const BINANCE_SYMBOLS = COINS.map(c => c.id.toLowerCase() + 'usdt@miniTicker').join('/');
+let   binanceWs = null;
+let   wsReconnectTimer = null;
+
+function connectBinanceWS() {
+  if (binanceWs) { try { binanceWs.close(); } catch(e){} }
+  binanceWs = new WebSocket(`wss://stream.binance.com:9443/stream?streams=${BINANCE_SYMBOLS}`);
+
+  binanceWs.onmessage = (event) => {
+    try {
+      const { data: d } = JSON.parse(event.data);
+      // d.s = symbol e.g. "BTCUSDT", d.c = last price, d.o = open price
+      const coinId = d.s.replace('USDT','');
+      if (!liveData[coinId]) return;
+      const prev   = liveData[coinId].price;
+      const next   = parseFloat(d.c);
+      const open   = parseFloat(d.o);
+      const change = open > 0 ? parseFloat(((next - open) / open * 100).toFixed(2)) : liveData[coinId].change;
+      liveData[coinId] = { price: next, change };
+      applyPriceUpdate(coinId, prev, next, change);
+    } catch(e) {}
+  };
+
+  binanceWs.onopen = () => {
+    console.log('✅ Binance WebSocket connected — live prices active');
+    clearTimeout(wsReconnectTimer);
+  };
+
+  binanceWs.onerror = () => {};
+
+  binanceWs.onclose = () => {
+    console.log('⚠️ Binance WS disconnected, reconnecting in 5s…');
+    wsReconnectTimer = setTimeout(connectBinanceWS, 5000);
+  };
+}
+
+// ── Apply a price update to all UI elements ──────────────────
+function applyPriceUpdate(coinId, prev, next, change) {
+  const cls = change >= 0 ? 'positive' : 'negative';
+
+  // Ticker bar (two copies)
+  for (let i = 0; i < 24; i++) {
+    const pe = document.getElementById(`tick-${coinId}-${i}`);
+    const ce = document.getElementById(`tick-chg-${coinId}-${i}`);
+    if (pe) { pe.textContent = fmtPrice(next); pe.style.color = next >= prev ? 'var(--green)' : 'var(--red)'; setTimeout(() => pe.style.color = '', 600); }
+    if (ce) { ce.textContent = fmtChange(change); ce.className = `t-change ${cls}`; }
+  }
+
+  // Home market table
+  const ht_p = document.getElementById(`ht-price-${coinId}`);
+  const ht_c = document.getElementById(`ht-change-${coinId}`);
+  if (ht_p) { ht_p.textContent = fmtPrice(next); ht_p.style.color = next >= prev ? 'var(--green)' : 'var(--red)'; setTimeout(() => ht_p.style.color = '', 600); }
+  if (ht_c) { ht_c.textContent = fmtChange(change); ht_c.className = cls; }
+
+  // Markets page table
+  const mp_p = document.getElementById(`mp-price-${coinId}`);
+  const mp_c = document.getElementById(`mp-change-${coinId}`);
+  if (mp_p) { mp_p.textContent = fmtPrice(next); mp_p.style.color = next >= prev ? 'var(--green)' : 'var(--red)'; setTimeout(() => mp_p.style.color = '', 600); }
+  if (mp_c) { mp_c.textContent = fmtChange(change); mp_c.className = cls; }
+
+  // Hero BTC chart
+  if (coinId === 'BTC') {
+    const hp = document.getElementById('heroBtcPrice');
+    const hc = document.getElementById('heroBtcChange');
+    if (hp) hp.textContent = fmtPrice(next);
+    if (hc) { hc.textContent = fmtChange(change) + (change >= 0 ? ' ▲' : ' ▼'); hc.className = 'price-change ' + (change >= 0 ? 'positive' : 'negative'); }
+    if (heroChartInst) { heroData.push(next); heroData.shift(); heroChartInst.data.datasets[0].data = [...heroData]; heroChartInst.update('none'); }
+  }
+
+  // Trade page active pair
+  const tPrice = document.getElementById('tradeCurrentPrice');
+  const tChg   = document.getElementById('tradeChangeEl');
+  const tPair  = document.getElementById('activeTradePair');
+  if (tPair && tPrice && tChg && tPair.dataset.id === coinId) {
+    tPrice.textContent = fmtPrice(next);
+    tPrice.style.color = change >= 0 ? 'var(--green)' : 'var(--red)';
+    tChg.textContent   = fmtChange(change);
+    tChg.className     = cls;
+  }
+}
+
 // ── Ticker ───────────────────────────────────────────────────
 function buildTicker() {
   const track = document.getElementById('tickerTrack');
@@ -69,57 +150,6 @@ function buildTicker() {
   }).join('');
 }
 
-// ── Live Price Simulation ────────────────────────────────────
-function updatePrices() {
-  COINS.forEach(c => {
-    const prev   = liveData[c.id].price;
-    const next   = jitter(prev);
-    const chg    = parseFloat((liveData[c.id].change + randBetween(-0.05,0.05)).toFixed(2));
-    liveData[c.id] = { price:next, change:chg };
-    const cls    = chg >= 0 ? 'positive' : 'negative';
-    const flash  = next > prev ? '#0ecb8155' : '#f6465d55';
-
-    // ticker (both copies)
-    for (let i=0; i<24; i++) {
-      const pe = document.getElementById(`tick-${c.id}-${i}`);
-      const ce = document.getElementById(`tick-chg-${c.id}-${i}`);
-      if (pe) { pe.textContent=fmtPrice(next); pe.style.color=next>prev?'var(--green)':'var(--red)'; setTimeout(()=>pe.style.color='',500); }
-      if (ce) { ce.textContent=fmtChange(chg); ce.className=`t-change ${cls}`; }
-    }
-
-    // home table
-    const ht_p = document.getElementById(`ht-price-${c.id}`);
-    const ht_c = document.getElementById(`ht-change-${c.id}`);
-    if (ht_p) { ht_p.textContent=fmtPrice(next); ht_p.style.color=next>prev?'var(--green)':'var(--red)'; setTimeout(()=>ht_p.style.color='',500); }
-    if (ht_c) { ht_c.textContent=fmtChange(chg); ht_c.className=cls; }
-
-    // markets page table
-    const mp_p = document.getElementById(`mp-price-${c.id}`);
-    const mp_c = document.getElementById(`mp-change-${c.id}`);
-    if (mp_p) { mp_p.textContent=fmtPrice(next); mp_p.style.color=next>prev?'var(--green)':'var(--red)'; setTimeout(()=>mp_p.style.color='',500); }
-    if (mp_c) { mp_c.textContent=fmtChange(chg); mp_c.className=cls; }
-
-    // hero BTC
-    if (c.id === 'BTC') {
-      const hp = document.getElementById('heroBtcPrice');
-      const hc = document.getElementById('heroBtcChange');
-      if (hp) hp.textContent = fmtPrice(next);
-      if (hc) { hc.textContent = fmtChange(chg) + (chg>=0?' ▲':' ▼'); hc.className='price-change '+(chg>=0?'positive':'negative'); }
-      if (heroChartInst) { heroData.push(next); heroData.shift(); heroChartInst.data.datasets[0].data=[...heroData]; heroChartInst.update('none'); }
-    }
-
-    // trade page
-    const tPrice = document.getElementById('tradeCurrentPrice');
-    const tChg   = document.getElementById('tradeChangeEl');
-    const tPair  = document.getElementById('activeTradePair');
-    if (tPair && tPrice && tChg && tPair.dataset.id === c.id) {
-      tPrice.textContent = fmtPrice(next);
-      tPrice.style.color = chg >= 0 ? 'var(--green)' : 'var(--red)';
-      tChg.textContent = fmtChange(chg);
-      tChg.className = chg >= 0 ? 'positive' : 'negative';
-    }
-  });
-}
 
 // ── Hero Chart ───────────────────────────────────────────────
 let heroChartInst = null;
@@ -424,5 +454,5 @@ document.addEventListener('DOMContentLoaded', () => {
   buildEarnChart();
   buildHomeTable();
   updateNavForUser();
-  setInterval(updatePrices, 1500);
+  connectBinanceWS();   // 🔴 Live prices from Binance
 });
