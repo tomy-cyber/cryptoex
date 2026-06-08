@@ -958,65 +958,41 @@ function setPvRange(r, btn) {
   buildPvChart(days);
 }
 
-// ── Recent Orders ─────────────────────────────
+// ── Recent Orders — real data only ────────────
 async function buildOrders() {
   const tbody = document.getElementById('ordersBody');
   if (!tbody) return;
 
-  // Try loading from backend first
-  const token = getToken();
-  if (token) {
-    try {
-      const res = await fetch(`${API}/user/orders`, { headers: { 'Authorization': `Bearer ${token}` } });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.orders && data.orders.length > 0) {
-          tbody.innerHTML = data.orders.slice(0,10).map(o => {
-            const sColor = o.status==='filled'?'var(--green)':o.status==='cancelled'?'var(--red)':'var(--yellow)';
-            return `<tr>
-              <td>${new Date(o.created_at||o.date).toLocaleString()}</td>
-              <td style="font-weight:700">${o.pair}</td>
-              <td style="color:var(--text2)">${o.type}</td>
-              <td style="color:${o.side==='buy'?'var(--green)':'var(--red)'};font-weight:700">${o.side.toUpperCase()}</td>
-              <td>$${parseFloat(o.price||0).toLocaleString()}</td>
-              <td>${o.amount}</td>
-              <td>$${parseFloat(o.total||0).toLocaleString()}</td>
-              <td><span style="color:${sColor};font-weight:600">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
-            </tr>`;
-          }).join('');
-          return;
-        }
-      }
-    } catch(e) {}
+  try {
+    const res  = await fetch(`${API}/user/orders`, { headers: authHdr() });
+    if (!res.ok) { tbody.innerHTML = emptyRow(8, 'Could not load orders'); return; }
+    const data = await res.json();
+    if (!data.orders || data.orders.length === 0) {
+      tbody.innerHTML = emptyRow(8, 'No trade orders yet. Start trading to see your history here.');
+      return;
+    }
+    tbody.innerHTML = data.orders.map(o => {
+      const sColor = o.status==='filled'?'var(--green)':o.status==='cancelled'?'var(--red)':'var(--yellow)';
+      return `<tr>
+        <td style="color:var(--text2);font-size:12px">${new Date(o.created_at).toLocaleString()}</td>
+        <td style="font-weight:700">${o.pair}</td>
+        <td style="color:var(--text2)">${o.type}</td>
+        <td style="color:${o.side==='buy'?'var(--green)':'var(--red)'};font-weight:700">${o.side.toUpperCase()}</td>
+        <td>$${parseFloat(o.price||0).toLocaleString()}</td>
+        <td>${parseFloat(o.amount).toLocaleString(undefined,{maximumFractionDigits:8})}</td>
+        <td>$${parseFloat(o.total||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td><span style="color:${sColor};font-weight:600">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td>
+      </tr>`;
+    }).join('');
+  } catch(e) {
+    tbody.innerHTML = emptyRow(8, 'Error loading orders');
   }
-
-  // Fallback demo orders
-  const pairs = ['BTC/USDT','ETH/USDT','SOL/USDT','BNB/USDT','ADA/USDT'];
-  const types = ['Limit','Market','Limit','Stop-Limit'];
-  const statuses = ['Filled','Filled','Partially Filled','Cancelled','Filled'];
-  const now = new Date();
-  tbody.innerHTML = Array.from({length:10}).map((_,i) => {
-    const pair  = pairs[i%pairs.length];
-    const side  = Math.random()>.4 ? 'Buy' : 'Sell';
-    const type  = types[i%types.length];
-    const price = (Math.random()*5000+1000).toFixed(2);
-    const amt   = (Math.random()*2+0.01).toFixed(4);
-    const total = (parseFloat(price)*parseFloat(amt)).toFixed(2);
-    const status= statuses[i%statuses.length];
-    const date  = new Date(now - i*randBetween(3600000,86400000));
-    const sColor = status==='Filled'?'var(--green)':status==='Cancelled'?'var(--red)':'var(--yellow)';
-    return `<tr>
-      <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
-      <td style="font-weight:700">${pair}</td>
-      <td style="color:var(--text2)">${type}</td>
-      <td style="color:${side==='Buy'?'var(--green)':'var(--red)'};font-weight:700">${side}</td>
-      <td>$${parseFloat(price).toLocaleString()}</td>
-      <td>${amt}</td>
-      <td>$${parseFloat(total).toLocaleString()}</td>
-      <td><span style="color:${sColor};font-weight:600">${status}</span></td>
-    </tr>`;
-  }).join('');
 }
+
+function emptyRow(cols, msg) {
+  return `<tr><td colspan="${cols}" style="text-align:center;padding:32px;color:var(--text2)">${msg}</td></tr>`;
+}
+
 
 function switchPortfolioTab(tab, btn) {
   document.querySelectorAll('#pane-orders,#pane-txs').forEach(p => p.style.display = 'none');
