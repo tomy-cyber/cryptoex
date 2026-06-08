@@ -163,25 +163,78 @@
 
 <!-- Deposit Modal -->
 <div id="depositModal" class="modal-overlay" onclick="closeModalOutside(event,'depositModal')">
-  <div class="modal">
+  <div class="modal" style="max-width:480px">
     <button class="modal-close" onclick="closeModal('depositModal')"><i class="fa fa-xmark"></i></button>
     <h2><i class="fa fa-arrow-down" style="color:var(--green)"></i> Deposit</h2>
-    <p class="modal-subtitle">Add funds to your account</p>
-    <div class="form-group">
-      <label>Coin</label>
-      <select class="form-input" id="depositCoin">
-        <option value="USDT">USDT – Tether</option>
-        <option value="BTC">BTC – Bitcoin</option>
-        <option value="ETH">ETH – Ethereum</option>
-        <option value="BNB">BNB – BNB</option>
-        <option value="SOL">SOL – Solana</option>
-      </select>
+    <p class="modal-subtitle">Add crypto to your account</p>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:6px;margin:16px 0 20px;background:var(--bg3);border-radius:8px;padding:4px">
+      <button id="dep-tab-metamask" onclick="switchDepTab('metamask')" style="flex:1;padding:8px;border-radius:6px;font-weight:700;font-size:13px;background:var(--accent);color:#000;border:none;cursor:pointer">
+        <i class="fa-brands fa-ethereum"></i> MetaMask
+      </button>
+      <button id="dep-tab-manual" onclick="switchDepTab('manual')" style="flex:1;padding:8px;border-radius:6px;font-weight:600;font-size:13px;background:transparent;color:var(--text2);border:none;cursor:pointer">
+        <i class="fa fa-wallet"></i> Manual
+      </button>
     </div>
-    <div class="form-group">
-      <label>Amount</label>
-      <input type="number" id="depositAmount" class="form-input" placeholder="0.00" min="0.0001"/>
+
+    <!-- MetaMask Tab -->
+    <div id="dep-pane-metamask">
+      <div id="mm-not-installed" style="display:none;background:rgba(246,70,93,.1);border:1px solid rgba(246,70,93,.3);border-radius:8px;padding:14px;text-align:center;margin-bottom:16px">
+        <i class="fa fa-triangle-exclamation" style="color:var(--red)"></i>
+        MetaMask is not installed. <a href="https://metamask.io/download/" target="_blank" style="color:var(--accent)">Install it here</a>.
+      </div>
+      <div id="mm-connect-section">
+        <div style="background:var(--bg3);border-radius:10px;padding:16px;margin-bottom:16px;text-align:center">
+          <div id="mm-wallet-display" style="font-size:12px;color:var(--text2);margin-bottom:10px">Not connected</div>
+          <button class="btn-primary" id="mm-connect-btn" onclick="mmConnect()" style="width:100%;justify-content:center">
+            <i class="fa-brands fa-ethereum"></i> Connect MetaMask
+          </button>
+        </div>
+        <div id="mm-payment-form" style="display:none">
+          <div class="form-group">
+            <label>Coin</label>
+            <select class="form-input" id="mm-coin" onchange="mmCoinChange()">
+              <option value="ETH">ETH – Ethereum</option>
+              <option value="USDT">USDT – Tether (ERC-20)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="number" id="mm-amount" class="form-input" placeholder="0.00" min="0.0001" step="any"/>
+          </div>
+          <div id="mm-dest-addr" style="background:var(--bg3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px">
+            <div style="color:var(--text2);margin-bottom:4px">Sending to:</div>
+            <div id="mm-dest-addr-val" style="font-family:monospace;color:var(--accent);word-break:break-all">Loading…</div>
+          </div>
+          <div style="background:rgba(240,185,11,.08);border:1px solid rgba(240,185,11,.2);border-radius:8px;padding:10px;font-size:12px;color:var(--text2);margin-bottom:16px">
+            <i class="fa fa-circle-info" style="color:var(--accent)"></i>
+            Your deposit will be credited after admin verification (usually within minutes).
+          </div>
+          <button class="btn-primary full-width" id="mm-pay-btn" onclick="mmSendPayment()">
+            <i class="fa-brands fa-ethereum"></i> Send Payment
+          </button>
+        </div>
+      </div>
     </div>
-    <button class="btn-primary full-width" onclick="doDeposit()">Confirm Deposit</button>
+
+    <!-- Manual Tab -->
+    <div id="dep-pane-manual" style="display:none">
+      <div class="form-group">
+        <label>Coin</label>
+        <select class="form-input" id="depositCoin">
+          <option value="USDT">USDT</option><option value="BTC">BTC</option>
+          <option value="ETH">ETH</option><option value="BNB">BNB</option>
+          <option value="SOL">SOL</option><option value="XRP">XRP</option>
+          <option value="ADA">ADA</option><option value="DOGE">DOGE</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Amount</label>
+        <input type="number" id="depositAmount" class="form-input" placeholder="0.00" min="0.0001"/>
+      </div>
+      <button class="btn-primary full-width" onclick="doDeposit()">Confirm Deposit</button>
+    </div>
   </div>
 </div>
 
@@ -228,7 +281,7 @@ function logout() {
   location.href = 'index.html';
 }
 
-function showDepositModal()  { openModal('depositModal'); }
+function showDepositModal()  { openModal('depositModal'); mmLoadConfig(); }
 function showWithdrawModal() { openModal('withdrawModal'); }
 
 let pvChartDb = null;
@@ -344,10 +397,121 @@ async function doDeposit() {
     const res  = await fetch(`${API}/user/deposit`, { method:'POST', headers:authHeaders(), body:JSON.stringify({coin,amount}) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
-    showToast(`✓ ${amount} ${coin} deposited successfully!`, 'success');
+    showToast(`✓ ${amount} ${coin} deposited!`, 'success');
     closeModal('depositModal');
     loadDashboard();
   } catch(e) { showToast(e.message||'Deposit failed','error'); }
+}
+
+// ── Deposit Tab Switcher ──────────────────────────────────────
+function switchDepTab(tab) {
+  document.getElementById('dep-pane-metamask').style.display = tab==='metamask' ? '' : 'none';
+  document.getElementById('dep-pane-manual').style.display   = tab==='manual'   ? '' : 'none';
+  document.getElementById('dep-tab-metamask').style.cssText  = tab==='metamask'
+    ? 'flex:1;padding:8px;border-radius:6px;font-weight:700;font-size:13px;background:var(--accent);color:#000;border:none;cursor:pointer'
+    : 'flex:1;padding:8px;border-radius:6px;font-weight:600;font-size:13px;background:transparent;color:var(--text2);border:none;cursor:pointer';
+  document.getElementById('dep-tab-manual').style.cssText    = tab==='manual'
+    ? 'flex:1;padding:8px;border-radius:6px;font-weight:700;font-size:13px;background:var(--accent);color:#000;border:none;cursor:pointer'
+    : 'flex:1;padding:8px;border-radius:6px;font-weight:600;font-size:13px;background:transparent;color:var(--text2);border:none;cursor:pointer';
+}
+
+// ── MetaMask ─────────────────────────────────────────────────
+let mmAccount    = null;
+let paymentConfig = null;
+
+// USDT ERC-20 contract on Ethereum mainnet
+const USDT_CONTRACT = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
+
+async function mmLoadConfig() {
+  try {
+    const res = await fetch('/api/config');
+    paymentConfig = await res.json();
+    const addrEl = document.getElementById('mm-dest-addr-val');
+    if (addrEl) addrEl.textContent = paymentConfig.eth_address || 'Not configured — contact support';
+  } catch(e) {}
+}
+
+async function mmConnect() {
+  if (!window.ethereum) {
+    document.getElementById('mm-not-installed').style.display = '';
+    return;
+  }
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    mmAccount = accounts[0];
+    document.getElementById('mm-wallet-display').innerHTML =
+      `<i class="fa fa-circle-check" style="color:var(--green)"></i> Connected: <span style="color:var(--accent);font-family:monospace">${mmAccount.slice(0,6)}…${mmAccount.slice(-4)}</span>`;
+    document.getElementById('mm-connect-btn').style.display  = 'none';
+    document.getElementById('mm-payment-form').style.display = '';
+    mmLoadConfig();
+  } catch(e) {
+    showToast(e.code === 4001 ? 'Connection rejected' : 'MetaMask error: ' + e.message, 'error');
+  }
+}
+
+function mmCoinChange() {
+  const coin    = document.getElementById('mm-coin').value;
+  const addrEl  = document.getElementById('mm-dest-addr-val');
+  if (!paymentConfig) return;
+  addrEl.textContent = coin === 'USDT'
+    ? (paymentConfig.usdt_address || paymentConfig.eth_address || 'Not configured')
+    : (paymentConfig.eth_address || 'Not configured');
+}
+
+async function mmSendPayment() {
+  if (!mmAccount) { showToast('Connect MetaMask first', 'error'); return; }
+  if (!paymentConfig?.eth_address) { showToast('Payment address not configured', 'error'); return; }
+
+  const coin   = document.getElementById('mm-coin').value;
+  const amount = parseFloat(document.getElementById('mm-amount').value);
+  if (!amount || amount <= 0) { showToast('Enter a valid amount', 'error'); return; }
+
+  const btn = document.getElementById('mm-pay-btn');
+  btn.disabled = true; btn.textContent = 'Waiting for MetaMask…';
+
+  try {
+    let txHash;
+
+    if (coin === 'ETH') {
+      // Send ETH directly
+      const weiHex = '0x' + Math.floor(amount * 1e18).toString(16);
+      txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: mmAccount, to: paymentConfig.eth_address, value: weiHex }]
+      });
+    } else if (coin === 'USDT') {
+      // ERC-20 USDT transfer (6 decimals)
+      const toAddr   = (paymentConfig.usdt_address || paymentConfig.eth_address).replace('0x','').padStart(64,'0');
+      const usdtAmt  = Math.floor(amount * 1e6);
+      const amtHex   = usdtAmt.toString(16).padStart(64,'0');
+      // transfer(address,uint256) selector = a9059cbb
+      const data = '0xa9059cbb' + toAddr + amtHex;
+      txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: mmAccount, to: USDT_CONTRACT, data }]
+      });
+    }
+
+    showToast('Transaction sent! Submitting for verification…', 'info');
+
+    // Record as pending deposit
+    const res  = await fetch(`${API}/user/metamask-deposit`, {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({ coin, amount, txid: txHash, from_address: mmAccount })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    showToast(`✓ Deposit submitted! TxID: ${txHash.slice(0,16)}…`, 'success');
+    closeModal('depositModal');
+    loadDashboard();
+  } catch(e) {
+    if (e.code === 4001) showToast('Transaction rejected by user', 'error');
+    else showToast(e.message || 'Transaction failed', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-brands fa-ethereum"></i> Send Payment';
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -147,7 +147,9 @@
 
   <div class="nav-group">Management</div>
   <div class="nav-item" onclick="showSection('users')"><i class="fa fa-users"></i> Users</div>
+  <div class="nav-item" onclick="showSection('give-crypto')"><i class="fa fa-coins"></i> Give Crypto</div>
   <div class="nav-item" onclick="showSection('transactions')"><i class="fa fa-list"></i> Transactions</div>
+  <div class="nav-item" onclick="showSection('pending-deposits')"><i class="fa fa-clock"></i> Pending Deposits <span id="pending-badge" style="background:var(--red);color:#fff;font-size:10px;padding:1px 5px;border-radius:10px;margin-left:4px;display:none">0</span></div>
   <div class="nav-item" onclick="showSection('invoices')"><i class="fa fa-file-invoice-dollar"></i> Invoices</div>
 
   <div class="sidebar-bottom">
@@ -230,6 +232,135 @@
           <table>
             <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Country</th><th>KYC</th><th>Admin</th><th>Joined</th><th>Actions</th></tr></thead>
             <tbody id="users-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GIVE CRYPTO ────────────────────────────── -->
+    <div class="section" id="section-give-crypto">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+
+        <!-- Set Balance -->
+        <div class="card">
+          <div class="card-header"><span class="card-title"><i class="fa fa-wallet" style="color:var(--accent)"></i> Set Balance</span></div>
+          <div style="padding:20px">
+            <div class="form-group">
+              <label class="form-label">User</label>
+              <select class="form-input" id="gc-bal-user"></select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Coin</label>
+                <select class="form-input" id="gc-bal-coin">
+                  <option>USDT</option><option>BTC</option><option>ETH</option><option>BNB</option>
+                  <option>SOL</option><option>XRP</option><option>ADA</option><option>DOGE</option>
+                  <option>DOT</option><option>AVAX</option><option>LINK</option><option>MATIC</option><option>UNI</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Amount</label>
+                <input type="number" class="form-input" id="gc-bal-amount" placeholder="0.00" min="0" step="any"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Avg Buy Price (optional)</label>
+              <input type="number" class="form-input" id="gc-bal-avgbuy" placeholder="0.00" step="any"/>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="gcSetBalance()">
+              <i class="fa fa-check"></i> Set Balance
+            </button>
+          </div>
+        </div>
+
+        <!-- Add Transaction -->
+        <div class="card">
+          <div class="card-header"><span class="card-title"><i class="fa fa-plus-circle" style="color:var(--green)"></i> Add Transaction</span></div>
+          <div style="padding:20px">
+            <div class="form-group">
+              <label class="form-label">User</label>
+              <select class="form-input" id="gc-tx-user"></select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select class="form-input" id="gc-tx-type">
+                  <option value="deposit">Deposit</option>
+                  <option value="profit">Profit</option>
+                  <option value="withdraw">Withdraw</option>
+                  <option value="adjustment">Adjustment</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Coin</label>
+                <select class="form-input" id="gc-tx-coin">
+                  <option>USDT</option><option>BTC</option><option>ETH</option><option>BNB</option>
+                  <option>SOL</option><option>XRP</option><option>ADA</option><option>DOGE</option>
+                  <option>DOT</option><option>AVAX</option><option>LINK</option><option>MATIC</option><option>UNI</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Amount</label>
+              <input type="number" class="form-input" id="gc-tx-amount" placeholder="0.00" min="0.000001" step="any"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Note</label>
+              <input type="text" class="form-input" id="gc-tx-note" placeholder="e.g. Monthly profit, Bonus…"/>
+            </div>
+            <button class="btn btn-primary" style="width:100%;background:var(--green);color:#000" onclick="gcAddTransaction()">
+              <i class="fa fa-paper-plane"></i> Send to User
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Invoice -->
+      <div class="card">
+        <div class="card-header"><span class="card-title"><i class="fa fa-file-invoice-dollar" style="color:var(--blue)"></i> Generate Invoice</span></div>
+        <div style="padding:20px">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 2fr auto;gap:12px;align-items:flex-end">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">User</label>
+              <select class="form-input" id="gc-inv-user"></select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Amount</label>
+              <input type="number" class="form-input" id="gc-inv-amount" placeholder="0.00" step="any"/>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Coin</label>
+              <select class="form-input" id="gc-inv-coin">
+                <option>USDT</option><option>BTC</option><option>ETH</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Description</label>
+              <input type="text" class="form-input" id="gc-inv-desc" placeholder="Trading fee, Profit share…"/>
+            </div>
+            <button class="btn btn-primary" onclick="gcCreateInvoice()" style="margin-bottom:16px">
+              <i class="fa fa-file-invoice"></i> Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PENDING DEPOSITS ────────────────────────── -->
+    <div class="section" id="section-pending-deposits">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title"><i class="fa fa-clock" style="color:var(--accent)"></i> Pending MetaMask Deposits</span>
+          <button class="btn btn-secondary btn-sm" onclick="loadPendingDeposits()"><i class="fa fa-rotate"></i> Refresh</button>
+        </div>
+        <div style="background:rgba(240,185,11,.07);border-bottom:1px solid var(--border);padding:10px 16px;font-size:12px;color:var(--text2)">
+          <i class="fa fa-circle-info" style="color:var(--accent)"></i>
+          Verify the transaction on <a href="https://etherscan.io" target="_blank" style="color:var(--accent)">Etherscan</a> before confirming. Confirming credits the user's balance.
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>User</th><th>Coin</th><th>Amount</th><th>TxID</th><th>From Wallet</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="pending-deposits-body"></tbody>
           </table>
         </div>
       </div>
@@ -501,14 +632,16 @@ function showSection(name) {
   document.querySelectorAll('.nav-item').forEach(n => {
     if (n.getAttribute('onclick')?.includes(`'${name}'`)) n.classList.add('active');
   });
-  const titles = { dashboard:'Dashboard', users:'Users', transactions:'Transactions', invoices:'Invoices' };
+  const titles = { dashboard:'Dashboard', users:'Users', 'give-crypto':'Give Crypto', transactions:'Transactions', 'pending-deposits':'Pending Deposits', invoices:'Invoices' };
   document.getElementById('topbarTitle').textContent = titles[name] || name;
   const actionLabel = { invoices:'New Invoice' };
   const topbarBtn = document.getElementById('topbarAction');
   topbarBtn.style.display = actionLabel[name] ? 'flex' : 'none';
   if (actionLabel[name]) document.getElementById('topbarActionLabel').textContent = actionLabel[name];
   if (name === 'users') loadUsers();
+  if (name === 'give-crypto') { loadUsers(); populateGiveCryptoSelects(); }
   if (name === 'transactions') loadAllTxs();
+  if (name === 'pending-deposits') loadPendingDeposits();
   if (name === 'invoices') loadInvoices();
 }
 
@@ -877,6 +1010,128 @@ function fmtDate(d) {
   return new Date(d).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
 }
 
+// ── Give Crypto ──────────────────────────────────────
+function populateGiveCryptoSelects() {
+  const users = allUsers.filter(u => !u.is_admin);
+  ['gc-bal-user','gc-tx-user','gc-inv-user'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Select user…</option>' +
+      users.map(u => `<option value="${u.id}">${u.first_name||''} ${u.last_name||''} (${u.email})</option>`).join('');
+  });
+}
+
+async function gcSetBalance() {
+  const userId = parseInt(document.getElementById('gc-bal-user').value);
+  const coin   = document.getElementById('gc-bal-coin').value;
+  const amount = parseFloat(document.getElementById('gc-bal-amount').value);
+  const avgBuy = parseFloat(document.getElementById('gc-bal-avgbuy').value) || 0;
+  if (!userId) { showToast('Select a user', 'error'); return; }
+  if (isNaN(amount)) { showToast('Enter a valid amount', 'error'); return; }
+  try {
+    const res  = await apiFetch(`/admin/users/${userId}/balance`, {
+      method: 'PUT', body: JSON.stringify({ coin, amount, avg_buy: avgBuy })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(data.message, 'success');
+    document.getElementById('gc-bal-amount').value = '';
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function gcAddTransaction() {
+  const userId = parseInt(document.getElementById('gc-tx-user').value);
+  const type   = document.getElementById('gc-tx-type').value;
+  const coin   = document.getElementById('gc-tx-coin').value;
+  const amount = parseFloat(document.getElementById('gc-tx-amount').value);
+  const note   = document.getElementById('gc-tx-note').value.trim();
+  if (!userId) { showToast('Select a user', 'error'); return; }
+  if (!amount || isNaN(amount)) { showToast('Enter a valid amount', 'error'); return; }
+  try {
+    const res  = await apiFetch(`/admin/users/${userId}/transaction`, {
+      method: 'POST', body: JSON.stringify({ type, coin, amount, note })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(`✓ ${type} of ${amount} ${coin} sent!`, 'success');
+    document.getElementById('gc-tx-amount').value = '';
+    document.getElementById('gc-tx-note').value = '';
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function gcCreateInvoice() {
+  const userId      = parseInt(document.getElementById('gc-inv-user').value);
+  const amount      = parseFloat(document.getElementById('gc-inv-amount').value);
+  const coin        = document.getElementById('gc-inv-coin').value;
+  const description = document.getElementById('gc-inv-desc').value.trim();
+  if (!userId) { showToast('Select a user', 'error'); return; }
+  if (!amount) { showToast('Enter amount', 'error'); return; }
+  try {
+    const res  = await apiFetch('/admin/invoices', {
+      method: 'POST', body: JSON.stringify({ user_id: userId, amount, coin, description })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast(`✓ Invoice ${data.number} created`, 'success');
+    document.getElementById('gc-inv-amount').value = '';
+    document.getElementById('gc-inv-desc').value = '';
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+// ── Pending Deposits ─────────────────────────────────
+async function loadPendingDeposits() {
+  try {
+    const res  = await apiFetch('/admin/pending-deposits');
+    const list = await res.json();
+
+    // Update badge
+    const badge = document.getElementById('pending-badge');
+    if (badge) { badge.textContent = list.length; badge.style.display = list.length ? 'inline' : 'none'; }
+
+    const tbody = document.getElementById('pending-deposits-body');
+    if (!tbody) return;
+    tbody.innerHTML = list.length ? list.map(tx => `
+      <tr>
+        <td><div style="font-weight:600">${tx.first_name||''} ${tx.last_name||''}</div><div style="font-size:11px;color:var(--text2)">${tx.email}</div></td>
+        <td><b>${tx.coin}</b></td>
+        <td style="font-weight:700;color:var(--green)">${tx.amount.toLocaleString(undefined,{maximumFractionDigits:8})}</td>
+        <td><a href="https://etherscan.io/tx/${tx.txid}" target="_blank" style="color:var(--accent);font-family:monospace;font-size:11px">${tx.txid.slice(0,18)}…</a></td>
+        <td style="font-family:monospace;font-size:11px;color:var(--text2)">${(tx.note||'').replace('MetaMask deposit from ','').slice(0,14)}…</td>
+        <td style="color:var(--text2)">${fmtDate(tx.created_at)}</td>
+        <td style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-sm" style="color:var(--green)" onclick="confirmDeposit(${tx.id})"><i class="fa fa-check"></i> Confirm</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectDeposit(${tx.id})"><i class="fa fa-xmark"></i> Reject</button>
+        </td>
+      </tr>`).join('')
+    : '<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text2)"><i class="fa fa-check-circle" style="color:var(--green)"></i> No pending deposits</td></tr>';
+  } catch(e) {}
+}
+
+async function confirmDeposit(id) {
+  if (!confirm('Confirm this deposit and credit the user\'s balance?')) return;
+  try {
+    const res  = await apiFetch(`/admin/transactions/${id}/confirm`, { method: 'PUT' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('✓ Deposit confirmed — balance credited', 'success');
+    loadPendingDeposits();
+    loadStats();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
+async function rejectDeposit(id) {
+  if (!confirm('Reject this deposit?')) return;
+  try {
+    const res  = await apiFetch(`/admin/transactions/${id}/reject`, { method: 'PUT' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('Deposit rejected', 'info');
+    loadPendingDeposits();
+  } catch(e) { showToast(e.message || 'Failed', 'error'); }
+}
+
 // ── Init ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   const user = getUser();
@@ -898,6 +1153,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await loadStats();
   await loadUsers();
+  await loadPendingDeposits();
+  // Refresh pending deposits badge every 30s
+  setInterval(loadPendingDeposits, 30000);
 });
 </script>
 </body>

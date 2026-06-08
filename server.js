@@ -85,6 +85,13 @@ app.use('/api/admin', adminRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
+// Public config for frontend (wallet address for MetaMask payments)
+app.get('/api/config', (req, res) => res.json({
+  eth_address:  process.env.ADMIN_ETH_ADDRESS  || null,
+  usdt_address: process.env.ADMIN_USDT_ADDRESS || process.env.ADMIN_ETH_ADDRESS || null,
+  network: process.env.PAYMENT_NETWORK || 'mainnet',
+}));
+
 // ── Init DB then Start ──────────────────────────────
 init(() => {
   app.listen(PORT, '0.0.0.0', () => {

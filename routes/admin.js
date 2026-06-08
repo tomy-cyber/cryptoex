@@ -203,4 +203,40 @@ router.get('/stats', (req, res) => {
   });
 });
 
+// ── GET /api/admin/pending-deposits ────────────────
+// All pending MetaMask deposits awaiting verification
+router.get('/pending-deposits', (req, res) => {
+  db.all(`SELECT t.*, u.email, u.first_name, u.last_name
+          FROM transactions t JOIN users u ON t.user_id=u.id
+          WHERE t.status='pending' AND t.type='deposit'
+          ORDER BY t.created_at DESC`, [], (err, rows) => {
+    res.json(rows || []);
+  });
+});
+
+// ── PUT /api/admin/transactions/:id/confirm ─────────
+// Confirm a pending deposit — credits the user's balance
+router.put('/transactions/:id/confirm', (req, res) => {
+  const id = parseInt(req.params.id);
+  db.get(`SELECT * FROM transactions WHERE id=? AND status='pending'`, [id], (err, tx) => {
+    if (!tx) return res.status(404).json({ error: 'Pending transaction not found' });
+    db.run(`INSERT INTO balances (user_id,coin,amount) VALUES (?,?,?)
+            ON CONFLICT(user_id,coin) DO UPDATE SET amount=amount+?`,
+      [tx.user_id, tx.coin, tx.amount, tx.amount]);
+    db.run(`UPDATE transactions SET status='completed' WHERE id=?`, [id], function(e) {
+      if (e) return res.status(500).json({ error: 'Failed to confirm' });
+      res.json({ message: 'Deposit confirmed and balance credited' });
+    });
+  });
+});
+
+// ── PUT /api/admin/transactions/:id/reject ──────────
+router.put('/transactions/:id/reject', (req, res) => {
+  db.run(`UPDATE transactions SET status='failed' WHERE id=? AND status='pending'`,
+    [req.params.id], function(err) {
+      if (err || this.changes === 0) return res.status(404).json({ error: 'Transaction not found' });
+      res.json({ message: 'Transaction rejected' });
+    });
+});
+
 module.exports = router;

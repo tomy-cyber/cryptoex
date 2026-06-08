@@ -174,10 +174,33 @@ router.post('/deposit', auth, [
   db.run(`INSERT INTO balances (user_id,coin,amount) VALUES (?,?,?)
           ON CONFLICT(user_id,coin) DO UPDATE SET amount=amount+?`,
     [req.user.id, coin, amount, amount]);
-  db.run(`INSERT INTO transactions (user_id,type,coin,amount,txid) VALUES (?,?,?,?,?)`,
-    [req.user.id, 'deposit', coin, amount, 'DEMO_' + Date.now()], function() {
+  db.run(`INSERT INTO transactions (user_id,type,coin,amount,txid,status) VALUES (?,?,?,?,?,?)`,
+    [req.user.id, 'deposit', coin, amount, 'MANUAL_' + Date.now(), 'completed'], function() {
       res.json({ message: `${amount} ${coin} deposited successfully` });
     });
+});
+
+// ── POST /api/user/metamask-deposit ─────────────────
+// Records a MetaMask payment as pending — admin verifies & credits
+router.post('/metamask-deposit', auth, [
+  body('coin').notEmpty(),
+  body('amount').isFloat({ gt: 0 }),
+  body('txid').notEmpty(),
+  body('from_address').notEmpty(),
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+  const { coin, amount, txid, from_address } = req.body;
+  db.run(
+    `INSERT INTO transactions (user_id,type,coin,amount,txid,status,note) VALUES (?,?,?,?,?,?,?)`,
+    [req.user.id, 'deposit', coin, amount, txid, 'pending',
+     `MetaMask deposit from ${from_address}`],
+    function(err) {
+      if (err) return res.status(500).json({ error: 'Failed to record deposit' });
+      res.json({ message: 'Deposit submitted — pending admin verification', transaction_id: this.lastID });
+    }
+  );
 });
 
 module.exports = router;
