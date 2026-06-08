@@ -215,16 +215,35 @@
   ═══════════════════════════════════════════════ -->
   <div class="pf-bottom-row">
     <div class="pf-orders-wrap">
-      <div class="pf-orders-header">
-        <h3><i class="fa fa-clock-rotate-left" style="color:var(--accent);margin-right:8px"></i>Recent Orders</h3>
-        <button class="pf-see-all" onclick="showToast('Full order history coming soon','info')">View All <i class="fa fa-arrow-right" style="font-size:10px"></i></button>
+      <!-- Tab switcher -->
+      <div style="display:flex;gap:4px;margin-bottom:16px">
+        <button id="ptab-orders" class="pf-htab active" onclick="switchPortfolioTab('orders',this)" style="padding:7px 16px;border-radius:7px;font-size:12px;font-weight:700;background:rgba(240,185,11,.12);color:var(--accent);border:none;cursor:pointer">
+          <i class="fa fa-clock-rotate-left"></i> Trade Orders
+        </button>
+        <button id="ptab-txs" class="pf-htab" onclick="switchPortfolioTab('txs',this)" style="padding:7px 16px;border-radius:7px;font-size:12px;font-weight:600;background:transparent;color:var(--text2);border:none;cursor:pointer">
+          <i class="fa fa-arrow-right-arrow-left"></i> Deposits & Transactions
+        </button>
       </div>
-      <table class="pf-orders-table">
-        <thead><tr>
-          <th>Date</th><th>Pair</th><th>Type</th><th>Side</th><th>Price</th><th>Amount</th><th>Total</th><th>Status</th>
-        </tr></thead>
-        <tbody id="ordersBody"></tbody>
-      </table>
+
+      <!-- Orders table -->
+      <div id="pane-orders">
+        <table class="pf-orders-table">
+          <thead><tr>
+            <th>Date</th><th>Pair</th><th>Type</th><th>Side</th><th>Price</th><th>Amount</th><th>Total</th><th>Status</th>
+          </tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Transaction history table -->
+      <div id="pane-txs" style="display:none">
+        <table class="pf-orders-table">
+          <thead><tr>
+            <th>Date</th><th>Type</th><th>Coin</th><th>Amount</th><th>Status</th><th>Note</th>
+          </tr></thead>
+          <tbody id="txHistoryBody"></tbody>
+        </table>
+      </div>
     </div>
     <div class="pf-performance-wrap">
       <h3><i class="fa fa-trophy" style="color:var(--accent);margin-right:8px"></i>Performance</h3>
@@ -665,59 +684,106 @@ function togglePwd(inputId, icon) {
   icon.className = show ? 'fa fa-eye-slash input-icon' : 'fa fa-eye input-icon';
 }
 
-// ── Holdings Data ─────────────────────────────
-const HOLDINGS = [
-  { id:'BTC',  name:'Bitcoin',   qty:0.842,  avgBuy:62100  },
-  { id:'ETH',  name:'Ethereum',  qty:8.5,    avgBuy:3100   },
-  { id:'SOL',  name:'Solana',    qty:120,    avgBuy:145    },
-  { id:'BNB',  name:'BNB',       qty:22,     avgBuy:380    },
-  { id:'ADA',  name:'Cardano',   qty:8000,   avgBuy:0.42   },
-  { id:'AVAX', name:'Avalanche', qty:50,     avgBuy:28     },
-];
-const COLORS = ['#f0b90b','#627eea','#9945ff','#f7931a','#0033ad','#e84142'];
+// ── Real Portfolio Data from API ───────────────
+const COLORS = ['#f0b90b','#627eea','#9945ff','#f7931a','#0033ad','#e84142','#00aae4','#c2a633','#e6007a','#e84142','#2a5ada','#8247e5','#ff007a'];
+let realHoldings = [];   // loaded from API
 let holdingsFilter = 'all';
+
+function authHdr() {
+  return { 'Authorization': 'Bearer ' + getToken(), 'Content-Type': 'application/json' };
+}
+
+async function loadPortfolio() {
+  try {
+    const [balRes, txRes, meRes] = await Promise.all([
+      fetch(`${API}/user/balances`, { headers: authHdr() }),
+      fetch(`${API}/user/transactions`, { headers: authHdr() }),
+      fetch(`${API}/user/me`, { headers: authHdr() }),
+    ]);
+    if (balRes.status === 401) { location.href = '/index.html?login=1'; return; }
+
+    const balances = await balRes.json();
+    const txData   = await txRes.json();
+    const me       = await meRes.json();
+
+    // Update nav
+    const initial = ((me.first_name || '?')[0]).toUpperCase();
+    const navAv = document.getElementById('navUserAvatar');
+    const navNm = document.getElementById('navUserName');
+    if (navAv) navAv.textContent = initial;
+    if (navNm) navNm.textContent = me.first_name || me.email;
+
+    // Build real holdings (skip USDT for the allocation chart — show it separately)
+    realHoldings = balances.map((b, i) => {
+      const coin  = COINS.find(c => c.id === b.coin);
+      const price = b.coin === 'USDT' ? 1 : (liveData[b.coin]?.price || coin?.price || b.avg_buy || 0);
+      return {
+        id: b.coin, name: coin?.name || b.coin,
+        qty: b.amount, avgBuy: b.avg_buy || 0,
+        coin, price, color: coin?.color || COLORS[i % COLORS.length]
+      };
+    });
+
+    buildHoldings();
+    buildAllocChart();
+    buildTransactionHistory(txData);
+    updatePortfolioSummary();
+
+  } catch(e) {
+    console.error('Portfolio load error:', e);
+  }
+}
 
 function buildHoldings() {
   const tbody = document.getElementById('holdingsBody');
   if (!tbody) return;
 
-  let holdings = HOLDINGS.map((h,i) => {
-    const coin = COINS.find(c=>c.id===h.id);
-    const cur  = liveData[h.id]?.price || coin?.price || h.avgBuy;
-    const val  = cur * h.qty;
-    const cost = h.avgBuy * h.qty;
-    const pnl  = val - cost;
-    const pnlPct = ((pnl/cost)*100).toFixed(2);
-    const chg = liveData[h.id]?.change || coin?.change || 0;
-    return { ...h, coin, cur, val, cost, pnl, pnlPct: parseFloat(pnlPct), chg, color: coin?.color || COLORS[i] };
+  let holdings = realHoldings.map(h => {
+    const price = h.id === 'USDT' ? 1 : (liveData[h.id]?.price || h.price || 0);
+    const val   = price * h.qty;
+    const cost  = (h.avgBuy || 0) * h.qty;
+    const pnl   = cost > 0 ? val - cost : 0;
+    const pnlPct = cost > 0 ? ((pnl / cost) * 100) : 0;
+    const chg   = h.id === 'USDT' ? 0 : (liveData[h.id]?.change || 0);
+    return { ...h, price, val, cost, pnl, pnlPct, chg };
   });
 
-  if (holdingsFilter === 'profit') holdings = holdings.filter(h => h.pnl >= 0);
+  if (holdingsFilter === 'profit') holdings = holdings.filter(h => h.pnl > 0);
   if (holdingsFilter === 'loss')   holdings = holdings.filter(h => h.pnl < 0);
+
+  if (holdings.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text2)">
+      <i class="fa fa-wallet" style="font-size:32px;display:block;margin-bottom:12px;opacity:.3"></i>
+      No assets yet. Your holdings will appear here once the admin credits your account.
+    </td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = holdings.map(h => {
     const pnlCls = h.pnl >= 0 ? 'pnl-positive' : 'pnl-negative';
     const chgCls = h.chg >= 0 ? 'positive' : 'negative';
+    const avgStr = h.avgBuy > 0 ? '$' + h.avgBuy.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:6}) : '—';
+    const pnlStr = h.cost > 0
+      ? `${h.pnl>=0?'+':''}$${Math.abs(h.pnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} (${h.pnl>=0?'+':''}${h.pnlPct.toFixed(2)}%)`
+      : '—';
+    const coinObj = h.coin || { id: h.id, color: h.color, icon: `${ICON_CDN}/${h.id.toLowerCase()}.png` };
     return `<tr>
       <td>
         <div class="asset-cell">
-          <div class="asset-logo">${coinIcon(h.coin||{id:h.id,color:h.color,icon:ICON_CDN+'/'+h.id.toLowerCase()+'.png'}, 34)}</div>
+          <div class="asset-logo">${coinIcon(coinObj, 34)}</div>
           <div><div style="font-weight:700">${h.id}</div><div style="color:var(--text2);font-size:12px">${h.name}</div></div>
         </div>
       </td>
-      <td style="font-weight:600">${h.qty} ${h.id}</td>
-      <td>$${h.avgBuy.toLocaleString()}</td>
-      <td id="hp-${h.id}" style="font-weight:600">$${h.cur.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td style="font-weight:600">${h.qty.toLocaleString(undefined,{maximumFractionDigits:8})} ${h.id}</td>
+      <td>${avgStr}</td>
+      <td id="hp-${h.id}" style="font-weight:600">${h.id==='USDT'?'$1.00':'$'+h.price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:6})}</td>
       <td style="font-weight:700">$${h.val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-      <td class="${pnlCls}">${h.pnl>=0?'+':''}$${Math.abs(h.pnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} (${h.pnl>=0?'+':''}${h.pnlPct}%)</td>
-      <td class="${chgCls}" style="font-weight:600">${fmtChange(h.chg)}</td>
-      <td>
-        <button class="trade-btn" onclick="location.href='trade.html?pair=${h.id}USDT'">Trade</button>
-      </td>
+      <td class="${pnlCls}">${pnlStr}</td>
+      <td class="${chgCls}" style="font-weight:600">${h.id==='USDT'?'—':fmtChange(h.chg)}</td>
+      <td>${h.id!=='USDT'?`<button class="trade-btn" onclick="location.href='trade.html?pair=${h.id}USDT'">Trade</button>`:''}</td>
     </tr>`;
   }).join('');
 
-  // Update summary
   updatePortfolioSummary();
 }
 
@@ -732,24 +798,26 @@ function updatePortfolioSummary() {
   let totalVal = 0, totalCost = 0;
   let best = null, worst = null;
 
-  HOLDINGS.forEach(h => {
-    const coin = COINS.find(c=>c.id===h.id);
-    const cur = liveData[h.id]?.price || coin?.price || h.avgBuy;
-    const val = cur * h.qty;
-    const cost = h.avgBuy * h.qty;
-    const pnlPct = ((val-cost)/cost)*100;
-    totalVal += val;
+  realHoldings.forEach(h => {
+    const price   = h.id === 'USDT' ? 1 : (liveData[h.id]?.price || h.price || 0);
+    const val     = price * h.qty;
+    const cost    = (h.avgBuy || 0) * h.qty;
+    const pnlPct  = cost > 0 ? ((val - cost) / cost) * 100 : 0;
+    totalVal  += val;
     totalCost += cost;
-    if (!best || pnlPct > best.pct) best = { id:h.id, pct:pnlPct };
-    if (!worst || pnlPct < worst.pct) worst = { id:h.id, pct:pnlPct };
+    if (h.id !== 'USDT') {
+      if (!best  || pnlPct > best.pct)  best  = { id: h.id, pct: pnlPct };
+      if (!worst || pnlPct < worst.pct) worst = { id: h.id, pct: pnlPct };
+    }
   });
 
-  const totalPnl = totalVal - totalCost;
-  const totalPnlPct = ((totalPnl/totalCost)*100).toFixed(2);
-  const totalWithUsdt = totalVal + 10000;
+  const totalPnl    = totalCost > 0 ? totalVal - totalCost : 0;
+  const totalPnlPct = totalCost > 0 ? ((totalPnl / totalCost) * 100).toFixed(2) : '0.00';
 
-  const balEl = document.getElementById('totalBalance');
-  if (balEl) balEl.textContent = '$' + totalWithUsdt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  const setClass = (id, cls) => { const el = document.getElementById(id); if (el) el.className = cls; };
+
+  set('totalBalance', '$' + totalVal.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}));
 
   const pnlEl = document.getElementById('unrealPnl');
   if (pnlEl) {
@@ -757,69 +825,85 @@ function updatePortfolioSummary() {
     pnlEl.className = 'pf-sc-value ' + (totalPnl>=0?'positive':'negative');
   }
 
-  // Performance card
-  const bestEl = document.getElementById('bestPerformer');
-  const worstEl = document.getElementById('worstPerformer');
-  const investedEl = document.getElementById('totalInvested');
-  const currentEl = document.getElementById('currentValue');
-  const returnEl = document.getElementById('totalReturn');
-  if (bestEl && best) bestEl.textContent = `${best.id} +${best.pct.toFixed(1)}%`;
-  if (worstEl && worst) worstEl.textContent = `${worst.id} ${worst.pct.toFixed(1)}%`;
-  if (investedEl) investedEl.textContent = '$' + totalCost.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
-  if (currentEl) currentEl.textContent = '$' + totalVal.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
-  if (returnEl) {
-    returnEl.textContent = `${totalPnl>=0?'+':''}${totalPnlPct}%`;
-    returnEl.className = 'pf-perf-val ' + (totalPnl>=0?'positive':'negative');
-  }
+  if (best)  set('bestPerformer',  `${best.id} ${best.pct>=0?'+':''}${best.pct.toFixed(1)}%`);
+  if (worst) set('worstPerformer', `${worst.id} ${worst.pct>=0?'+':''}${worst.pct.toFixed(1)}%`);
+  set('totalInvested', '$' + totalCost.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}));
+  set('currentValue',  '$' + totalVal.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}));
+  const retEl = document.getElementById('totalReturn');
+  if (retEl) { retEl.textContent = `${totalPnl>=0?'+':''}${totalPnlPct}%`; retEl.className = 'pf-perf-val '+(totalPnl>=0?'positive':'negative'); }
 }
 
-// ── Allocation Donut ──────────────────────────
+// ── Allocation Donut — from real data ─────────
 let allocChartInst = null;
 function buildAllocChart() {
-  const values = HOLDINGS.map(h => {
-    const cur = liveData[h.id]?.price || COINS.find(c=>c.id===h.id)?.price || h.avgBuy;
-    return cur * h.qty;
-  });
-  const total = values.reduce((a,b)=>a+b,0);
-  const labels = HOLDINGS.map(h=>h.id);
-
   const ctx = document.getElementById('allocChart');
   if (!ctx) return;
   if (allocChartInst) allocChartInst.destroy();
+
+  const holdings = realHoldings.filter(h => h.qty > 0);
+  if (holdings.length === 0) return;
+
+  const values = holdings.map(h => {
+    const price = h.id === 'USDT' ? 1 : (liveData[h.id]?.price || h.price || 0);
+    return price * h.qty;
+  });
+  const total  = values.reduce((a,b) => a+b, 0);
+  const colors = holdings.map(h => h.color);
+
   allocChartInst = new Chart(ctx, {
-    type:'doughnut',
-    data:{
-      labels,
-      datasets:[{
-        data: values,
-        backgroundColor: COLORS,
-        borderWidth:0, hoverOffset:8
-      }]
+    type: 'doughnut',
+    data: {
+      labels: holdings.map(h => h.id),
+      datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 8 }]
     },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{ display:false },
-        tooltip:{
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
           backgroundColor:'rgba(24,28,36,0.95)', borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
           titleColor:'#848e9c', bodyColor:'#eaecef', bodyFont:{weight:'700'}, padding:12, cornerRadius:8,
-          callbacks:{ label: ctx2 => ` ${ctx2.label}: $${ctx2.parsed.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})} (${((ctx2.parsed/total)*100).toFixed(1)}%)` }
+          callbacks: { label: ctx2 => ` ${ctx2.label}: $${ctx2.parsed.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} (${((ctx2.parsed/total)*100).toFixed(1)}%)` }
         }
       },
-      cutout:'72%'
+      cutout: '72%'
     }
   });
 
   const lg = document.getElementById('donutLegend');
   if (lg) {
-    lg.innerHTML = HOLDINGS.map((h,i) => {
-      const pct = ((values[i]/total)*100).toFixed(1);
+    lg.innerHTML = holdings.map((h, i) => {
+      const pct = total > 0 ? ((values[i] / total) * 100).toFixed(1) : 0;
       return `<div class="legend-item">
-        <div class="legend-left"><div class="legend-dot" style="background:${COLORS[i]}"></div>${h.id} &ndash; ${h.name}</div>
+        <div class="legend-left"><div class="legend-dot" style="background:${colors[i]}"></div>${h.id} &ndash; ${h.name}</div>
         <span style="color:var(--text2);font-weight:600">${pct}%</span>
       </div>`;
     }).join('');
   }
+}
+
+// ── Transaction History — from real data ───────
+function buildTransactionHistory(transactions) {
+  const tbody = document.getElementById('txHistoryBody');
+  if (!tbody) return;
+  if (!transactions || transactions.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text2)">No transactions yet</td></tr>`;
+    return;
+  }
+  const typeColors = { deposit:'var(--green)', profit:'var(--blue)', withdraw:'var(--red)', adjustment:'var(--accent)' };
+  tbody.innerHTML = transactions.map(t => {
+    const color  = typeColors[t.type] || 'var(--text2)';
+    const amount = t.amount.toLocaleString(undefined, { maximumFractionDigits: 8 });
+    const statusColor = t.status === 'completed' ? 'var(--green)' : t.status === 'pending' ? 'var(--accent)' : 'var(--red)';
+    return `<tr>
+      <td style="color:var(--text2);font-size:12px">${new Date(t.created_at).toLocaleString()}</td>
+      <td><span style="color:${color};font-weight:700;text-transform:capitalize">${t.type}</span></td>
+      <td><b>${t.coin}</b></td>
+      <td style="font-weight:600;color:${color}">${t.type==='withdraw'?'-':'+'} ${amount}</td>
+      <td style="color:${statusColor};font-weight:600;text-transform:capitalize">${t.status}</td>
+      <td style="color:var(--text2);font-size:12px">${t.note || '—'}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ── Portfolio Value Chart ─────────────────────
@@ -934,19 +1018,32 @@ async function buildOrders() {
   }).join('');
 }
 
+function switchPortfolioTab(tab, btn) {
+  document.querySelectorAll('#pane-orders,#pane-txs').forEach(p => p.style.display = 'none');
+  document.getElementById('pane-' + tab).style.display = '';
+  document.querySelectorAll('#ptab-orders,#ptab-txs').forEach(b => {
+    b.style.background = 'transparent'; b.style.color = 'var(--text2)'; b.style.fontWeight = '600';
+  });
+  btn.style.background = 'rgba(240,185,11,.12)'; btn.style.color = 'var(--accent)'; btn.style.fontWeight = '700';
+}
+
 // ── Init ──────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   buildTicker();
-  buildHoldings();
-  buildAllocChart();
   buildPvChart(7);
   buildOrders();
   updateNavForUser();
+  connectBinanceWS();
+  loadPortfolio();
 
+  // Refresh holdings prices from live data every 3s
   setInterval(() => {
-    updatePrices();
-    buildHoldings();
-  }, 2000);
+    if (realHoldings.length > 0) {
+      buildHoldings();
+      buildAllocChart();
+      updatePortfolioSummary();
+    }
+  }, 3000);
 });
 </script>
 </body>

@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTicker();
   buildDbPvChart(7);
   loadDashboard();
-  setInterval(updatePrices, 1500);
+  // Binance WebSocket handles live prices — no polling needed
 });
 </script>
 </body>
