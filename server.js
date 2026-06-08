@@ -85,6 +85,51 @@ app.use('/api/admin', adminRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date() }));
 
+// ── News proxy (server-side fetch → no CORS issues) ─
+// Cache: refresh every 10 minutes
+let _newsCache = null;
+let _newsCacheTime = 0;
+const NEWS_TTL = 10 * 60 * 1000; // 10 min
+
+app.get('/api/news', async (req, res) => {
+  try {
+    const now = Date.now();
+    if (_newsCache && (now - _newsCacheTime) < NEWS_TTL) {
+      return res.json(_newsCache);
+    }
+
+    // Fetch from multiple CryptoCompare endpoints in parallel
+    const urls = [
+      'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&sortOrder=latest',
+      'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&categories=BTC,ETH&sortOrder=latest',
+      'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&categories=DeFi,NFT,Regulation&sortOrder=latest',
+      'https://min-api.cryptocompare.com/data/v2/news/?lang=EN&categories=Mining,Exchange&sortOrder=latest',
+    ];
+
+    const results = await Promise.allSettled(
+      urls.map(u => fetch(u, { headers: { 'User-Agent': 'NovaTrace/1.0' } }).then(r => r.json()))
+    );
+
+    const seen = new Set();
+    const merged = [];
+    for (const r of results) {
+      if (r.status === 'fulfilled' && r.value?.Data) {
+        for (const a of r.value.Data) {
+          if (!seen.has(a.id)) { seen.add(a.id); merged.push(a); }
+        }
+      }
+    }
+
+    merged.sort((a, b) => b.published_on - a.published_on);
+    _newsCache = { Data: merged, count: merged.length };
+    _newsCacheTime = now;
+    res.json(_newsCache);
+  } catch(e) {
+    console.error('News proxy error:', e.message);
+    res.status(502).json({ error: 'Failed to fetch news', Data: [] });
+  }
+});
+
 // Public config for frontend (wallet address for MetaMask payments)
 app.get('/api/config', (req, res) => res.json({
   eth_address:  process.env.ADMIN_ETH_ADDRESS  || null,
